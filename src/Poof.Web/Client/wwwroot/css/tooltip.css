@@ -1,0 +1,28 @@
+﻿.ttip {
+    position: relative;
+    display: inline-block;
+}
+
+    .ttip .ttext {
+        visibility: hidden;
+        opacity: 0;
+        background-color: black;
+        border: solid 2px #555;
+        color: white;
+        text-align: center;
+        border-radius: 4px;
+        padding: 8px;
+        line-height: 1em;
+        white-space: nowrap;
+        transition: ease 0.2s;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 0;
+        left: 60%;
+        bottom: 80%;
+    }
+
+    .ttip:hover .ttext {
+        visibility: visible;
+        opacity: 1;
+    }

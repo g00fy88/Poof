@@ -1,0 +1,70 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href=""> </a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> <span class="ttext icon-text">Home</span>
+            </NavLink>
+        </li>
+        <AuthorizeView>
+            <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link ttip" href="profile">
+                        <span class="oi oi-person" aria-hidden="true"></span> <span class="ttext icon-text">My Profile</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link ttip" href="usertest">
+                        <span class="oi oi-person" aria-hidden="true"></span> <span class="ttext icon-text">User Data</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item bottom px-3">
+                    <NavLink class="nav-link ttip" @onclick="BeginSignOut">
+                        <span class="oi oi-account-logout" aria-hidden="true"></span> <span class="ttext icon-text">Logout</span>
+                    </NavLink>
+                </li>
+            </Authorized>
+            <NotAuthorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link ttip" href="authentication/register">
+                        <span class="oi oi-pencil" aria-hidden="true"></span> <span class="ttext icon-text">Register</span>
+                    </NavLink>
+                </li>
+                <li class="nav-item bottom px-3">
+                    <NavLink class="nav-link ttip" href="authentication/login">
+                        <span class="oi oi-account-login" aria-hidden="true"></span> <span class="ttext icon-text">Login</span>
+                    </NavLink>
+                </li>
+            </NotAuthorized>
+        </AuthorizeView>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}
