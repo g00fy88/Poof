@@ -24,7 +24,7 @@ namespace Poof.DB.Data
 
         public void Update<T>(string name, T value)
         {
-            new DbUpdate<DbFellowship, T>(this.fellowship, name).Invoke(value);
+            new DbUpdate<DbFellowship, T>(this.fellowship, name, this.context).Invoke(value);
 
             this.context.Fellowships.Update(this.fellowship);
             this.context.SaveChanges();

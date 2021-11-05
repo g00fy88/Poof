@@ -43,6 +43,14 @@ namespace Poof.DB.Models
                             new KvpOf<TValue>("takeside", () => Cast<TValue>("takeside", (entity as DbTransaction).TakeSide)),
                             new KvpOf<TValue>("taketype", () => Cast<TValue>("taketype", (entity as DbTransaction).TakeType))
                         )
+                    ),
+                    new KvpOf<Type, IDictionary<string, TValue>>(
+                        typeof(DbMembership),
+                        () => new MapOf<TValue>(
+                            new KvpOf<TValue>("owner", () => Cast<TValue>("owner", (entity as DbMembership).Owner.Id)),
+                            new KvpOf<TValue>("team", () => Cast<TValue>("team", (entity as DbMembership).Team.Id)),
+                            new KvpOf<TValue>("share", () => Cast<TValue>("share", (entity as DbMembership).Share))
+                        )
                     )
                 );
             this.entity = entity;

@@ -15,5 +15,6 @@ namespace Poof.DB.Data
 
         public DbSet<DbFellowship> Fellowships { get; set; }
         public DbSet<DbTransaction> Transactions { get; set; }
+        public DbSet<DbMembership> Memberships { get; set; }
     }
 }
