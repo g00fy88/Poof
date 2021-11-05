@@ -71,7 +71,7 @@ namespace Poof.Web.Server.Request
                     h => h.ToLower(),
                     this.request.Headers.Keys
                 );
-            if (this.request.ContentLength != null && this.request.Body.Length > 0)
+            if (this.request.ContentLength != null && this.request.ContentLength > 0)
             {
                 ValidateBasics(headers);
                 ValidateRequest();

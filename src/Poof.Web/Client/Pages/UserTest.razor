@@ -2,8 +2,10 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Newtonsoft.Json.Linq
+@using Poof.Talk.Snaps.User.Discovery
+@using Yaapii.Atoms.Text
 @attribute [Authorize]
-@inject HttpClient Http
+@inject IApi api
 
 <h1>Nearby Users</h1>
 
@@ -15,21 +17,23 @@
 }
 else
 {
-    @foreach (var user in users)
+    @foreach (var user in users.Nodes("[*]"))
     {
-        <div>id: @user["id"] - mail: @user["mail"] @if (bool.Parse(user["me"].ToString())) { <a>this is me!!</a> }</div>
+        <div>id: @user.Value("id") - mail: @user.Value("mail") @if (new BoolOf(user.Value("me")).Value()) { <a>this is me!!</a> }</div>
     }
 }
 
 @code {
-    private JArray users;
+    private IJSON users;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            var content = await Http.GetStringAsync("private/user/discovery/get-nearby-users");
-            users = JArray.Parse(content);
+            users =
+                new AwGetNearbyUsers.Json(
+                    await api.Private(new DmGetNearbyUsers()).Content()
+                );
         }
         catch (AccessTokenNotAvailableException exception)
         {
