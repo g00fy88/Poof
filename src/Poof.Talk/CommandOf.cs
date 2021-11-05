@@ -17,12 +17,14 @@ namespace Poof.Talk
         private readonly HttpClient client;
         private readonly string kind;
         private readonly IDemand demand;
+        private readonly string contentType;
 
-        public CommandOf(HttpClient client, string kind, IDemand demand)
+        public CommandOf(HttpClient client, string kind, IDemand demand, string contentType)
         {
             this.client = client;
             this.kind = kind;
             this.demand = demand;
+            this.contentType = contentType;
         }
 
         public async Task<IOutcome<IInput>> Content()
@@ -57,12 +59,12 @@ namespace Poof.Talk
 
         private Task<HttpResponseMessage> Response(string uri)
         {
-            return
-                this.client.PostAsync(uri,
-                    new ByteArrayContent(
-                        new BytesOf(this.demand.Body()).AsBytes()
-                    )
+            var content =
+                new ByteArrayContent(
+                    new BytesOf(this.demand.Body()).AsBytes()
                 );
+            content.Headers.ContentType.MediaType = this.contentType;
+            return this.client.PostAsync(uri, content);
         }
         
         private string DemandUri()

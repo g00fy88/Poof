@@ -17,14 +17,14 @@ namespace Poof.Talk
             this.client = client;
         }
 
-        public ICommand Private(IDemand demand)
+        public ICommand Private(IDemand demand, string contentType)
         {
-            return new CommandOf(this.client, "private", demand);
+            return new CommandOf(this.client, "private", demand, contentType);
         }
 
-        public ICommand Public(IDemand demand)
+        public ICommand Public(IDemand demand, string contentType)
         {
-            return new CommandOf(this.client, "public", demand);
+            return new CommandOf(this.client, "public", demand, contentType);
         }
     }
 }

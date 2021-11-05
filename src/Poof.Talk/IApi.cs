@@ -7,8 +7,8 @@ namespace Poof.Talk
 {
     public interface IApi
     {
-        ICommand Public(IDemand demand);
+        ICommand Public(IDemand demand, string contentType);
 
-        ICommand Private(IDemand demand);
+        ICommand Private(IDemand demand, string contentType);
     }
 }
