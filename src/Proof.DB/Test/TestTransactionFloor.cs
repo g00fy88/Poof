@@ -22,7 +22,12 @@ namespace Poof.DB.Test
 
         public void Update<T>(string name, T value)
         {
-            new DbUpdate<DbTransaction, T>(this.entity, name).Invoke(value);
+            new DbUpdate<DbTransaction, T>(
+                this.entity,
+                name,
+                id => new ApplicationUser() { Id = id },
+                id => new DbFellowship() { Id = id }
+            ).Invoke(value);
         }
     }
 }

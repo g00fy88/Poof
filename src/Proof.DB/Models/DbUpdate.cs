@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Poof.DB.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Yaapii.Atoms;
@@ -14,7 +15,15 @@ namespace Poof.DB.Models
         private readonly TEntity entity;
         private readonly string name;
 
-        public DbUpdate(TEntity entity, string name)
+        public DbUpdate(TEntity entity, string name, ApplicationDbContext context) : this(
+            entity,
+            name,
+            id => context.Users.Find(id),
+            id => context.Fellowships.Find(id)
+        )
+        { }
+
+        public DbUpdate(TEntity entity, string name, Func<string, ApplicationUser> user, Func<string, DbFellowship> fellowship)
         {
             this.map =
                 new MapOf<Type, IDictionary<string, Action<TValue>>>(
@@ -43,6 +52,14 @@ namespace Poof.DB.Models
                             new KvpOf<Action<TValue>>("givetype", val => (entity as DbTransaction).GiveType = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("takeside", val => (entity as DbTransaction).TakeSide = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("taketype", val => (entity as DbTransaction).TakeType = Cast<string>(name, val))
+                        )
+                    ),
+                    new KvpOf<Type, IDictionary<string, Action<TValue>>>(
+                        typeof(DbMembership),
+                        () => new MapOf<Action<TValue>>(
+                            new KvpOf<Action<TValue>>("owner", val => (entity as DbMembership).Owner = user(Cast<string>(name, val))),
+                            new KvpOf<Action<TValue>>("team", val => (entity as DbMembership).Team = fellowship(Cast<string>(name, val))),
+                            new KvpOf<Action<TValue>>("share", val => (entity as DbMembership).Share = Cast<double>(name, val))
                         )
                     )
                 );

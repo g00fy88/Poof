@@ -25,7 +25,7 @@ namespace Poof.Web.Server.Data
 
         public void Update<T>(string name, T value)
         {
-            new DbUpdate<ApplicationUser, T>(this.user, name).Invoke(value);
+            new DbUpdate<ApplicationUser, T>(this.user, name, this.context).Invoke(value);
 
             this.context.Users.Update(this.user);
             this.context.SaveChanges();
