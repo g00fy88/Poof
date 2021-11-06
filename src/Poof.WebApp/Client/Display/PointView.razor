@@ -1,0 +1,29 @@
+﻿@using Yaapii.Atoms.Text
+
+<div class="centerparent">
+    <div class="centerchild">
+        <div class="centerparent inline">
+            <div class="pointLine"></div>
+            <div class="pointStand horizontalCentered">
+                <span class="oi oi-caret-top"></span>
+            </div>
+            <div class="pointBack horizontalCentered" style="@myStyle">
+                <div class="nupsy left"></div>
+                <img class="pointFront" src="./images//Point.png" />
+                <div class="nupsy right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public double Points { get; set; }
+    private string myStyle = "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        myStyle = $"margin-left: -{new TextOf(Points / 8).AsString()}%";
+    }
+}

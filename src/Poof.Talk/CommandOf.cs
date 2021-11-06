@@ -63,7 +63,7 @@ namespace Poof.Talk
                 new ByteArrayContent(
                     new BytesOf(this.demand.Body()).AsBytes()
                 );
-            content.Headers.ContentType.MediaType = this.contentType;
+            //content.Headers.ContentType.MediaType = this.contentType;
             return this.client.PostAsync(uri, content);
         }
         

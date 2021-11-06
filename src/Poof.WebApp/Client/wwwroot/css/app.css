@@ -1,0 +1,234 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    color: black;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-row {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    flex: 1;
+}
+
+    .main .top-row {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #d6d5d5;
+        justify-content: flex-end;
+    }
+
+        .main .top-row > a, .main .top-row .btn-link {
+            white-space: nowrap;
+            margin-left: 1.5rem;
+        }
+
+.main .top-row a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar {
+    background-color: #fff;
+    border-right: solid 1px #e5e5e5;
+}
+
+    .sidebar .top-row {
+        background-color: transparent;
+    }
+
+    .sidebar .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .sidebar .oi {
+        width: 2rem;
+        font-size: 1.1rem;
+        vertical-align: text-top;
+        top: -2px;
+    }
+
+    .sidebar .nav-item {
+        font-size: 0.9rem;
+        padding-bottom: 0.5rem;
+    }
+
+        .sidebar .nav-item:first-of-type {
+            padding-top: 1rem;
+        }
+
+        .sidebar .nav-item:last-of-type {
+            padding-bottom: 1rem;
+        }
+
+        .sidebar .nav-item a {
+            color: #fff;
+            border-radius: 4px;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            line-height: 3rem;
+            transition: ease 0.2s;
+        }
+
+            .sidebar .nav-item a.active {
+                background-color: rgba(255,255,255,0.25);
+                color: white;
+            }
+
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+.bottom-aligned {
+    position: absolute;
+    bottom:0;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+    .main .top-row:not(.auth) {
+        display: none;
+    }
+
+    .main .top-row.auth {
+        justify-content: space-between;
+    }
+
+    .main .top-row a, .main .top-row .btn-link {
+        margin-left: 0;
+    }
+
+    .sidebar .icon-text {
+        visibility: visible !important;
+        background-color: transparent !important;
+        border: none !important;
+        color: #444 !important;
+        text-align: inherit !important;
+        border-radius: inherit !important;
+        padding: inherit !important;
+        line-height: inherit !important;
+        position: relative !important;
+        left: 0 !important;
+        bottom: 0 !important;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 90px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .main .top-row {
+        position: sticky;
+        top: 0;
+    }
+
+    .main > div {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .sidebar .oi {
+        width: 2rem;
+        font-size: 1.6rem;
+        vertical-align: text-top;
+        top: -2px;
+    }
+
+    .sidebar li.bottom {
+        position: absolute;
+        bottom: 20px;
+    }
+
+    .sidebar .nav-item {
+        font-size: 0.9rem;
+        padding-bottom: 1.5rem;
+    }
+
+        .sidebar .nav-item a {
+            background-color: #bbb;
+            border: solid 6px #e5e5e5;
+            border-radius: 50%;
+            height: 3.6rem;
+            width: 3.6rem;
+            padding: .5rem 0.6rem;
+        }
+
+            .sidebar .nav-item a.active {
+                background-color: #43cd80;
+                border: solid 6px #54ff9f;
+            }
+
+    .sidebar .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}

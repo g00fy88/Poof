@@ -1,0 +1,21 @@
+﻿.centerparent {
+    position:relative;
+}
+
+.centerparent .centerchild {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.inline {
+    display:inline-block;
+}
+
+.horizontalCentered {
+    position:absolute;
+    top: 0;
+    left:50%;
+    transform: translateX(-50%);
+}

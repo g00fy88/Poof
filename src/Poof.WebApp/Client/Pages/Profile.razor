@@ -1,0 +1,13 @@
+﻿@page "/profile"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+@using Poof.WebApp.Client.Display
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Points Of Good @context.User.Identity.Name</h1>
+    </Authorized>
+</AuthorizeView>
+
+ <PointView Points=100.0></PointView>
