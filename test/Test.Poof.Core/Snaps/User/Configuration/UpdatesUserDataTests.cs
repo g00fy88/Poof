@@ -29,5 +29,28 @@ namespace Poof.Core.Snaps.User.Configuration.Test
                 new Pseudonym.Name(new UserOf(mem, user)).AsString()
             );
         }
+
+        [Fact]
+        public void SetsRandomNumber()
+        {
+            var mem = new TestBuilding();
+            var user1= new Users(mem).New();
+            var user2 = new Users(mem).New();
+            new UserOf(mem, user2).Update(
+                new Pseudonym("pseudoman", 1235)
+            );
+
+            new UpdatesUserData(
+                mem,
+                new FkIdentity(user1)
+            ).Convert(
+                new EmptyDemand().Refined("pseudonym", "pseudoman")
+            );
+
+            Assert.NotEqual(
+                1235,
+                new Pseudonym.Number(new UserOf(mem, user1)).Value()
+            );
+        }
     }
 }

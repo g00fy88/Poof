@@ -19,7 +19,7 @@ namespace Poof.Core.Entity.User.Test
                 );
 
             user.Update(
-                new Pseudonym("its me I swear")
+                new Pseudonym("its me I swear", 0)
             );
 
             Assert.Equal(
