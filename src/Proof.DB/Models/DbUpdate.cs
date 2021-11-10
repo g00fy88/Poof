@@ -32,6 +32,7 @@ namespace Poof.DB.Models
                         () => new MapOf<Action<TValue>>(
                             new KvpOf<Action<TValue>>("mail", val => (entity as ApplicationUser).Email = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("pseudonym", val => (entity as ApplicationUser).Pseudonym = Cast<string>(name, val)),
+                            new KvpOf<Action<TValue>>("pseudonumber", val => (entity as ApplicationUser).PseudoNumber = Cast<int>(name, val)),
                             new KvpOf<Action<TValue>>("points", val => (entity as ApplicationUser).Points = Cast<double>(name, val)),
                             new KvpOf<Action<TValue>>("goodscore", val => (entity as ApplicationUser).GoodScore = Cast<double>(name, val)),
                             new KvpOf<Action<TValue>>("balancescore", val => (entity as ApplicationUser).BalanceScore = Cast<double>(name, val))
