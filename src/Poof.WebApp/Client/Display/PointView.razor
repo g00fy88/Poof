@@ -9,6 +9,18 @@
             </div>
         </div>
         <div class="pointText">
+        @if (Points < 0)
+        {
+            <div class="pointSign">
+                <span class="oi oi-minus"></span>
+            </div>
+        }
+        @if (Points > 0)
+        {
+            <div class="pointSign">
+                <span class="oi oi-plus"></span>
+            </div>
+        }
             <div class="pointScale ttip">
                 <div class="scaleBack" style="background-color:@scaleColor"></div>
                 @if (Points > 400)
@@ -29,7 +41,7 @@
         </div>
         <div class="activityFrame">
             <div class="activityText">
-                <p>Dein Activity-Score:</p>
+                <p>Mein Activity-Score:</p>
                 <span>@ActivityScore.ToString("F0")</span>
             </div>
         </div>
@@ -50,7 +62,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        pointColor = Points > 0 ? "#6de873" : Points < 0 ? "#67c9f0" : "#f2e685";
+        pointColor = Points > 0 ? "#54ff9f" : Points < 0 ? "#67c9f0" : "#f2e685";
         scaleColor = Math.Abs(Points) > 400 ? "#ed6678" : "#aaa";
 
         pointTip = "Ausgeglichen";

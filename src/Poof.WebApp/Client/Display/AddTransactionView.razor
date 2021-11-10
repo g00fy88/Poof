@@ -1,0 +1,65 @@
+﻿
+@if (currentStep == "chooseUser")
+{
+    <div class="nameInput">
+        <p>Gib den Namen der Person ein, an die du Punkte senden möchtest.</p>
+        <input type="text" @oninput="@(async ui => await UpdateNameList(ui.Value.ToString()))"/>
+    </div>
+    <div class="nameList">
+    @if (showSpinner)
+    {
+        <div class="spinner-border"></div>
+    }
+    else
+    {
+        @if (names.Count == 0)
+        {
+            <div>Keine übereinstimmenden Namen gefunden...</div>
+        }
+        else
+        {
+            <ul>
+            @foreach (var name in names)
+            {
+                <li>@name.Value("pseudonym")</li>
+            }
+            </ul>
+            }
+        }
+    </div>
+}
+
+@code {
+    private CancellationTokenSource tokenSource;
+    private bool showSpinner = false;
+    private string currentStep;
+    private IList<IJSON> names;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.currentStep = "chooseUser";
+        this.names = new List<IJSON>();
+        this.tokenSource = new CancellationTokenSource();
+    }
+
+    private async Task UpdateNameList(string value)
+    {
+        this.tokenSource.Cancel();
+        this.tokenSource = new CancellationTokenSource();
+        var token = this.tokenSource.Token;
+
+        await Task.Delay(1000);
+        if(!token.IsCancellationRequested)
+        {
+            this.showSpinner = true;
+            StateHasChanged();
+
+            this.names = new ListOf<IJSON>(new JSONOf(new JObject(new JProperty("pseudonym", value))));
+            await Task.Delay(2000);
+
+            this.showSpinner = false;
+            StateHasChanged();
+        }
+    }
+}

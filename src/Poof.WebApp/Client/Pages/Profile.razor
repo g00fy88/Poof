@@ -4,7 +4,140 @@
 @using Poof.WebApp.Client.Display
 @attribute [Authorize]
 
-<div style="height:10px"></div>
-<PointView Points=-523.0 ActivityScore=0></PointView>
-<div style="height: 50px"></div>
-<TransactionView></TransactionView>
+<div class="content px-4">
+    <div style="height:10px"></div>
+    <PointView Points=-542.43 ActivityScore=0></PointView>
+    <div style="height: 50px"></div>
+    <div class="centerparent">
+        <div class="addtransaction horizontalCentered" @onclick="@OpenAddTransactionDialog">
+            <span class="oi oi-plus"></span>
+            <p>Transaktion hinzufügen</p>
+        </div>
+    </div>
+    <div style="height:80px"></div>
+</div>
+<div class="transactions">
+    <TransactionView Transactions=@transactions></TransactionView>
+</div>
+
+@if (addTransactionDialogOpen)
+{
+    <ModalDialog OnClose="@CancelAddTransactionDialog" MaxWidth="800px">
+        <Content>
+            <AddTransactionView></AddTransactionView>
+        </Content>
+    </ModalDialog>
+}
+
+@code {
+    private IList<IJSON> transactions = new List<IJSON>();
+    private bool addTransactionDialogOpen = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        transactions.Add(
+            new JSONOf(
+                new JObject(
+                    new JProperty("title", "my-first-transaction"),
+                    new JProperty("date", DateTime.Now.ToString()),
+                    new JProperty("amount", 23.549),
+                    new JProperty("type", "give"),
+                    new JProperty("me",
+                        new JObject(
+                            new JProperty("name", "maexel"),
+                            new JProperty("score", 240.32)
+                        )
+                    ),
+                    new JProperty("other",
+                        new JObject(
+                            new JProperty("name", "marileini"),
+                            new JProperty("score", 124)
+                        )
+                    )
+                )
+            )
+        );
+
+        transactions.Add(
+            new JSONOf(
+                new JObject(
+                    new JProperty("title", "my-second-transaction"),
+                    new JProperty("date", DateTime.Now.ToString()),
+                    new JProperty("amount", 10),
+                    new JProperty("type", "receive"),
+                    new JProperty("me",
+                        new JObject(
+                            new JProperty("name", "maexel"),
+                            new JProperty("score", 240.32)
+                        )
+                    ),
+                    new JProperty("other",
+                        new JObject(
+                            new JProperty("name", "marileini"),
+                            new JProperty("score", 124)
+                        )
+                    )
+                )
+            )
+        );
+
+        transactions.Add(
+            new JSONOf(
+                new JObject(
+                    new JProperty("title", "my-second-transaction"),
+                    new JProperty("date", DateTime.Now.ToString()),
+                    new JProperty("amount", 10),
+                    new JProperty("type", "receive"),
+                    new JProperty("me",
+                        new JObject(
+                            new JProperty("name", "maexel"),
+                            new JProperty("score", 240.32)
+                        )
+                    ),
+                    new JProperty("other",
+                        new JObject(
+                            new JProperty("name", "marileini"),
+                            new JProperty("score", 124)
+                        )
+                    )
+                )
+            )
+        );
+
+        transactions.Add(
+            new JSONOf(
+                new JObject(
+                    new JProperty("title", "my-first-transaction"),
+                    new JProperty("date", DateTime.Now.ToString()),
+                    new JProperty("amount", 23.549),
+                    new JProperty("type", "give"),
+                    new JProperty("me",
+                        new JObject(
+                            new JProperty("name", "maexel"),
+                            new JProperty("score", 240.32)
+                        )
+                    ),
+                    new JProperty("other",
+                        new JObject(
+                            new JProperty("name", "marileini"),
+                            new JProperty("score", 124)
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    private void OpenAddTransactionDialog()
+    {
+        this.addTransactionDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private async Task CancelAddTransactionDialog()
+    {
+        this.addTransactionDialogOpen = false;
+    }
+}

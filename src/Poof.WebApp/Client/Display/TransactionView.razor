@@ -1,15 +1,61 @@
 ﻿@using Yaapii.Atoms.Text
+@using Yaapii.Atoms.Map
 
-<div class="centerparent">
-    <div class="addtransaction horizontalCentered">
-        <span class="oi oi-plus"></span>
-        <p>Transaktion hinzufügen</p>
-    </div>
+<div class="transactions container">
+    @if (Transactions.Count == 0)
+    {
+        <h2>Bisher wurden keine Transaktionen getätigt...</h2>
+    }
+    else
+    {
+        <h2>Meine Transaktionen:</h2>
+    }
+    @foreach (var transaction in Transactions)
+    {
+        <div class="transaction">
+            <h3>@transaction.Value("title")</h3>
+            <p class="date">@DateTime.Parse(transaction.Value("date")).ToString("g")</p>
+            @if (transaction.Value("type") == "give")
+            {
+                <div class="green line">
+                    <span class="inner oi oi-chevron-left"></span>
+                </div>
+            }
+            else
+            {
+                <div class="blue line">
+                    <span class="inner oi oi-chevron-right"></span>
+                </div>
+            }
+            <div class="actor left @TypeClass(transaction.Value("type"))">
+                <span class="oi oi-person"></span>
+                <p class="name">@transaction.Value("me.name")</p>
+                <p class="score">@(new DoubleOf(transaction.Value("me.score")).Value().ToString("F0"))</p>
+            </div>
+            <div class="amount">@(new DoubleOf(transaction.Value("amount")).Value().ToString("0.00"))</div>
+            <div class="actor right @TypeClass(transaction.Value("type"))">
+                <span class="oi oi-person"></span>
+                <p class="name">@transaction.Value("other.name")</p>
+                <p class="score">@(new DoubleOf(transaction.Value("other.score")).Value().ToString("F0"))</p>
+            </div>
+        </div>
+    }
 </div>
 
 @code {
+    [Parameter]
+    public IList<IJSON> Transactions { get; set; }
     protected override void OnInitialized()
     {
         base.OnInitialized();
+    }
+
+    private string TypeClass(string type)
+    {
+        return
+            new MapOf(
+                "give", "green",
+                "receive", "blue"
+            )[type];
     }
 }

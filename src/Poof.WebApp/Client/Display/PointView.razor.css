@@ -24,6 +24,25 @@
     white-space: nowrap;
 }
 
+    .pointText .pointSign{
+        position:absolute;
+        top: 13px;
+        left:68px;
+        width:20px;
+        height:20px;
+        font-size:0.5em;
+        border-radius:10px;
+        background-color:#eee;
+        color: #999
+    }
+
+    .pointText .pointSign span {
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform:translateX(-50%) translateY(-50%);
+    }
+
     .pointText p {
         font-family: 'Inconsolata', monospace;
         font-weight: 700;

@@ -1,0 +1,18 @@
+﻿.nameInput {
+    padding: 5px;
+}
+
+    .nameInput p {
+        font-size: 0.9em;
+    }
+
+    .nameInput input {
+        border-radius: 15px;
+        width: 100%;
+        height: 30px;
+        padding-left: 15px;
+    }
+
+.nameList {
+    min-height: 300px;
+}
