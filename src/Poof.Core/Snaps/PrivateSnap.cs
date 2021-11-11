@@ -4,6 +4,7 @@ using System.Text;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Core.Snaps.User;
+using Poof.Core.Snaps.User.Configuration;
 using Poof.Snaps;
 using Poof.Snaps.Flow;
 using Yaapii.Atoms;
@@ -17,8 +18,13 @@ namespace Poof.Core.Snaps
 
         public PrivateSnap(IDataBuilding mem, IIdentity identity) : this(
             new FwEntity("user",
+                new FwCategory("configuration",
+                    new FwAction("update-user", new UpdatesUserData(mem, identity))
+                ),
                 new FwCategory("discovery",
-                    new FwAction("get-nearby-users", new GetsNearbyUsers(mem, identity))
+                    new FwAction("get-nearby-users", new GetsNearbyUsers(mem, identity)),
+                    new FwAction("find-by-name", new FindsByName(mem, identity)),
+                    new FwAction("get-details", new GetsDetails(mem, identity))
                 )
             )
         )

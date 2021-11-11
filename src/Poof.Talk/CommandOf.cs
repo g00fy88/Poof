@@ -81,7 +81,7 @@ namespace Poof.Talk
             {
                 if(!knownParams.Contains(key))
                 {
-                    queries.Add($"key={demand.Param(key)}");
+                    queries.Add($"{key}={demand.Param(key)}");
                 }
             }
 
