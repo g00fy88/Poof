@@ -2,6 +2,7 @@
 using Poof.Core.Model;
 using Poof.DB.Test;
 using Poof.Snaps;
+using Poof.Talk.Snaps.User.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
                 mem,
                 new FkIdentity(user)
             ).Convert(
-                new EmptyDemand().Refined("pseudonym", "pseudoman")
+                new DmUpdateUserData("pseudoman")
             );
 
             Assert.Equal(
@@ -44,7 +45,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
                 mem,
                 new FkIdentity(user1)
             ).Convert(
-                new EmptyDemand().Refined("pseudonym", "pseudoman")
+                new DmUpdateUserData("pseudoman")
             );
 
             Assert.NotEqual(

@@ -14,5 +14,91 @@
     }
 
 .nameList {
-    min-height: 300px;
 }
+
+    .nameList .candidate {
+        position: relative;
+        width: 100%;
+        height: 80px;
+        border-bottom: solid 1px #ddd;
+        cursor:pointer;
+        transition: ease 0.2s;
+    }
+
+    .nameList .candidate:hover {
+        background-color: #eee;
+    }
+
+        .nameList .candidate .actor {
+            background-color: #43cd80;
+            border: solid 5px #54ff9f;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+        }
+
+            .nameList .candidate .actor span {
+                color: white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                font-size: 1.6em;
+            }
+
+            .nameList .candidate .actor .score {
+                font-family: 'Inconsolata', monospace;
+                font-size: 0.85em;
+                font-weight: bold;
+                position: absolute;
+                top: -8px;
+                left: 35px;
+                background-color: white;
+                border: solid 1px #ddd;
+                border-radius: 4px;
+                padding: 0px 3px;
+                margin: 0;
+            }
+
+        .nameList .candidate .name {
+            position: absolute;
+            top: 35px;
+            left: 90px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+            .nameList .candidate .name .text{
+                color: #000;
+            }
+
+            .nameList .candidate .name .number {
+                color: #bbb;
+            }
+
+        .nameList .candidate .factor {
+            position: absolute;
+            right: 10px;
+            top: 20px;
+            width: 100px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px #43cd80;
+            padding: 3px 10px;
+        }
+
+            .nameList .candidate .factor img {
+                width: 30px;
+                height: auto;
+                display: inline-block;
+                background-color: #bbb;
+            }
+
+            .nameList .candidate .factor .value {
+                font-size: 1.2em;
+                display: inline-block;
+            }
