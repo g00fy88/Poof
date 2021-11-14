@@ -18,7 +18,7 @@
             <input type="number" min="0" @oninput="@(async ui => await UpdatePoints(ui.Value.ToString()))" />
         </div>
         <div class="titleinput">
-            <input type="text" placeholder="Titel deiner Transaktion" @bind="title" />
+            <input type="text" placeholder="Titel deiner Transaktion" @bind="title" @bind:event="oninput"/>
         </div>
         <div class="confirm">
             <div class="button @((pointValue > 0 && title != "") ? "":"disabled")" @onclick="ConfirmTransaction">Transaktion ausführen</div>
@@ -31,7 +31,7 @@
 }
 @if (currentStep == "confirmation")
 {
-    <div style="padding: 50px">Transaktion wurde erfolgreich ausgeführt</div>
+    <div style="padding: 20px">Transaktion wurde erfolgreich ausgeführt</div>
 }
 @if (currentStep == "error")
 {
