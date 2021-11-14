@@ -6,109 +6,66 @@
 
 @if (currentStep == "chooseUser")
 {
-    <div class="nameInput">
-        <p>Gib den Namen der Person ein, an die du Punkte senden möchtest.</p>
-        <input type="text" @oninput="@(async ui => await UpdateNameList(ui.Value.ToString()))" />
-    </div>
-    <div class="nameList">
-        @if (showSpinner)
-        {
-            <div class="spinner-border"></div>
-        }
-        else
-        {
-            @if (names.Count == 0)
-            {
-                <div>Keine übereinstimmenden Namen gefunden...</div>
-            }
-            else
-            {
-                @foreach (var name in names)
-                {
-                    <div class="candidate" @onclick="() => SelectUser(name)">
-                        <div class="actor">
-                            <span class="oi oi-person"></span>
-                            <div class="score">@(new DoubleOf(name.Value("score")).Value().ToString("F0"))</div>
-                        </div>
-                        <div class="name">
-                            <span class="text">@name.Value("pseudonym")</span><span class="number">#@(new IntOf(name.Value("pseudonumber")).Value().ToString("0000"))</span>
-                        </div>
-                        <div class="factor ttip">
-                            <span class="ttext">Balance-Faktor</span>
-                            <img src="./images/Waage_0.png" />
-                            <div class="value">@FactorString(new DoubleOf(name.Value("givefactor")).Value())</div>
-                        </div>
-                    </div>
-                }
-            }
-        }
-    </div>
+    <p>Gib den Namen der Person ein, an die du Punkte senden möchtest.</p>
+    <FindUserView TakeFactor=TakeFactor GiveFactor=GiveFactor Friends=Friends Select=@SelectUser></FindUserView>
 }
 @if (currentStep == "choosePoints")
 {
-    <div>Choose the points!</div>
+    <div class="pointadd">
+        <p>Ich möchte Punkte an <span class="name">@selectedPseudonym</span><span class="number">#@selectedPseudonumber.ToString("0000")</span> senden</p>
+        <div class="pointinput">
+            <p>@pointValue.ToString("0.00")</p>
+            <input type="number" min="0" @oninput="@(async ui => await UpdatePoints(ui.Value.ToString()))" />
+        </div>
+        <div class="titleinput">
+            <input type="text" placeholder="Titel deiner Transaktion" @bind="title" />
+        </div>
+        <div class="confirm">
+            <div class="button @((pointValue > 0 && title != "") ? "":"disabled")" @onclick="ConfirmTransaction">Transaktion ausführen</div>
+        </div>
+    </div>
+}
+@if (currentStep == "spinning")
+{
+
+}
+@if (currentStep == "confirmation")
+{
+    <div style="padding: 50px">Transaktion wurde erfolgreich ausgeführt</div>
+}
+@if (currentStep == "error")
+{
+    <div>Etwas ist schiefgelaufen. Bitte schließe dieses Fenster und versuche es erneut.</div>
 }
 
 @code {
     [Parameter]
+    public EventCallback OnSuccess { get; set; }
+    [Parameter]
     public double TakeFactor { get; set; }
+    [Parameter]
+    public double GiveFactor { get; set; }
     [Parameter]
     public IList<IJSON> Friends { get; set; }
 
-    private CancellationTokenSource tokenSource;
-    private bool showSpinner = false;
     private string currentStep;
-    private IList<IJSON> names;
     private string selectedUserId;
     private string selectedPseudonym;
     private int selectedPseudonumber;
     private double selectedValue;
+    private double pointValue;
+    private string title;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         this.currentStep = "chooseUser";
-        this.names = new List<IJSON>();
-        this.tokenSource = new CancellationTokenSource();
-        this.names = Friends;
         this.selectedUserId = "";
         this.selectedPseudonym = "";
         this.selectedPseudonumber = 0;
         this.selectedValue = 0;
-    }
-
-    private async Task UpdateNameList(string value)
-    {
-        this.tokenSource.Cancel();
-
-        if (value == "")
-        {
-            this.names = Friends;
-        }
-        else
-        {
-            this.tokenSource = new CancellationTokenSource();
-            var token = this.tokenSource.Token;
-            await Task.Delay(600);
-            if (!token.IsCancellationRequested)
-            {
-                this.showSpinner = true;
-                StateHasChanged();
-
-                this.names =
-                    new AwFindByName.List(
-                        await api.Private(new DmFindByName(value), "").Content()
-                    );
-
-                this.showSpinner = false;
-                StateHasChanged();
-            }
-        }
-    }
-
-    private string FactorString(double giveFactor)
-    {
-        return (giveFactor + TakeFactor).ToString("0.00");
+        this.pointValue = 0;
+        this.title = "";
     }
 
     private void SelectUser(IJSON node)
@@ -118,4 +75,27 @@
         this.selectedPseudonumber = new IntOf(node.Value("pseudonumber")).Value();
         this.currentStep = "choosePoints";
     }
+
+    private async Task UpdatePoints(string value)
+    {
+        if (value == "")
+            value = "0";
+        var pointNumber = new IntOf(value.Replace(",", "").Replace(".", "")).Value();
+        this.pointValue = Math.Abs(pointNumber / 100.0);
+        StateHasChanged();
     }
+
+    private async Task ConfirmTransaction()
+    {
+        if (this.title != "" && this.pointValue > 0)
+        {
+            this.currentStep = "spinning";
+            StateHasChanged();
+
+            // await add transaction
+            this.currentStep = "confirmation";
+            StateHasChanged();
+            await OnSuccess.InvokeAsync();
+        }
+    }
+}

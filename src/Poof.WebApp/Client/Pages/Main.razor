@@ -24,7 +24,7 @@
 {
     <ModalDialog OnClose="@CancelAddTransactionDialog" MaxWidth="800px">
         <Content>
-            <AddTransactionView Friends=friends TakeFactor=0.5></AddTransactionView>
+            <AddTransactionView Friends=friends TakeFactor=0.5 GiveFactor=0.5 OnSuccess="@SucceedAddTransactionDialog"></AddTransactionView>
         </Content>
     </ModalDialog>
 }
@@ -195,6 +195,12 @@
 
     private async Task CancelAddTransactionDialog()
     {
+        this.addTransactionDialogOpen = false;
+    }
+
+    private async Task SucceedAddTransactionDialog()
+    {
+        await Task.Delay(2000);
         this.addTransactionDialogOpen = false;
     }
 }

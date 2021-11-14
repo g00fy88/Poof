@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <None Remove="Display\AddTransactionView.razor.css" />
+    <None Remove="Display\FindUserView.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Display\AddTransactionView.razor.css" />
+    <Content Include="Display\FindUserView.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

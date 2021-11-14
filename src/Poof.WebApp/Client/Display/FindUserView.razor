@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Poof.Talk.Snaps.User.Discovery
+@using Yaapii.Atoms.Text
+@attribute [Authorize]
+@inject IApi api
+
+<div class="nameInput">
+    <input type="text" @oninput="@(async ui => await UpdateNameList(ui.Value.ToString()))" />
+</div>
+<div class="nameList">
+    @if (showSpinner)
+    {
+        <div class="spinner-border"></div>
+    }
+    else
+    {
+        @if (names.Count == 0)
+        {
+            <div>Keine übereinstimmenden Namen gefunden...</div>
+        }
+        else
+        {
+            @foreach (var name in names)
+            {
+                <div class="candidate" @onclick="() => SelectUser(name)">
+                    <div class="actor">
+                        <span class="oi oi-person"></span>
+                        <div class="score">@(new DoubleOf(name.Value("score")).Value().ToString("F0"))</div>
+                    </div>
+                    <div class="name">
+                        <span class="text">@name.Value("pseudonym")</span><span class="number">#@(new IntOf(name.Value("pseudonumber")).Value().ToString("0000"))</span>
+                    </div>
+                    <div class="factor ttip">
+                        <span class="ttext">Balance-Faktor</span>
+                        <div class="value" style="color: #43cd80 ">@GiveFactorString(new DoubleOf(name.Value("takefactor")).Value())</div>
+                        <img src="./images/Waage_0.png" />
+                        <div class="value" style="color: #67c9f0">@TakeFactorString(new DoubleOf(name.Value("givefactor")).Value())</div>
+                    </div>
+                </div>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<IJSON> Select { get; set; }
+    [Parameter]
+    public double TakeFactor { get; set; }
+    [Parameter]
+    public double GiveFactor { get; set; }
+    [Parameter]
+    public IList<IJSON> Friends { get; set; }
+
+    private CancellationTokenSource tokenSource;
+    private bool showSpinner = false;
+    private IList<IJSON> names;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.names = new List<IJSON>();
+        this.tokenSource = new CancellationTokenSource();
+        this.names = Friends;
+    }
+
+    private async Task UpdateNameList(string value)
+    {
+        this.tokenSource.Cancel();
+
+        if (value == "")
+        {
+            this.names = Friends;
+        }
+        else
+        {
+            this.tokenSource = new CancellationTokenSource();
+            var token = this.tokenSource.Token;
+            await Task.Delay(600);
+            if (!token.IsCancellationRequested)
+            {
+                this.showSpinner = true;
+                StateHasChanged();
+
+                this.names =
+                    new AwFindByName.List(
+                        await api.Private(new DmFindByName(value), "").Content()
+                    );
+
+                this.showSpinner = false;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private string GiveFactorString(double takeFactor)
+    {
+        return (takeFactor + GiveFactor).ToString("0.00");
+    }
+
+    private string TakeFactorString(double giveFactor)
+    {
+        return (giveFactor + TakeFactor).ToString("0.00");
+    }
+
+    private Task SelectUser(IJSON json)
+    {
+        return Select.InvokeAsync(json);
+    }
+}
