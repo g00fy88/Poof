@@ -4,6 +4,7 @@ using System.Text;
 using Poof.Snaps;
 using Poof.Snaps.Demand;
 using Yaapii.Atoms;
+using Yaapii.JSON;
 
 namespace Poof.Talk.Snaps
 {
@@ -18,6 +19,14 @@ namespace Poof.Talk.Snaps
         { }
 
         public PoofDemand(string entity, string category, string action, IInput body) : base(()=>
+           new DemandOf(body)
+            .Refined("entity", entity)
+            .Refined("category", category)
+            .Refined("action", action)
+        )
+        { }
+
+        public PoofDemand(string entity, string category, string action, IJSON body) : base(() =>
            new DemandOf(body)
             .Refined("entity", entity)
             .Refined("category", category)

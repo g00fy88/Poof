@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.Core.Snaps.Transaction;
 using Poof.Core.Snaps.User;
 using Poof.Core.Snaps.User.Configuration;
 using Poof.Snaps;
@@ -17,14 +18,21 @@ namespace Poof.Core.Snaps
         private readonly IFlow<IInput> flow;
 
         public PrivateSnap(IDataBuilding mem, IIdentity identity) : this(
-            new FwEntity("user",
-                new FwCategory("configuration",
-                    new FwAction("update-user", new UpdatesUserData(mem, identity))
+            new FwChain<IInput>(
+                new FwEntity("transaction",
+                    new FwCategory("configuration",
+                        new FwAction("add-transaction", new AddsTransaction(mem, identity))
+                    )
                 ),
-                new FwCategory("discovery",
-                    new FwAction("get-nearby-users", new GetsNearbyUsers(mem, identity)),
-                    new FwAction("find-by-name", new FindsByName(mem, identity)),
-                    new FwAction("get-details", new GetsDetails(mem, identity))
+                new FwEntity("user",
+                    new FwCategory("configuration",
+                        new FwAction("update-user", new UpdatesUserData(mem, identity))
+                    ),
+                    new FwCategory("discovery",
+                        new FwAction("get-nearby-users", new GetsNearbyUsers(mem, identity)),
+                        new FwAction("find-by-name", new FindsByName(mem, identity)),
+                        new FwAction("get-details", new GetsDetails(mem, identity))
+                    )
                 )
             )
         )
