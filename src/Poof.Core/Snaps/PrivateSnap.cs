@@ -22,6 +22,10 @@ namespace Poof.Core.Snaps
                 new FwEntity("transaction",
                     new FwCategory("configuration",
                         new FwAction("add-transaction", new AddsTransaction(mem, identity))
+                        
+                    ),
+                    new FwCategory("discovery",
+                        new FwAction("get-user-transactions", new GetsUserTransactions(mem, identity))
                     )
                 ),
                 new FwEntity("user",

@@ -1,8 +1,10 @@
 ﻿@page "/main"
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Authorization
+@using Poof.Talk.Snaps.Transaction
 @using Poof.WebApp.Client.Display
 @attribute [Authorize]
+@inject IApi api
 
 <div class="content px-4">
     <div style="height:10px"></div>
@@ -24,7 +26,7 @@
 {
     <ModalDialog OnClose="@CancelAddTransactionDialog" MaxWidth="800px">
         <Content>
-            <AddTransactionView Friends=friends TakeFactor=0.5 GiveFactor=0.5 OnSuccess="@SucceedAddTransactionDialog"></AddTransactionView>
+            <AddTransactionView Friends=friends TakeFactor=0.5 GiveFactor=0.5 OnSuccess="@UpdateTransactions"></AddTransactionView>
         </Content>
     </ModalDialog>
 }
@@ -34,10 +36,9 @@
     private IList<IJSON> friends = new List<IJSON>();
     private bool addTransactionDialogOpen = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-
+        await UpdateTransactions();
         friends.Add(
             new JSONOf(
                 new JObject(
@@ -93,98 +94,6 @@
                 )
             )
         );
-
-        transactions.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("title", "my-first-transaction"),
-                    new JProperty("date", DateTime.Now.ToString()),
-                    new JProperty("amount", 23.549),
-                    new JProperty("type", "give"),
-                    new JProperty("me",
-                        new JObject(
-                            new JProperty("name", "maexel"),
-                            new JProperty("score", 240.32)
-                        )
-                    ),
-                    new JProperty("other",
-                        new JObject(
-                            new JProperty("name", "marileini"),
-                            new JProperty("score", 124)
-                        )
-                    )
-                )
-            )
-        );
-
-        transactions.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("title", "my-second-transaction"),
-                    new JProperty("date", DateTime.Now.ToString()),
-                    new JProperty("amount", 10),
-                    new JProperty("type", "receive"),
-                    new JProperty("me",
-                        new JObject(
-                            new JProperty("name", "maexel"),
-                            new JProperty("score", 240.32)
-                        )
-                    ),
-                    new JProperty("other",
-                        new JObject(
-                            new JProperty("name", "marileini"),
-                            new JProperty("score", 124)
-                        )
-                    )
-                )
-            )
-        );
-
-        transactions.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("title", "my-second-transaction"),
-                    new JProperty("date", DateTime.Now.ToString()),
-                    new JProperty("amount", 10),
-                    new JProperty("type", "receive"),
-                    new JProperty("me",
-                        new JObject(
-                            new JProperty("name", "maexel"),
-                            new JProperty("score", 240.32)
-                        )
-                    ),
-                    new JProperty("other",
-                        new JObject(
-                            new JProperty("name", "marileini"),
-                            new JProperty("score", 124)
-                        )
-                    )
-                )
-            )
-        );
-
-        transactions.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("title", "my-first-transaction"),
-                    new JProperty("date", DateTime.Now.ToString()),
-                    new JProperty("amount", 23.549),
-                    new JProperty("type", "give"),
-                    new JProperty("me",
-                        new JObject(
-                            new JProperty("name", "maexel"),
-                            new JProperty("score", 240.32)
-                        )
-                    ),
-                    new JProperty("other",
-                        new JObject(
-                            new JProperty("name", "marileini"),
-                            new JProperty("score", 124)
-                        )
-                    )
-                )
-            )
-        );
     }
 
     private void OpenAddTransactionDialog()
@@ -193,14 +102,18 @@
         StateHasChanged();
     }
 
-    private async Task CancelAddTransactionDialog()
+    private void CancelAddTransactionDialog()
     {
         this.addTransactionDialogOpen = false;
     }
 
-    private async Task SucceedAddTransactionDialog()
+    private async Task UpdateTransactions()
     {
-        await Task.Delay(2000);
+        this.transactions =
+            new JSONOf(
+                (await api.Private(new DmGetUserTransactions(), "").Content()).Result()
+            ).Nodes("[*]");
+
         this.addTransactionDialogOpen = false;
     }
 }
