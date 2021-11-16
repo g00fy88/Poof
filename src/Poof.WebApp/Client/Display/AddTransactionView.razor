@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Authorization
-@using Poof.Talk.Snaps.User.Discovery
+@using Poof.Talk.Snaps.Transaction
 @using Yaapii.Atoms.Text
 @attribute [Authorize]
 @inject IApi api
@@ -92,7 +92,7 @@
             this.currentStep = "spinning";
             StateHasChanged();
 
-            // await add transaction
+            await api.Private(new DmAddTransaction(this.selectedUserId, this.pointValue), "json").Touch();
             this.currentStep = "confirmation";
             StateHasChanged();
             await OnSuccess.InvokeAsync();

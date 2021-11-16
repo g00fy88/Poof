@@ -29,10 +29,6 @@ else
     {
         try
         {
-            users =
-                new AwGetNearbyUsers.Json(
-                    await api.Private(new DmGetNearbyUsers(), "").Content()
-                );
         }
         catch (AccessTokenNotAvailableException exception)
         {

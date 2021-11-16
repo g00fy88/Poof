@@ -9,6 +9,8 @@ using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.List;
+using Yaapii.Atoms.Map;
+using Yaapii.JSON;
 
 namespace Poof.Talk
 {
@@ -60,10 +62,21 @@ namespace Poof.Talk
         private Task<HttpResponseMessage> Response(string uri)
         {
             var content =
-                new ByteArrayContent(
-                    new BytesOf(this.demand.Body()).AsBytes()
-                );
-            //content.Headers.ContentType.MediaType = this.contentType;
+                new FallbackMap<HttpContent>(
+                    new MapOf<HttpContent>(
+                        new KvpOf<HttpContent>("json", () =>
+                            new StringContent(
+                                new JSONOf(demand.Body()).Token().ToString(),
+                                Encoding.UTF8,
+                                "application/json"
+                            )
+                        )
+                    ),
+                    key => new ByteArrayContent(
+                        new BytesOf(this.demand.Body()).AsBytes()
+                    )
+                )[this.contentType];
+
             return this.client.PostAsync(uri, content);
         }
         

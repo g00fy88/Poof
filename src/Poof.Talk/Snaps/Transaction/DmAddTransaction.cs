@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using Poof.Snaps.Demand;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Yaapii.Atoms.IO;
 using Yaapii.JSON;
 
 namespace Poof.Talk.Snaps.Transaction

@@ -1,9 +1,5 @@
 ﻿using Poof.Snaps;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Yaapii.Atoms;
-using Yaapii.Atoms.List;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 using Yaapii.JSON;

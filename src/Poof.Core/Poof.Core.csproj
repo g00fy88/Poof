@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Yaapii.Atoms" Version="2.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Snaps\Snaps.csproj" />
   </ItemGroup>
 

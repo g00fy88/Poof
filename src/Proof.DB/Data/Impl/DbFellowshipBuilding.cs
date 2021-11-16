@@ -23,6 +23,7 @@ namespace Poof.Web.Server.Data
             this.context.Fellowships.Add(
                 new DbFellowship() { Id = floor }
             );
+            this.context.SaveChanges();
         }
 
         public IDataFloor Floor(string id)

@@ -1,7 +1,4 @@
 ﻿using Poof.Snaps;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Poof.Talk
 {

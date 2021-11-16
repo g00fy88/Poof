@@ -21,6 +21,7 @@ namespace Poof.Web.Server.Data
             this.context.Transactions.Add(
                 new DbTransaction() { Id = floor }
             );
+            this.context.SaveChanges();
         }
 
         public IDataFloor Floor(string id)

@@ -43,6 +43,10 @@ namespace Poof.WebApp.Server
             services.AddScoped<IDataBuilding, DbBuilding>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

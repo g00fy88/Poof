@@ -5,11 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Poof.Core.Model;
 using Poof.Core.Snaps;
-using Poof.Snaps;
 using Poof.Web.Server.Request;
 using Poof.Web.Server.Response;
 using Yaapii.Atoms;
 using Poof.Core.Model.Data;
+using Poof.Snaps;
 
 namespace Poof.Web.Server.Controllers
 {
@@ -26,7 +26,7 @@ namespace Poof.Web.Server.Controllers
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Invoke(IFormFile file, CancellationToken token)
+        public async Task<IActionResult> Invoke(CancellationToken token)
         {
             return await
                Task.Run(() =>

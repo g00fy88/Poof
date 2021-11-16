@@ -1,7 +1,4 @@
 ﻿using Poof.Snaps.Demand;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Poof.Talk.Snaps.User.Configuration
 {

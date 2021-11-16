@@ -29,7 +29,7 @@ namespace Poof.Web.Server.Controllers
 
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Invoke(IFormFile file, CancellationToken token)
+        public async Task<IActionResult> Invoke(CancellationToken token)
         {
             return await
                Task.Run(() =>

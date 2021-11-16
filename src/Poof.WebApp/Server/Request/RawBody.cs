@@ -25,7 +25,9 @@ namespace Poof.Web.Server.Request
                     return
                         new InputOf(
                             new BytesOf(
-                                new InputOf(controller.Request.Body)
+                                new InputOf(
+                                    controller.Request.Body
+                                )
                             ).AsBytes()
                         );
                 });
