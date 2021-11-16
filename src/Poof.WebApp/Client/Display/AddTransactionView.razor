@@ -92,7 +92,7 @@
             this.currentStep = "spinning";
             StateHasChanged();
 
-            await api.Private(new DmAddTransaction(this.selectedUserId, this.pointValue), "json").Touch();
+            await api.Private(new DmAddTransaction(this.selectedUserId, this.title, this.pointValue), "json").Touch();
             this.currentStep = "confirmation";
             StateHasChanged();
             await OnSuccess.InvokeAsync();

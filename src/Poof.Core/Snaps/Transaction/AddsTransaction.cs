@@ -34,6 +34,7 @@ namespace Poof.Core.Snaps.Transaction
             }
 
             new TransactionOf(mem, new Transactions(mem).New()).Update(
+                new Title(dmd.Param("title")),
                 new TakeSide("user", identity.UserID()),
                 new GiveSide("user", receiverId),
                 new Date(DateTime.Now),
