@@ -2,13 +2,14 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Authorization
 @using Poof.Talk.Snaps.Transaction
+@using Poof.Talk.Snaps.User.Discovery
 @using Poof.WebApp.Client.Display
 @attribute [Authorize]
 @inject IApi api
 
 <div class="content px-4">
     <div style="height:10px"></div>
-    <PointView Points=-542.43 ActivityScore=0></PointView>
+    <PointView Points=userPoints ActivityScore=userScore></PointView>
     <div style="height: 50px"></div>
     <div class="centerparent">
         <div class="addtransaction horizontalCentered" @onclick="@OpenAddTransactionDialog">
@@ -34,6 +35,8 @@
 @code {
     private IList<IJSON> transactions = new List<IJSON>();
     private IList<IJSON> friends = new List<IJSON>();
+    private double userPoints;
+    private double userScore;
     private bool addTransactionDialogOpen = false;
 
     protected override async Task OnInitializedAsync()
@@ -116,6 +119,10 @@
             new JSONOf(
                 (await api.Private(new DmGetUserTransactions(), "").Content()).Result()
             ).Nodes("[*]");
+
+        var response = await api.Private(new DmGetDetails(), "").Content();
+        this.userPoints = new AwGetDetails.Points(response).Value();
+        this.userScore = new AwGetDetails.Score(response).Value();
 
         this.addTransactionDialogOpen = false;
         StateHasChanged();

@@ -23,7 +23,6 @@ namespace Poof.Core.Snaps
                 new FwEntity("transaction",
                     new FwCategory("configuration",
                         new FwAction("add-transaction", new AddsTransaction(mem, pulse, identity))
-                        
                     ),
                     new FwCategory("discovery",
                         new FwAction("get-user-transactions", new GetsUserTransactions(mem, identity))
@@ -31,12 +30,15 @@ namespace Poof.Core.Snaps
                 ),
                 new FwEntity("user",
                     new FwCategory("configuration",
-                        new FwAction("update-user", new UpdatesUserData(mem, identity))
+                        new FwAction("update-user", new UpdatesUserData(mem, identity)),
+                        new FwAction("add-friend", new AddsFriend(mem, identity)),
+                        new FwAction("remove-friend", new RemovesFriend(mem, identity))
                     ),
                     new FwCategory("discovery",
                         new FwAction("get-nearby-users", new GetsNearbyUsers(mem, identity)),
                         new FwAction("find-by-name", new FindsByName(mem, identity)),
-                        new FwAction("get-details", new GetsDetails(mem, identity))
+                        new FwAction("get-details", new GetsDetails(mem, identity)),
+                        new FwAction("get-friends", new GetsFriends(mem, identity))
                     )
                 )
             )

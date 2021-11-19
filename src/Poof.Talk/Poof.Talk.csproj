@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Snaps\Snaps.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Status\" />
-  </ItemGroup>
-
 </Project>

@@ -241,6 +241,7 @@ a, .btn-link {
                 border: solid 6px #54ff9f;
             }
 
+
     .sidebar .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;

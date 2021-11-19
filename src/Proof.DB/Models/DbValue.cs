@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Error;
+using Yaapii.Atoms.List;
 using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Scalar;
 
@@ -25,7 +27,15 @@ namespace Poof.DB.Models
                             new KvpOf<TValue>("pseudonumber", () => Cast<TValue>("pseudonumber", (entity as ApplicationUser).PseudoNumber)),
                             new KvpOf<TValue>("points", () => Cast<TValue>("points", (entity as ApplicationUser).Points)),
                             new KvpOf<TValue>("goodscore", () => Cast<TValue>("goodscore", (entity as ApplicationUser).GoodScore)),
-                            new KvpOf<TValue>("balancescore", () => Cast<TValue>("balancescore", (entity as ApplicationUser).BalanceScore))
+                            new KvpOf<TValue>("balancescore", () => Cast<TValue>("balancescore", (entity as ApplicationUser).BalanceScore)),
+                            new KvpOf<TValue>("friends", () => 
+                                Cast<TValue>("friends", 
+                                    new Mapped<ApplicationUser, string>(
+                                        user => user.Id,
+                                        (entity as ApplicationUser).Friends
+                                    ).ToArray()
+                                )
+                            )
                         )
                     ),
                     new KvpOf<Type, IDictionary<string, TValue>>(

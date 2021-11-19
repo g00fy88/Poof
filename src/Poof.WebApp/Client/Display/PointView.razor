@@ -3,8 +3,8 @@
 <div class="centerparent" style="height: 270px">
     <div class="horizontalCentered">
         <div class="pointFrame ttip">
-            <span class="ttext">@pointTip</span>
-            <div class="pointBack horizontalCentered" style="background-color:@pointColor">
+            <span class="ttext">@PointTip()</span>
+            <div class="pointBack horizontalCentered" style="background-color:@PointColor()">
                 <img class="pointFront" src="./images//Point.png" />
             </div>
         </div>
@@ -22,7 +22,7 @@
             </div>
         }
             <div class="pointScale ttip">
-                <div class="scaleBack" style="background-color:@scaleColor"></div>
+                <div class="scaleBack" style="background-color:@ScaleColor()"></div>
                 @if (Points > 400)
                 {
                     <img class="scaleFront" src="./images/Waage_M1.png" />
@@ -35,7 +35,7 @@
                 {
                     <img class="scaleFront" src="./images/Waage_0.png" />
                 }
-                <span class="ttext">@scaleTip</span>
+                <span class="ttext">@ScaleTip()</span>
             </div>
             <p>@Math.Abs(Points).ToString("0.00")</p>
         </div>
@@ -54,31 +54,37 @@
     [Parameter]
     public double ActivityScore { get; set; }
 
-    private string pointColor = "";
-    private string scaleColor = "";
-    private string pointTip = "";
-    private string scaleTip = "";
-
-    protected override void OnInitialized()
+    private string PointColor()
     {
-        base.OnInitialized();
-        pointColor = Points > 0 ? "#54ff9f" : Points < 0 ? "#67c9f0" : "#f2e685";
-        scaleColor = Math.Abs(Points) > 400 ? "#ed6678" : "#aaa";
+        return Points > 0 ? "#54ff9f" : Points < 0 ? "#67c9f0" : "#f2e685";
+    }
 
-        pointTip = "Ausgeglichen";
-        if(Points < 0)
+    private string PointTip()
+    {
+        var pointTip = "Ausgeglichen";
+        if (Points < 0)
         {
             pointTip = "Du bist im Nimm-Bereich. Gebe etwas, um Punkte zu erhalten und in den Gebe-Bereich zu kommen";
         }
-        if(Points > 0)
+        if (Points > 0)
         {
             pointTip = "Du bist im Gebe-Bereich. Gebe Punkte aus und nimm dir dafür etwas, um in den Nimm-Bereich zu kommen";
         }
+        return pointTip;
+    }
 
-        scaleTip = "Dein Punktestand befindet sich in Balance";
-        if(Math.Abs(Points) > 400)
+    private string ScaleColor()
+    {
+        return Math.Abs(Points) > 400 ? "#ed6678" : "#aaa";
+    }
+
+    private string ScaleTip()
+    {
+        var scaleTip = "Dein Punktestand befindet sich in Balance";
+        if (Math.Abs(Points) > 400)
         {
             scaleTip = "Dein Punktestand ist zu hoch! Dies kann einen negativen Einfluss auf deinen Activity-Score haben.";
         }
+        return scaleTip;
     }
 }
