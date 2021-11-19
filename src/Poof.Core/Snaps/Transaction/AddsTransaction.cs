@@ -2,7 +2,9 @@
 using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.Core.Pulse;
 using Poof.Snaps;
+using Pulse;
 using System;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Text;
@@ -22,7 +24,7 @@ namespace Poof.Core.Snaps.Transaction
         /// of the giveside and substracts it from the take side (identity).
         /// Also adds the balance score to the give side
         /// </summary>
-        public AddsTransaction(IDataBuilding mem, IIdentity identity) : base(dmd =>
+        public AddsTransaction(IDataBuilding mem, IPulse pulse, IIdentity identity) : base(dmd =>
         {
             var json = new JSONOf(dmd.Body());
             var receiverId = json.Value("giveside");
@@ -53,6 +55,7 @@ namespace Poof.Core.Snaps.Transaction
                 spender.Update(
                     new Points(-amount)
                 );
+                pulse.Send(new SigStatusChanged(receiverId, "transaction"));
             }
             catch(Exception)
             {

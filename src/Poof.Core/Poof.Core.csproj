@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Pulse\Pulse.csproj" />
     <ProjectReference Include="..\Snaps\Snaps.csproj" />
   </ItemGroup>
 

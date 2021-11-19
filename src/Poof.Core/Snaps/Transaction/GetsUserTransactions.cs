@@ -6,6 +6,7 @@ using Poof.Core.Model.Data;
 using Poof.Snaps;
 using Poof.Snaps.Outcome;
 using System;
+using System.Collections.Generic;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Text;
@@ -25,10 +26,13 @@ namespace Poof.Core.Snaps.Transaction
         {
             var userId = identity.UserID();
             var userTransactions =
-                new Filtered<string>(t =>
-                    new GiveSide.Entity(new TransactionOf(mem, t)).AsString() == userId ||
-                    new TakeSide.Entity(new TransactionOf(mem, t)).AsString() == userId,
-                    new Transactions(mem).List()
+                new Sorted<string>(
+                    new TransactionDate(mem),
+                    new Filtered<string>(t =>
+                        new GiveSide.Entity(new TransactionOf(mem, t)).AsString() == userId ||
+                        new TakeSide.Entity(new TransactionOf(mem, t)).AsString() == userId,
+                        new Transactions(mem).List()
+                    )
                 );
             var result = new JArray();
 
@@ -62,5 +66,23 @@ namespace Poof.Core.Snaps.Transaction
             return new JsonRawOutcome(new JSONOf(result));
         })
         { }
+
+        internal class TransactionDate : Comparer<string>
+        {
+            private readonly IDataBuilding mem;
+
+            public TransactionDate(IDataBuilding mem)
+            {
+                this.mem = mem;
+            }
+
+            public override int Compare(string t1, string t2)
+            {
+                return
+                    new Date.Of(new TransactionOf(this.mem, t2)).Value().CompareTo(
+                        new Date.Of(new TransactionOf(this.mem, t1)).Value()
+                    );
+            }
+        }
     }
 }

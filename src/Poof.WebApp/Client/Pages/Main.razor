@@ -39,6 +39,9 @@
     protected override async Task OnInitializedAsync()
     {
         await UpdateTransactions();
+
+        api.AddStatusAction("transaction", UpdateTransactions);
+
         friends.Add(
             new JSONOf(
                 new JObject(
@@ -115,5 +118,6 @@
             ).Nodes("[*]");
 
         this.addTransactionDialogOpen = false;
+        StateHasChanged();
     }
 }

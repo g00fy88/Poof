@@ -8,6 +8,7 @@ using Poof.Core.Snaps.User;
 using Poof.Core.Snaps.User.Configuration;
 using Poof.Snaps;
 using Poof.Snaps.Flow;
+using Pulse;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Text;
 
@@ -17,11 +18,11 @@ namespace Poof.Core.Snaps
     {
         private readonly IFlow<IInput> flow;
 
-        public PrivateSnap(IDataBuilding mem, IIdentity identity) : this(
+        public PrivateSnap(IDataBuilding mem, IPulse pulse, IIdentity identity) : this(
             new FwChain<IInput>(
                 new FwEntity("transaction",
                     new FwCategory("configuration",
-                        new FwAction("add-transaction", new AddsTransaction(mem, identity))
+                        new FwAction("add-transaction", new AddsTransaction(mem, pulse, identity))
                         
                     ),
                     new FwCategory("discovery",

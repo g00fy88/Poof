@@ -9,6 +9,8 @@ using Poof.Core.Model.Data;
 using Poof.DB.Data;
 using Poof.DB.Models;
 using Poof.Web.Server.Data;
+using Poof.WebApp.Server.UserStatus;
+using Pulse;
 
 namespace Poof.WebApp.Server
 {
@@ -41,6 +43,8 @@ namespace Poof.WebApp.Server
                 .AddIdentityServerJwt();
 
             services.AddScoped<IDataBuilding, DbBuilding>();
+            AddPulse(services);
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.Configure<IISServerOptions>(options =>
@@ -81,6 +85,16 @@ namespace Poof.WebApp.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+        }
+
+        private void AddPulse(IServiceCollection services)
+        {
+            var pulse = new SyncPulse();
+            var status = new SimpleStatus();
+            pulse.Connect(new SnsStatusChanged(status));
+
+            services.AddSingleton<IPulse>(pulse);
+            services.AddSingleton<IIdentityStatus>(status);
         }
     }
 }

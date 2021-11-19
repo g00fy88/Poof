@@ -12,6 +12,7 @@ using Poof.Web.Server.Response;
 using Yaapii.Atoms;
 using Yaapii.Atoms.IO;
 using Poof.Core.Model.Data;
+using Pulse;
 
 namespace Poof.Web.Server.Controllers
 {
@@ -21,10 +22,12 @@ namespace Poof.Web.Server.Controllers
     public class HtPrivate : ControllerBase
     {
         private readonly IDataBuilding memory;
+        private readonly IPulse pulse;
 
-        public HtPrivate(IDataBuilding memory)
+        public HtPrivate(IDataBuilding memory, IPulse pulse)
         {
             this.memory = memory;
+            this.pulse = pulse;
         }
 
         [HttpGet]
@@ -57,7 +60,7 @@ namespace Poof.Web.Server.Controllers
                             new RsCatch<InvalidOperationException>(400,
                                 new RsCatch<UnauthorizedAccessException>(401,
                                     new RsApi(
-                                        new PrivateSnap(this.memory, new HttpIdentity(this.HttpContext)),
+                                        new PrivateSnap(this.memory, this.pulse, new HttpIdentity(this.HttpContext)),
                                         demand
                                     )
                                 )

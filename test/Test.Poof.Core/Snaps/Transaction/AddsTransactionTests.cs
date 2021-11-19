@@ -1,8 +1,11 @@
 ﻿using Poof.Core.Entity.Transaction;
 using Poof.Core.Entity.User;
 using Poof.Core.Model;
+using Poof.Core.Pulse;
 using Poof.DB.Test;
 using Poof.Talk.Snaps.Transaction;
+using Pulse;
+using Pulse.Signal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +25,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             var meUser = users.New();
             var otherUser = users.New();
 
-            new AddsTransaction(mem, new FkIdentity(meUser)).Convert(
+            new AddsTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
                 new DmAddTransaction(otherUser, "title",  34.56)
             );
 
@@ -39,7 +42,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             var meUser = users.New();
             var otherUser = users.New();
 
-            new AddsTransaction(mem, new FkIdentity(meUser)).Convert(
+            new AddsTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
                 new DmAddTransaction(otherUser, "title", 34.56)
             );
 
@@ -48,6 +51,25 @@ namespace Poof.Core.Snaps.Transaction.Test
                 new Points.Of(
                     new UserOf(mem, otherUser)
                 ).Value()
+            );
+        }
+
+        [Fact]
+        public void SendsStatusChangedSignal()
+        {
+            var mem = new TestBuilding();
+            var users = new Users(mem);
+            var meUser = users.New();
+            var otherUser = users.New();
+
+            ISignal result = new SignalOf(new SigHead("", "", ""));
+            new AddsTransaction(mem, new FkPulse(sig => result = sig), new FkIdentity(meUser)).Convert(
+                new DmAddTransaction(otherUser, "title", 34.56)
+            );
+
+            Assert.Equal(
+                $"True - {otherUser} - transaction",
+                $"{new SigStatusChanged.Is(result).Value()} - {new SigStatusChanged.User(result).AsString()} - {new SigStatusChanged.Name(result).AsString()}"
             );
         }
 
@@ -65,7 +87,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             new UserOf(mem, otherUser).Update(
                 new Points(300)
             );
-            new AddsTransaction(mem, new FkIdentity(meUser)).Convert(
+            new AddsTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
                 new DmAddTransaction(otherUser, "title", 34.56)
             );
 
@@ -87,7 +109,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             new UserOf(mem, otherUser).Update(new Points(100));
             try
             {
-                new AddsTransaction(mem, new FkIdentity()).Convert(
+                new AddsTransaction(mem, new FkPulse(), new FkIdentity()).Convert(
                     new DmAddTransaction(otherUser, "title", 34.56)
                 );
             }
@@ -113,7 +135,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             var otherUser = users.New();
 
             Assert.Throws<ArgumentException>(()=>
-                new AddsTransaction(mem, new FkIdentity(meUser)).Convert(
+                new AddsTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
                     new DmAddTransaction(otherUser, "title", -34.56)
                 )
             );

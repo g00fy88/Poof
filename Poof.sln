@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poof.WebApp.Server", "src\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poof.WebApp.Client", "src\Poof.WebApp\Client\Poof.WebApp.Client.csproj", "{01DD9268-0416-40FD-9003-9FDA71BCE740}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse", "src\Pulse\Pulse.csproj", "{335F5717-382F-41B1-97D3-F91FD82C41B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{01DD9268-0416-40FD-9003-9FDA71BCE740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01DD9268-0416-40FD-9003-9FDA71BCE740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01DD9268-0416-40FD-9003-9FDA71BCE740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{335F5717-382F-41B1-97D3-F91FD82C41B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{335F5717-382F-41B1-97D3-F91FD82C41B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{335F5717-382F-41B1-97D3-F91FD82C41B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{335F5717-382F-41B1-97D3-F91FD82C41B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
