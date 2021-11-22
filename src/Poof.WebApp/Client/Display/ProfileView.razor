@@ -1,0 +1,138 @@
+﻿@using Yaapii.Atoms.Text
+@using Poof.Talk.Snaps.User.Configuration
+@inject IApi api
+
+<div class="centerparent" style="height: 270px">
+    <div class="horizontalCentered">
+        <div class="profilePicFrame">
+            <div class="profilePicBack horizontalCentered">
+            @if(ProfilePicture!="")
+            {
+                <img src="data:image/png;base64,@ProfilePicture">
+            } else
+            {
+                <span class="oi oi-person"></span> 
+            }
+            </div>
+            <div class="edit-buttons">
+            @if(pictureEditMode)
+            {
+                <div class="edit-button confirm" @onclick="@ConfirmPicture">
+                    <span class="oi oi-check"></span>
+                </div>
+                <div class="edit-button cancel" @onclick="@CancelPicture">
+                    <span class="oi oi-x"></span>
+                </div>
+            }else
+            {
+                <div class="edit-button edit" >
+                    <span class="oi oi-pencil"></span>
+                    <InputFile OnChange="@EditPicture" style="position: absolute;top: 0;right: 0;width: 36px;height: 36px;opacity: 0;cursor:pointer;"></InputFile>
+                </div>
+            }
+            </div>
+        </div>
+        <div class="pseudonymFrame">
+        @if(detailsEditMode)
+        {
+            <input type="text" @bind="@Pseudonym"/>
+            <div class="edit-button confirm" @onclick="@ConfirmDetails">
+                <span class="oi oi-check"></span>
+            </div>
+            <div class="edit-button cancel" @onclick="@CancelDetails">
+                <span class="oi oi-x"></span>
+            </div>
+        } else
+        {
+            <div class="pseudonymText">
+                <span style="color:black">@Pseudonym</span><span style="color:#bbb">#@PseudoNumber.ToString("0000")</span>
+            </div>
+            <div class="edit-button edit" @onclick="@EditDetails">
+                <span class="oi oi-pencil"></span>
+            </div>
+        }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string ProfilePicture { get; set; }
+    [Parameter]
+    public string Pseudonym { get; set; }
+    [Parameter]
+    public int PseudoNumber { get; set; }
+    [Parameter]
+    public EventCallback OnRefresh { get; set; }
+
+    private bool pictureEditMode;
+    private bool detailsEditMode;
+    private byte[] pictureBytes;
+    private bool pictureLoaded;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.pictureEditMode = false;
+        this.detailsEditMode = false;
+        this.pictureBytes = new byte[0];
+        this.pictureLoaded = false;
+    }
+
+    private async Task EditPicture(InputFileChangeEventArgs e)
+    {
+        if(e.GetMultipleFiles().Count > 0)
+        {
+            var file = e.File;
+            var format = "image/png";
+            var resizedImageFile = await file.RequestImageFileAsync(format, 100, 100);
+            this.pictureBytes = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream().ReadAsync(this.pictureBytes);
+
+            ProfilePicture = Convert.ToBase64String(this.pictureBytes);
+            this.pictureLoaded = true;
+        }
+        this.pictureEditMode = true;
+    }
+
+    private async Task ConfirmPicture()
+    {
+        if(this.pictureLoaded)
+        {
+            await api.Private(
+                new DmUpdatePicture(this.pictureBytes),
+                "raw"
+            ).Touch();
+            this.pictureLoaded = false;
+        }
+        await OnRefresh.InvokeAsync();
+        this.pictureEditMode = false;
+    }
+
+    private async Task CancelPicture()
+    {
+        await OnRefresh.InvokeAsync();
+        this.pictureEditMode = false;
+    }
+
+    private void EditDetails()
+    {
+        this.detailsEditMode = true;
+    }
+
+    private async Task ConfirmDetails()
+    {
+        await api.Private(
+            new DmUpdateUserData(this.Pseudonym), 
+            ""
+        ).Touch();
+        await OnRefresh.InvokeAsync();
+        this.detailsEditMode = false;
+    }
+
+    private async Task CancelDetails()
+    {
+        await OnRefresh.InvokeAsync();
+        this.detailsEditMode = false;
+    }
+}

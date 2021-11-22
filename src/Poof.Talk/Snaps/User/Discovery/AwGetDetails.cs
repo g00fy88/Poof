@@ -27,6 +27,15 @@ namespace Poof.Talk.Snaps.User.Discovery
             { }
         }
 
+        public sealed class PictureUrl : TextEnvelope
+        {
+            public PictureUrl(IOutcome<IInput> outcome) : base(() =>
+                new JSONOf(outcome.Result()).Value("picture"),
+                false
+            )
+            { }
+        }
+
         public sealed class Points : ScalarEnvelope<double>
         {
             public Points(IOutcome<IInput> outcome) : base(() =>

@@ -2,32 +2,32 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Authorization
 @using Poof.Talk.Snaps.User.Configuration
+@using Poof.Talk.Snaps.User.Discovery
 @using Poof.WebApp.Client.Display
 @attribute [Authorize]
 @inject IApi api
 
 <div class="content px-4">
     <div style="height:10px"></div>
-    <div class="pseudonym">
-        <p>Pseudonym</p>
-        <input type="text" @bind="pseudonym" />
-    </div>
-    <button @onclick="@UpdatePseudonym">Speichern</button>
+    <ProfileView ProfilePicture="@pictureUrl" Pseudonym=@pseudonym PseudoNumber=@pseudonumber OnRefresh="@RefreshDetails"></ProfileView>
 </div>
 
 @code {
     private string pseudonym;
+    private int pseudonumber;
+    private string pictureUrl;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await RefreshDetails();
     }
 
-    private async Task UpdatePseudonym()
+    private async Task RefreshDetails()
     {
-        await api.Private(
-            new DmUpdateUserData(this.pseudonym), 
-            ""
-        ).Touch();
+        var response = await api.Private(new DmGetDetails(), "").Content();
+        this.pseudonym = new AwGetDetails.PseudoName(response).AsString();
+        this.pseudonumber = new AwGetDetails.PseudoNumber(response).Value();
+        this.pictureUrl = new AwGetDetails.PictureUrl(response).AsString();
+        StateHasChanged();
     }
 }

@@ -11,6 +11,7 @@ namespace Poof.DB.Models
     {
         public string Pseudonym { get; set; } = "";
         public int PseudoNumber { get; set; }
+        public byte[] Picture { get; set; } = new byte[0];
         public double Points { get; set; }
         public double BalanceScore { get; set; }
         public double GoodScore { get; set; }

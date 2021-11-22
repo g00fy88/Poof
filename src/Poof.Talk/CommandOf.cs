@@ -3,6 +3,7 @@ using Poof.Snaps.Outcome;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Yaapii.Atoms;
@@ -70,7 +71,17 @@ namespace Poof.Talk
                                 Encoding.UTF8,
                                 "application/json"
                             )
-                        )
+                        ),
+                        new KvpOf<HttpContent>("raw", () =>
+                        {
+                            var content =
+                                new ByteArrayContent(
+                                    new BytesOf(this.demand.Body()).AsBytes()
+                                );
+                            content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+
+                            return content;
+                        })
                     ),
                     key => new ByteArrayContent(
                         new BytesOf(this.demand.Body()).AsBytes()

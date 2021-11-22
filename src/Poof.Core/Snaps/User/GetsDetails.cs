@@ -11,6 +11,7 @@ using Poof.Core.Model.Data;
 using Yaapii.Atoms.Text;
 using Yaapii.Atoms.Enumerable;
 using Poof.Core.Entity.Fellowship;
+using Poof.Core.Entity.Transaction;
 
 namespace Poof.Core.Snaps.User
 {
@@ -35,6 +36,7 @@ namespace Poof.Core.Snaps.User
                                 new JProperty("number", new Pseudonym.Number(user).Value())
                             )
                         ),
+                        new JProperty("picture", new Picture.Base64Url(user).AsString()),
                         new JProperty("points", new Points.Of(user).Value()),
                         new JProperty("score", new BalanceScore.Total(user).Value())
                     )
