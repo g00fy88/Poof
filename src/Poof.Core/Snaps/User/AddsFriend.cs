@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Yaapii.Atoms;
+using Yaapii.Atoms.Enumerable;
 
 namespace Poof.Core.Snaps.User
 {
@@ -14,9 +15,16 @@ namespace Poof.Core.Snaps.User
     {
         public AddsFriend(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
+            var allUsers = new Users(mem).List();
             var userId = identity.UserID();
             var user = new UserOf(mem, userId);
-            var currentFriends = new Friends.Of(user);
+            var currentFriends =
+                new List<string>(
+                    new Filtered<string>(
+                        friend => allUsers.Contains(friend),
+                        new Friends.Of(user)
+                    )
+                );
             var newFriend = dmd.Param("friend");
 
             if(userId == newFriend)

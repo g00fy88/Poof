@@ -44,19 +44,21 @@ namespace Poof.Core.Snaps.Transaction
                 result.Add(
                     new JObject(
                         new JProperty("title", new Title.Of(transaction).AsString()),
-                        new JProperty("date", new Date.Of(transaction).Value().ToString()),
+                        new JProperty("date", new Date.Of(transaction).Value().ToString("dd/MM/yyyy H:mm:ss zzz")),
                         new JProperty("amount", new Amount.Of(transaction).Value()),
                         new JProperty("type", giveSide == userId ? "give" : "receive"),
                         new JProperty(giveSide == userId ? "me" : "other",
                             new JObject(
                                 new JProperty("name", new Pseudonym.Name(new UserOf(mem, giveSide)).AsString()),
-                                new JProperty("score", new BalanceScore.Total(new UserOf(mem, giveSide)).Value())
+                                new JProperty("score", new BalanceScore.Total(new UserOf(mem, giveSide)).Value()),
+                                new JProperty("pictureUrl", new Picture.Base64Url(new UserOf(mem, giveSide)).AsString())
                             )
                         ),
                         new JProperty(takeSide == userId ? "me" : "other",
                             new JObject(
                                 new JProperty("name", new Pseudonym.Name(new UserOf(mem, takeSide)).AsString()),
-                                new JProperty("score", new BalanceScore.Total(new UserOf(mem, takeSide)).Value())
+                                new JProperty("score", new BalanceScore.Total(new UserOf(mem, takeSide)).Value()),
+                                new JProperty("pictureUrl", new Picture.Base64Url(new UserOf(mem, takeSide)).AsString())
                             )
                         )
                     )

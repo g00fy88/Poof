@@ -2,7 +2,7 @@
 @using Poof.Talk.Snaps.User.Configuration
 @inject IApi api
 
-<div class="centerparent" style="height: 270px">
+<div class="centerparent" style="height: 200px">
     <div class="horizontalCentered">
         <div class="profilePicFrame">
             <div class="profilePicBack horizontalCentered">
@@ -27,7 +27,7 @@
             {
                 <div class="edit-button edit" >
                     <span class="oi oi-pencil"></span>
-                    <InputFile OnChange="@EditPicture" style="position: absolute;top: 0;right: 0;width: 36px;height: 36px;opacity: 0;cursor:pointer;"></InputFile>
+                    <InputFile OnChange="@EditPicture" accept="image/x-png,image/jpeg" style="position: absolute;top: 0;right: 0;width: 36px;height: 36px;opacity: 0;cursor:pointer;"></InputFile>
                 </div>
             }
             </div>
@@ -81,7 +81,7 @@
 
     private async Task EditPicture(InputFileChangeEventArgs e)
     {
-        if(e.GetMultipleFiles().Count > 0)
+        if (e.GetMultipleFiles().Count > 0)
         {
             var file = e.File;
             var format = "image/png";
@@ -123,7 +123,7 @@
     private async Task ConfirmDetails()
     {
         await api.Private(
-            new DmUpdateUserData(this.Pseudonym), 
+            new DmUpdateUserData(this.Pseudonym),
             ""
         ).Touch();
         await OnRefresh.InvokeAsync();

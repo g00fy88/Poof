@@ -23,32 +23,25 @@ namespace Poof.DB.Models
                         typeof(ApplicationUser),
                         () => new MapOf<TValue>(
                             new KvpOf<TValue>("mail", () => Cast<TValue>("mail", (entity as ApplicationUser).Email)),
-                            new KvpOf<TValue>("pseudonym", () => Cast<TValue>("pseudonym", (entity as ApplicationUser).Pseudonym)),
+                            new KvpOf<TValue>("pseudonym", () => Cast<TValue>("pseudonym", (entity as ApplicationUser).Pseudonym, "")),
                             new KvpOf<TValue>("pseudonumber", () => Cast<TValue>("pseudonumber", (entity as ApplicationUser).PseudoNumber)),
                             new KvpOf<TValue>("points", () => Cast<TValue>("points", (entity as ApplicationUser).Points)),
                             new KvpOf<TValue>("goodscore", () => Cast<TValue>("goodscore", (entity as ApplicationUser).GoodScore)),
                             new KvpOf<TValue>("balancescore", () => Cast<TValue>("balancescore", (entity as ApplicationUser).BalanceScore)),
-                            new KvpOf<TValue>("picture", () => Cast<TValue>("picture", (entity as ApplicationUser).Picture)),
-                            new KvpOf<TValue>("friends", () => 
-                                Cast<TValue>("friends", 
-                                    new Mapped<ApplicationUser, string>(
-                                        user => user.Id,
-                                        (entity as ApplicationUser).Friends
-                                    ).ToArray()
-                                )
-                            )
+                            new KvpOf<TValue>("picture", () => Cast<TValue>("picture", (entity as ApplicationUser).Picture, new byte[0])),
+                            new KvpOf<TValue>("friends", () => Cast<TValue>("friends", (entity as ApplicationUser).Friends, ""))
                         )
                     ),
                     new KvpOf<Type, IDictionary<string, TValue>>(
                         typeof(DbFellowship),
                         () => new MapOf<TValue>(
-                            new KvpOf<TValue>("name", () => Cast<TValue>("name", (entity as DbFellowship).Name))
+                            new KvpOf<TValue>("name", () => Cast<TValue>("name", (entity as DbFellowship).Name, ""))
                         )
                     ),
                     new KvpOf<Type, IDictionary<string, TValue>>(
                         typeof(DbTransaction),
                         () => new MapOf<TValue>(
-                            new KvpOf<TValue>("title", () => Cast<TValue>("title", (entity as DbTransaction).Title)),
+                            new KvpOf<TValue>("title", () => Cast<TValue>("title", (entity as DbTransaction).Title, "")),
                             new KvpOf<TValue>("amount", () => Cast<TValue>("amount", (entity as DbTransaction).Amount)),
                             new KvpOf<TValue>("date", () => Cast<TValue>("date", (entity as DbTransaction).Date)),
                             new KvpOf<TValue>("giveside", () => Cast<TValue>("giveside", (entity as DbTransaction).GiveSide)),
@@ -82,8 +75,12 @@ namespace Poof.DB.Models
 
         }
 
-        private T Cast<T>(string name, object value)
+        private T Cast<T>(string name, object value, object fallback = null)
         {
+            if(value == null)
+            {
+                value = fallback;
+            }
             new FailNull(value,
                 new InvalidOperationException($"Unable to retrieve property '{name}', because it is not set.")
             ).Go();

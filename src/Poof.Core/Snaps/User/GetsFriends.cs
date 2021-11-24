@@ -35,6 +35,7 @@ namespace Poof.Core.Snaps.User
                         new JProperty("type", "user"),
                         new JProperty("pseudonym", new Pseudonym.Name(user).AsString()),
                         new JProperty("pseudonumber", new Pseudonym.Number(user).Value()),
+                        new JProperty("pictureUrl", new Picture.Base64Url(user).AsString()),
                         new JProperty("score", new TextOf(new BalanceScore.Total(user).Value()).AsString()),
                         new JProperty("givefactor", new Points.GiveFactor(user).Value()),
                         new JProperty("takefactor", new Points.TakeFactor(user).Value())

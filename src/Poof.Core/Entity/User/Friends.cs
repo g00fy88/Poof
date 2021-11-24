@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
+using Yaapii.Atoms.Scalar;
+using Yaapii.Atoms.Text;
 
 namespace Poof.Core.Entity.User
 {
@@ -21,14 +23,19 @@ namespace Poof.Core.Entity.User
         { }
 
         public Friends(IEnumerable<string> users) : base(floor =>
-            floor.Update("friends", users.ToArray())
+            floor.Update("friends", new Yaapii.Atoms.Text.Joined(";", users).AsString())
         )
         { }
 
         public sealed class Of : ListEnvelope<string>
         {
-            public Of(IEntity user) : base(()=>
-                user.Memory().Prop<string[]>("friends"),
+            public Of(IEntity user) : base(
+                new ScalarOf<IEnumerable<string>>(()=>
+                    new Split(
+                        user.Memory().Prop<string>("friends"),
+                        ";"
+                    )
+                ),
                 false
             )
             { }

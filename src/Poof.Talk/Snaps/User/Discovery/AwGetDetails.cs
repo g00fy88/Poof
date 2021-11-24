@@ -46,6 +46,26 @@ namespace Poof.Talk.Snaps.User.Discovery
             { }
         }
 
+        public sealed class TakeFactor : ScalarEnvelope<double>
+        {
+            public TakeFactor(IOutcome<IInput> outcome) : base(() =>
+                new DoubleOf(
+                    new JSONOf(outcome.Result()).Value("takeFactor")
+                ).Value()
+            )
+            { }
+        }
+
+        public sealed class GiveFactor : ScalarEnvelope<double>
+        {
+            public GiveFactor(IOutcome<IInput> outcome) : base(() =>
+                new DoubleOf(
+                    new JSONOf(outcome.Result()).Value("giveFactor")
+                ).Value()
+            )
+            { }
+        }
+
         public sealed class Score : ScalarEnvelope<double>
         {
             public Score(IOutcome<IInput> outcome) : base(() =>

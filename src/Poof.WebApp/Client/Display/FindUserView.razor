@@ -24,7 +24,16 @@
             {
                 <div class="candidate" @onclick="() => SelectUser(name)">
                     <div class="actor">
-                        <span class="oi oi-person"></span>
+                    @if (name.Value("pictureUrl") == "")
+                    {
+                        <div class="preview">
+                            <span class="oi oi-person"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="data:image/png;base64,@name.Value("pictureUrl")">
+                    }
                         <div class="score">@(new DoubleOf(name.Value("score")).Value().ToString("F0"))</div>
                     </div>
                     <div class="name">

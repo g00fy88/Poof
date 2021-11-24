@@ -15,6 +15,6 @@ namespace Poof.DB.Models
         public double Points { get; set; }
         public double BalanceScore { get; set; }
         public double GoodScore { get; set; }
-        public IList<ApplicationUser> Friends { get; set; }
+        public string Friends { get; set; } = "";
     }
 }

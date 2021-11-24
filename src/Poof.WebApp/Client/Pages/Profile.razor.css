@@ -1,4 +1,4 @@
-﻿.addtransaction {
+﻿.addfriend {
     color: white;
     background-color: #43cd80;
     height: 34px;
@@ -10,16 +10,16 @@
     font-family: 'Inconsolata', monospace;
 }
 
-    .addtransaction:hover {
+    .addfriend:hover {
         background-color: #54ff9f;
     }
 
-    .addtransaction p {
-        display: inline-block;
-        margin: 0;
-    }
+    .addfriend p {
+    display: inline-block;
+    margin: 0;
+}
 
-.transactions {
+.friends {
     width: 100%;
     padding-top: 20px;
     box-shadow: 0 10px 10px -10px #bbb inset;

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poof.DB.Data;
 
 namespace Poof.DB.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211124191349_add-friends-list")]
+    partial class addfriendslist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,6 +267,9 @@ namespace Poof.DB.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double>("BalanceScore")
                         .HasColumnType("float");
 
@@ -278,9 +283,6 @@ namespace Poof.DB.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Friends")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("GoodScore")
                         .HasColumnType("float");
@@ -331,6 +333,8 @@ namespace Poof.DB.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -461,6 +465,13 @@ namespace Poof.DB.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Poof.DB.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Poof.DB.Models.ApplicationUser", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("Poof.DB.Models.DbMembership", b =>
                 {
                     b.HasOne("Poof.DB.Models.ApplicationUser", "Owner")
@@ -474,6 +485,11 @@ namespace Poof.DB.Data.Migrations
                     b.Navigation("Owner");
 
                     b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("Poof.DB.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,7 +14,7 @@
     {
         <div class="transaction">
             <h3>@transaction.Value("title")</h3>
-            <p class="date">@DateTime.Parse(transaction.Value("date")).ToString("g")</p>
+            <p class="date">@DateTime.ParseExact(transaction.Value("date"), "dd/MM/yyyy H:mm:ss zzz", null).ToString("g")</p>
             @if (transaction.Value("type") == "give")
             {
                 <div class="green line">
@@ -27,14 +27,32 @@
                     <span class="inner oi oi-chevron-right"></span>
                 </div>
             }
-            <div class="actor left @TypeClass(transaction.Value("type"))">
-                <span class="oi oi-person"></span>
-                <p class="name">@transaction.Value("me.name")</p>
-                <p class="score">@(new DoubleOf(transaction.Value("me.score")).Value().ToString("F0"))</p>
-            </div>
+        <div class="actor left @TypeClass(transaction.Value("type"))">
+            @if (transaction.Value("me.pictureUrl") == "")
+            {
+                <div class="preview">
+                    <span class="oi oi-person"></span>
+                </div>
+            }
+            else
+            {
+                <img src="data:image/png;base64,@transaction.Value("me.pictureUrl")">
+            }
+            <p class="name">@transaction.Value("me.name")</p>
+            <p class="score">@(new DoubleOf(transaction.Value("me.score")).Value().ToString("F0"))</p>
+        </div>
             <div class="amount">@(new DoubleOf(transaction.Value("amount")).Value().ToString("0.00"))</div>
             <div class="actor right @TypeClass(transaction.Value("type"))">
-                <span class="oi oi-person"></span>
+                @if (transaction.Value("other.pictureUrl") == "")
+                {
+                    <div class="preview">
+                        <span class="oi oi-person"></span>
+                    </div>
+                }
+                else
+                {
+                    <img src="data:image/png;base64,@transaction.Value("other.pictureUrl")">
+                }
                 <p class="name">@transaction.Value("other.name")</p>
                 <p class="score">@(new DoubleOf(transaction.Value("other.score")).Value().ToString("F0"))</p>
             </div>

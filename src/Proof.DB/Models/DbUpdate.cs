@@ -1,10 +1,11 @@
 ﻿using Poof.DB.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Yaapii.Atoms;
+using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Error;
-using Yaapii.Atoms.List;
 using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Scalar;
 
@@ -24,7 +25,7 @@ namespace Poof.DB.Models
         )
         { }
 
-        public DbUpdate(TEntity entity, string name, Func<string, ApplicationUser> user, Func<string, DbFellowship> fellowship)
+        public DbUpdate(TEntity entity, string name, Func<string, ApplicationUser> tuser, Func<string, DbFellowship> tfellowship)
         {
             this.map =
                 new MapOf<Type, IDictionary<string, Action<TValue>>>(
@@ -38,13 +39,7 @@ namespace Poof.DB.Models
                             new KvpOf<Action<TValue>>("goodscore", val => (entity as ApplicationUser).GoodScore = Cast<double>(name, val)),
                             new KvpOf<Action<TValue>>("balancescore", val => (entity as ApplicationUser).BalanceScore = Cast<double>(name, val)),
                             new KvpOf<Action<TValue>>("picture", val => (entity as ApplicationUser).Picture = Cast<byte[]>(name, val)),
-                            new KvpOf<Action<TValue>>("friends", val => 
-                                (entity as ApplicationUser).Friends = 
-                                    new Mapped<string, ApplicationUser>(
-                                        id => user(id),
-                                        Cast<string[]>(name, val)
-                                    )
-                            )
+                            new KvpOf<Action<TValue>>("friends", val => (entity as ApplicationUser).Friends = Cast<string>(name, val))
                         )
                     ),
                     new KvpOf<Type, IDictionary<string, Action<TValue>>>(
@@ -68,8 +63,8 @@ namespace Poof.DB.Models
                     new KvpOf<Type, IDictionary<string, Action<TValue>>>(
                         typeof(DbMembership),
                         () => new MapOf<Action<TValue>>(
-                            new KvpOf<Action<TValue>>("owner", val => (entity as DbMembership).Owner = user(Cast<string>(name, val))),
-                            new KvpOf<Action<TValue>>("team", val => (entity as DbMembership).Team = fellowship(Cast<string>(name, val))),
+                            new KvpOf<Action<TValue>>("owner", val => (entity as DbMembership).Owner = tuser(Cast<string>(name, val))),
+                            new KvpOf<Action<TValue>>("team", val => (entity as DbMembership).Team = tfellowship(Cast<string>(name, val))),
                             new KvpOf<Action<TValue>>("share", val => (entity as DbMembership).Share = Cast<double>(name, val))
                         )
                     )

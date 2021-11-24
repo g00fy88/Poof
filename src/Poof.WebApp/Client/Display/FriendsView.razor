@@ -1,0 +1,81 @@
+﻿@using Yaapii.Atoms.Text
+@using Yaapii.Atoms.Map
+
+<div class="friends container">
+    @if (Friends.Count == 0)
+    {
+        <h2>Bisher wurden keine Fellows hinzugefügt...</h2>
+    }
+    else
+    {
+        <h2>Meine Fellows:</h2>
+    }
+    @foreach (var friend in Friends)
+    {
+        <div class="friend">
+            <div class="actor">
+                @if (friend.Value("pictureUrl") == "")
+                {
+                    <div class="preview">
+                        <span class="oi oi-person"></span>
+                    </div>
+                } else
+                {
+                    <img src="data:image/png;base64,@friend.Value("pictureUrl")">
+                }
+                <div class="score">@(new DoubleOf(friend.Value("score")).Value().ToString("F0"))</div>
+            </div>
+            <div class="name">
+                <span class="text">@friend.Value("pseudonym")</span><span class="number">#@(new IntOf(friend.Value("pseudonumber")).Value().ToString("0000"))</span>
+            </div>
+            <div class="factor ttip">
+                <span class="ttext">Balance-Faktor</span>
+                <div class="value" style="color: #43cd80 ">@GiveFactorString(new DoubleOf(friend.Value("takefactor")).Value())</div>
+                <img src="./images/Waage_0.png" />
+                <div class="value" style="color: #67c9f0">@TakeFactorString(new DoubleOf(friend.Value("givefactor")).Value())</div>
+            </div>
+            <div class="edit-button remove" @onclick="()=>RemoveFriend(friend)">
+                <span class="oi oi-trash"></span>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> Remove { get; set; }
+    [Parameter]
+    public IList<IJSON> Friends { get; set; }
+    [Parameter]
+    public double TakeFactor { get; set; }
+    [Parameter]
+    public double GiveFactor { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private string TypeClass(string type)
+    {
+        return
+            new MapOf(
+                "give", "green",
+                "receive", "blue"
+            )[type];
+    }
+
+    private string GiveFactorString(double takeFactor)
+    {
+        return (takeFactor + GiveFactor).ToString("0.00");
+    }
+
+    private string TakeFactorString(double giveFactor)
+    {
+        return (giveFactor + TakeFactor).ToString("0.00");
+    }
+
+    private Task RemoveFriend(IJSON friend)
+    {
+        return Remove.InvokeAsync(friend.Value("id"));
+    }
+}

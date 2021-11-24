@@ -10,12 +10,37 @@
 <div class="content px-4">
     <div style="height:10px"></div>
     <ProfileView ProfilePicture="@pictureUrl" Pseudonym=@pseudonym PseudoNumber=@pseudonumber OnRefresh="@RefreshDetails"></ProfileView>
+    <div style="height: 50px"></div>
+    <div class="centerparent">
+        <div class="addfriend horizontalCentered" @onclick="@OpenAddFriendDialog">
+            <span class="oi oi-plus"></span>
+            <p>Fellow hinzufügen</p>
+        </div>
+    </div>
+    <div style="height:80px"></div>
 </div>
+<div class="friends">
+    <FriendsView Friends=@friends TakeFactor=@takeFactor GiveFactor=@giveFactor Remove=@RemoveFriend></FriendsView>
+</div>
+
+@if (addFriendDialogOpen)
+{
+    <ModalDialog OnClose="@CancelAddFriendDialog" MaxWidth="800px">
+        <Content>
+            <p>Gib den Namen der Person ein, die du hinzufügen möchtest.</p>
+            <FindUserView TakeFactor=takeFactor GiveFactor=giveFactor Friends=@(new List<IJSON>()) Select=@AddFriend></FindUserView>
+        </Content>
+    </ModalDialog>
+}
 
 @code {
     private string pseudonym;
     private int pseudonumber;
     private string pictureUrl;
+    private double takeFactor;
+    private double giveFactor;
+    private IList<IJSON> friends = new List<IJSON>();
+    private bool addFriendDialogOpen = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,6 +53,36 @@
         this.pseudonym = new AwGetDetails.PseudoName(response).AsString();
         this.pseudonumber = new AwGetDetails.PseudoNumber(response).Value();
         this.pictureUrl = new AwGetDetails.PictureUrl(response).AsString();
+        this.takeFactor = new AwGetDetails.TakeFactor(response).Value();
+        this.giveFactor = new AwGetDetails.GiveFactor(response).Value();
+
+        this.friends = new AwGetFriends.List(await api.Private(new DmGetFriends(), "").Content());
+        StateHasChanged();
+    }
+
+    private void OpenAddFriendDialog()
+    {
+        this.addFriendDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private void CancelAddFriendDialog()
+    {
+        this.addFriendDialogOpen = false;
+    }
+
+    private async Task AddFriend(IJSON user)
+    {
+        await api.Private(new DmAddFriend(user.Value("id")), "").Touch();
+        await RefreshDetails();
+        StateHasChanged();
+        this.addFriendDialogOpen = false;
+    }
+
+    private async Task RemoveFriend(string id)
+    {
+        await api.Private(new DmRemoveFriend(id), "").Touch();
+        await RefreshDetails();
         StateHasChanged();
     }
 }

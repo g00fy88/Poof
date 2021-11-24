@@ -2,6 +2,7 @@
 using Poof.Core.Model;
 using Poof.DB.Test;
 using Poof.Snaps;
+using Poof.Talk.Snaps.User.Configuration;
 using Poof.Talk.Snaps.User.Discovery;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,38 @@ namespace Poof.Core.Snaps.User.Discovery.Test
                         new DmGetFriends()
                     )
                 ).Count
+            );
+        }
+
+        [Fact]
+        public void ListsFriendsAfterAdding()
+        {
+            var mem = new TestBuilding();
+            var users = new Users(mem);
+            var me = users.New();
+            var friend1 = users.New();
+            var friend2 = users.New();
+
+            new UserOf(mem, me).Update(
+                new Pseudonym("batman", 0)
+            );
+            new UserOf(mem, friend1).Update(
+                new Pseudonym("robin", 0)
+            );
+            new UserOf(mem, friend2).Update(
+                new Pseudonym("robin", 1)
+            );
+
+            new AddsFriend(mem, new FkIdentity(me)).Convert(
+                new DmAddFriend(friend1)
+            );
+
+            Assert.Single(
+                new AwGetFriends.List(
+                    new GetsFriends(mem, new FkIdentity(me)).Convert(
+                        new DmGetFriends()
+                    )
+                )
             );
         }
     }

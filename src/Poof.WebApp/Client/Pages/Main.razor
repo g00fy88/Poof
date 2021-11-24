@@ -27,7 +27,7 @@
 {
     <ModalDialog OnClose="@CancelAddTransactionDialog" MaxWidth="800px">
         <Content>
-            <AddTransactionView Friends=friends TakeFactor=0.5 GiveFactor=0.5 OnSuccess="@UpdateTransactions"></AddTransactionView>
+            <AddTransactionView Friends=friends TakeFactor=userTakeFactor GiveFactor=userGiveFactor OnSuccess="@UpdateTransactions"></AddTransactionView>
         </Content>
     </ModalDialog>
 }
@@ -36,6 +36,8 @@
     private IList<IJSON> transactions = new List<IJSON>();
     private IList<IJSON> friends = new List<IJSON>();
     private double userPoints;
+    private double userTakeFactor;
+    private double userGiveFactor;
     private double userScore;
     private bool addTransactionDialogOpen = false;
 
@@ -45,61 +47,7 @@
 
         api.AddStatusAction("transaction", UpdateTransactions);
 
-        friends.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("id", "123-id"),
-                    new JProperty("type", "user"),
-                    new JProperty("pseudonym", "first-friend"),
-                    new JProperty("pseudonumber", 1),
-                    new JProperty("score", 20.34),
-                    new JProperty("givefactor", 0.5),
-                    new JProperty("takefactor", 0.5)
-                )
-            )
-        );
-
-        friends.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("id", "123-id"),
-                    new JProperty("type", "user"),
-                    new JProperty("pseudonym", "second-friend"),
-                    new JProperty("pseudonumber", 2),
-                    new JProperty("score", 20.34),
-                    new JProperty("givefactor", 0.5),
-                    new JProperty("takefactor", 0.5)
-                )
-            )
-        );
-
-        friends.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("id", "123-id"),
-                    new JProperty("type", "user"),
-                    new JProperty("pseudonym", "third-friend"),
-                    new JProperty("pseudonumber", 3),
-                    new JProperty("score", 20.34),
-                    new JProperty("givefactor", 0.5),
-                    new JProperty("takefactor", 0.5)
-                )
-            )
-        );
-
-        friends.Add(
-            new JSONOf(
-                new JObject(
-                    new JProperty("id", "123-id"),
-                    new JProperty("type", "user"),
-                    new JProperty("pseudonym", "fourth-friend"),
-                    new JProperty("pseudonumber", 4),
-                    new JProperty("score", 20.34),
-                    new JProperty("givefactor", 0.5),
-                    new JProperty("takefactor", 0.5)
-                )
-            )
-        );
+        this.friends = new AwGetFriends.List(await api.Private(new DmGetFriends(), "").Content());
     }
 
     private void OpenAddTransactionDialog()
@@ -123,6 +71,8 @@
         var response = await api.Private(new DmGetDetails(), "").Content();
         this.userPoints = new AwGetDetails.Points(response).Value();
         this.userScore = new AwGetDetails.Score(response).Value();
+        this.userTakeFactor = new AwGetDetails.TakeFactor(response).Value();
+        this.userGiveFactor = new AwGetDetails.GiveFactor(response).Value();
 
         this.addTransactionDialogOpen = false;
         StateHasChanged();

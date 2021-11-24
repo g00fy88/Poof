@@ -38,6 +38,8 @@ namespace Poof.Core.Snaps.User
                         ),
                         new JProperty("picture", new Picture.Base64Url(user).AsString()),
                         new JProperty("points", new Points.Of(user).Value()),
+                        new JProperty("takeFactor", new Points.TakeFactor(user).Value()),
+                        new JProperty("giveFactor", new Points.GiveFactor(user).Value()),
                         new JProperty("score", new BalanceScore.Total(user).Value())
                     )
                 );

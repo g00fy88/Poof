@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Display\AddTransactionView - Copy.razor.css" />
     <None Remove="Display\AddTransactionView.razor.css" />
     <None Remove="Display\FindUserView.razor.css" />
   </ItemGroup>
