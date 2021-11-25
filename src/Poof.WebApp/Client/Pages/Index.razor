@@ -1,7 +1,53 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-<h1>Hello, world!</h1>
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
 
-Welcome to your new personal app space.
+<div class="content px-4 container" style="text-align:center">
+    <h3>Eine Plattform für mehr soziales Miteinander</h3>
+    <p>"Points of Good" ist ein Open-Source-Project, das noch in den Kinderschuhen steckt. Doch die Grundidee ist so banal wie einfach</p>
+    <p style="font-style: italic;">"Ich helfe dir, wenn du dafür irgendwann mal jemand anderem hilfst"</p>
+    <div class="example">
+        <h4>Ein Beispiel</h4>
+        Du hilfst deiner Kollegin Susi beim Umzug und erhältst dafür Punkte von ihr. Susi erhält Minuspunkte.
+        Dafür passt Susi eine Woche später auf die Kinder ihrer Nachbarn auf, wodurch ihr Punktestand wieder ausgeglichen ist.
+        Und vielleicht bringen die Nachbarn dir ja ein paar Tage später selbstgebackene Kekse vorbei, wer weiß :)
+    </div>
+    <p style="text-align:left">
+        Was sind die Regeln und worauf muss ich achten?<br />
+        Es gibt keine Regeln, leg einfach los! Anbei aber noch ein paar Punkte zur Orientierung
+    </p>
+    <ul style="text-align:left">
+        <li>Generell gilt 10 Punkte = 1 Stunde Aufwand</li>
+        <li>Je ausgeglichener dein Punktestand ist, desto schneller steigt dein Score, wenn du Punkte erhältst</li>
+        <li>Ein zu hoher Punktestand (egal ob im Plus- oder Minus-Bereich) kann sich negativ auf deinen Score auswirken</li>
+    </ul>
+    <div class="entry-buttons">
+        <AuthorizeView>
+            <Authorized>
+                <NavLink @onclick="BeginSignOut">
+                    <div class="main">Abmelden</div>
+                </NavLink>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink href="authentication/login">
+                    <div class="second">Anmelden</div>
+                </NavLink>
+                <NavLink href="authentication/register">
+                    <div class="main">Registrieren</div>
+                </NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
 
+@code {
 
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}

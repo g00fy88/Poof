@@ -8,11 +8,15 @@
     <None Remove="Display\AddTransactionView - Copy.razor.css" />
     <None Remove="Display\AddTransactionView.razor.css" />
     <None Remove="Display\FindUserView.razor.css" />
+    <None Remove="Pages\Index.razor.css" />
+    <None Remove="Shared\NavMenu.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Display\AddTransactionView.razor.css" />
     <Content Include="Display\FindUserView.razor.css" />
+    <Content Include="Pages\Index.razor.css" />
+    <Content Include="Shared\NavMenu.razor.css" />
   </ItemGroup>
 
   <ItemGroup>

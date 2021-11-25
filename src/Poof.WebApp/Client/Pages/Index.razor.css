@@ -1,0 +1,59 @@
+﻿div {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1em;
+}
+
+h3 {
+    font-weight:bold;
+    margin: 30px 0px;
+}
+
+h4 {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.example {
+    text-align: left;
+    padding: 20px;
+    background-color: #a7fccc;
+    border-radius: 10px;
+    margin: 30px 0px;
+}
+
+ul li {
+    margin-bottom: 5px;
+}
+
+.entry-buttons {
+    margin: 50px 0px;
+    font-size: 1em;
+}
+
+    .entry-buttons div {
+        text-align: center;
+        width: 220px;
+        height: 30px;
+        border-radius: 15px;
+        display: inline-block;
+        margin: 5px;
+        cursor: pointer;
+        transition: ease 0.2s;
+    }
+
+    .entry-buttons .main {
+        background-color: #43cd80;
+        color: white;
+    }
+
+        .entry-buttons .main:hover {
+            background-color: #54ff9f;
+        }
+
+    .entry-buttons .second {
+        background-color: #ddd;
+    }
+
+        .entry-buttons .second:hover {
+            background-color: #eee;
+        }

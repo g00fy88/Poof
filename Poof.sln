@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0867E0EF-1B2D-41D2-92E3-4365AF3F99C5}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poof.WebApp.Server", "src\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poof.WebApp.Client", "src\Poof.WebApp\Client\Poof.WebApp.Client.csproj", "{01DD9268-0416-40FD-9003-9FDA71BCE740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pulse", "src\Pulse\Pulse.csproj", "{335F5717-382F-41B1-97D3-F91FD82C41B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulse", "src\Pulse\Pulse.csproj", "{335F5717-382F-41B1-97D3-F91FD82C41B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,33 @@
+﻿
+.onlynarrow {
+    display: none;
+}
+
+@media (max-width:650px) {
+    .onlywide {
+        display: none;
+    }
+
+    .onlynarrow {
+        display: flex;
+        border-top: solid 1px #ddd;
+    }
+
+        .onlynarrow .item {
+            flex: 1;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .onlynarrow .item a {
+            color: #bbb;
+        }
+
+            .onlynarrow .item a.active {
+                color: #43cd80;
+            }
+
+            .onlynarrow .item span {
+
+            }
+}
