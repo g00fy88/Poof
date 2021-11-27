@@ -17,5 +17,5 @@ The ```src/Poof.Talk``` project holds objects for the Client (UI) to talk with t
 The architecture in this software project follows the principles of [Elegant Objects](https://www.elegantobjects.org/) as well as the theories of Robert Cecil Martin and his books *Clean Architecture* and *Clean Coding*
 
 ### Poof.Core
-While the server project is hosting the UI-Layer and configures the infrastructure, the Poof.Core projects holds the Usecase-Layer and the Entitiies-Layer (according to the [theory of Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+While the server project is hosting the UI-Layer and configures the infrastructure, the Poof.Core projects holds the Usecase-Layer and the Entities-Layer (according to the [theory of Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)).
 
