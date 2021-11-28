@@ -19,3 +19,14 @@ The architecture in this software project follows the principles of [Elegant Obj
 ### Poof.Core
 While the server project is hosting the UI-Layer and configures the infrastructure, the Poof.Core projects holds the Usecase-Layer and the Entities-Layer (according to the [theory of Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)).
 
+The UseCases are implemented by using the Snap interface from the ```src/Snaps``` project:
+```csharp
+public interface ISnap<TResult>
+{
+    IOutcome<TResult> Convert(IDemand demand);
+}
+```
+A snap is simply said the represenation of a request. It converts a demand (with content and attributes) into an outcome, that can be empty or also have a content. 
+
+To get a first understanding of the functionality of the app, just have a look at the [Private Snap](https://github.com/g00fy88/Poof/blob/main/src/Poof.Core/Snaps/PrivateSnap.cs) object. It summarizes all the UseCases, which the backend provides for a logged-in user.
+
