@@ -1,4 +1,5 @@
-﻿using Poof.Core.Model.Entity;
+﻿using Poof.Core.Model.Data;
+using Poof.Core.Model.Entity;
 using Yaapii.Atoms.Text;
 
 namespace Poof.Core.Entity.Transaction
@@ -56,6 +57,26 @@ namespace Poof.Core.Entity.Transaction
             public Entity(IEntity transaction) : base(() =>
                 transaction.Memory().Prop<string>("takeside"),
                 false
+            )
+            { }
+        }
+
+        public sealed class SideMatch : PropMatchEnvelope
+        {
+            public SideMatch(string id) : base(
+                "takeside",
+                "equals",
+                id
+            )
+            { }
+        }
+
+        public sealed class TypeMatch : PropMatchEnvelope
+        {
+            public TypeMatch(string type) : base(
+                "taketype",
+                "equals",
+                type
             )
             { }
         }

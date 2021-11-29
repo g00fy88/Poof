@@ -25,14 +25,10 @@ namespace Poof.Core.Snaps.Transaction
         public GetsUserTransactions(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
             var userId = identity.UserID();
-            var userTransactions =
-                new Sorted<string>(
-                    new TransactionDate(mem),
-                    new Filtered<string>(t =>
-                        new GiveSide.Entity(new TransactionOf(mem, t)).AsString() == userId ||
-                        new TakeSide.Entity(new TransactionOf(mem, t)).AsString() == userId,
-                        new Transactions(mem).List()
-                    )
+            var userTransactions = 
+                new Transactions(mem).List(
+                    new Participant.Match(userId), 
+                    new Date.SortMatch()
                 );
             var result = new JArray();
 

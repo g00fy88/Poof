@@ -7,6 +7,7 @@ namespace Poof.Core.Model.Data
     public interface IPropMatch
     {
         string Name();
-        bool Allows(string value);
+        string Type();
+        T Value<T>();
     }
 }

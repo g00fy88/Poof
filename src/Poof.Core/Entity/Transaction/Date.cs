@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Poof.Core.Model.Data;
 using Poof.Core.Model.Entity;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -30,6 +31,16 @@ namespace Poof.Core.Entity.Transaction
             /// </summary>
             public Of(IEntity transaction) : base(()=>
                 transaction.Memory().Prop<DateTime>("date")
+            )
+            { }
+        }
+
+        public sealed class SortMatch : PropMatchEnvelope
+        {
+            public SortMatch() : base(
+                "date",
+                "sort",
+                ""
             )
             { }
         }

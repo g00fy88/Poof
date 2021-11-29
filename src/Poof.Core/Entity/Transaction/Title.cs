@@ -1,4 +1,5 @@
-﻿using Poof.Core.Model.Entity;
+﻿using Poof.Core.Model.Data;
+using Poof.Core.Model.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +31,16 @@ namespace Poof.Core.Entity.Transaction
             public Of(IEntity transaction) : base(()=>
                 transaction.Memory().Prop<string>("title"),
                 false
+            )
+            { }
+        }
+
+        public sealed class Match : PropMatchEnvelope
+        {
+            public Match(string title) : base(
+                "title",
+                "equals",
+                title
             )
             { }
         }

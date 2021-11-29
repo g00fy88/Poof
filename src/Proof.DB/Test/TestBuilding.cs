@@ -1,5 +1,6 @@
 ﻿using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.DB.Data.Impl.PropMatch;
 using Poof.DB.Models;
 using System;
 using System.Collections.Generic;
@@ -68,9 +69,19 @@ namespace Poof.DB.Test
             return
                 new FallbackMap<IList<string>>(
                     new MapOf<IList<string>>(
-                        new KvpOf<IList<string>>("user", () => new Yaapii.Atoms.List.Mapped<ApplicationUser, string>(user => user.Id, this.users)),
+                        new KvpOf<IList<string>>("user", () => 
+                            new Yaapii.Atoms.List.Mapped<ApplicationUser, string>(
+                                user => user.Id, 
+                                Matches(this.users, (list, match) => new UserMatches(list, match), matches)
+                            )
+                        ),
                         new KvpOf<IList<string>>("fellowship", () => new Yaapii.Atoms.List.Mapped<DbFellowship, string>(fellowships => fellowships.Id, this.fellowships)),
-                        new KvpOf<IList<string>>("transaction", () => new Yaapii.Atoms.List.Mapped<DbTransaction, string>(transactions => transactions.Id, this.transactions)),
+                        new KvpOf<IList<string>>("transaction", () => 
+                            new Yaapii.Atoms.List.Mapped<DbTransaction, string>(
+                                transactions => transactions.Id, 
+                                Matches(this.transactions, (list, match) => new TransactionMatches(list, match), matches)
+                            )
+                        ),
                         new KvpOf<IList<string>>("membership", () => new Yaapii.Atoms.List.Mapped<DbMembership, string>(membership => membership.Id, this.memberships))
                    ),
                    key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
@@ -153,6 +164,16 @@ namespace Poof.DB.Test
                 throw new InvalidOperationException("Unable to retrieve entity, because it does not exist, or exists more than once.");
             }
             return new FirstOf<T>(list).Value();
+        }
+
+        private IEnumerable<T> Matches<T>(IEnumerable<T> origin, Func<IEnumerable<T>, IPropMatch, IEnumerable<T>> filter, IEnumerable<IPropMatch> matches)
+        {
+            var result = origin;
+            foreach(var match in matches)
+            {
+                result = filter(result, match);
+            }
+            return result;
         }
     }
 }

@@ -28,17 +28,17 @@ namespace Poof.Web.Server.Data
         public IDataFloor Floor(string id)
         {
             return
-                new DbFellowshipFloor(this.context,
-                    this.context.Fellowships.Find(id)
+                new DbMembershipFloor(this.context,
+                    this.context.Memberships.Find(id)
                 );
         }
 
         public IList<string> Floors(params IPropMatch[] matches)
         {
             return
-                new Mapped<DbFellowship, string>(entity =>
+                new Mapped<DbMembership, string>(entity =>
                     entity.Id,
-                    this.context.Fellowships.ToList()
+                    this.context.Memberships.ToList()
                 );
         }
 

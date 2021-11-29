@@ -26,27 +26,25 @@ namespace Poof.Core.Snaps.User
         {
             var searchName = dmd.Param("name");
             var findings = new List<JObject>();
-            var foundUsers =
-                new Filtered<string>(id =>
-                    id != identity.UserID() &&
-                    new Pseudonym.Name(new UserOf(mem, id)).AsString().Equals(searchName, StringComparison.OrdinalIgnoreCase),
-                    new Users(mem).List()
-                );
+            var foundUsers = new Users(mem).List(new Pseudonym.Match(searchName));
             foreach (var id in foundUsers)
             {
-                var user = new UserOf(mem, id);
-                findings.Add(
-                    new JObject(
-                        new JProperty("id", id),
-                        new JProperty("type", "user"),
-                        new JProperty("pseudonym", new Pseudonym.Name(user).AsString()),
-                        new JProperty("pseudonumber", new Pseudonym.Number(user).Value()),
-                        new JProperty("pictureUrl", new Picture.Base64Url(user).AsString()),
-                        new JProperty("score", new TextOf(new BalanceScore.Total(user).Value()).AsString()),
-                        new JProperty("givefactor", new Points.GiveFactor(user).Value()),
-                        new JProperty("takefactor", new Points.TakeFactor(user).Value())
-                    )
-                );
+                if (id != identity.UserID())
+                {
+                    var user = new UserOf(mem, id);
+                    findings.Add(
+                        new JObject(
+                            new JProperty("id", id),
+                            new JProperty("type", "user"),
+                            new JProperty("pseudonym", new Pseudonym.Name(user).AsString()),
+                            new JProperty("pseudonumber", new Pseudonym.Number(user).Value()),
+                            new JProperty("pictureUrl", new Picture.Base64Url(user).AsString()),
+                            new JProperty("score", new TextOf(new BalanceScore.Total(user).Value()).AsString()),
+                            new JProperty("givefactor", new Points.GiveFactor(user).Value()),
+                            new JProperty("takefactor", new Points.TakeFactor(user).Value())
+                        )
+                    );
+                }
             }
 
             var foundFellowships =

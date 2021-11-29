@@ -1,6 +1,7 @@
 ﻿using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.DB.Data;
+using Poof.DB.Data.Impl.PropMatch;
 using Poof.DB.Models;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,15 @@ namespace Poof.Web.Server.Data
 
         public IList<string> Floors(params IPropMatch[] matches)
         {
+            IEnumerable<ApplicationUser> result = this.context.Users;
+            foreach(var match in matches)
+            {
+                result = new UserMatches(result, match);
+            }
             return
-                new Mapped<ApplicationUser, string>(entity =>
-                    entity.Id,
-                    this.context.Users.ToList()
+                new Mapped<ApplicationUser, string>(
+                    entity => entity.Id,
+                    result
                 );
         }
 
