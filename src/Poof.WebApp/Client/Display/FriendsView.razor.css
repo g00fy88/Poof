@@ -11,9 +11,9 @@
 
     .friends .friend {
         position: relative;
-        max-width: 100%;
-        width: 600px;
-        height: 80px;
+        max-width: 600px;
+        width: 100%;
+        height: 100px;
         border: solid 1px #ddd;
         border-radius: 5px;
         margin: 5px;
@@ -24,8 +24,8 @@
             position: absolute;
             top: 10px;
             left: 20px;
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
         }
             .friends .friend .actor .preview {
                 background-color: #43cd80;
@@ -55,8 +55,8 @@
                 font-size: 0.85em;
                 font-weight: bold;
                 position: absolute;
-                top: -8px;
-                left: 35px;
+                top: -4px;
+                left: 55px;
                 background-color: white;
                 border: solid 1px #ddd;
                 border-radius: 4px;
@@ -66,8 +66,8 @@
 
         .friends .friend .name {
             position: absolute;
-            top: 35px;
-            left: 90px;
+            top: 55px;
+            left: 110px;
             font-size: 1.3em;
             font-weight: bold;
         }
@@ -83,7 +83,7 @@
         .friends .friend .factor {
             position: absolute;
             right: 60px;
-            top: 20px;
+            top: 30px;
             height: 40px;
             border-radius: 20px;
             background-color: white;
@@ -109,7 +109,7 @@
 .edit-button {
     position: absolute;
     right: 10px;
-    top: 22px;
+    top: 32px;
     height: 36px;
     width: 36px;
     border-radius: 18px;
@@ -128,4 +128,13 @@
     transform: translate(-50%,-50%);
 }
 
+@media(max-width:650px) {
+    .edit-button {
+        top: 12px;
+    }
+
+    .friends .friend .factor {
+        top:10px;
+    }
+}
         

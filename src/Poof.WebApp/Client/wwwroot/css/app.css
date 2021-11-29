@@ -161,11 +161,16 @@ a, .btn-link {
     }
 
 @media (min-width:650.01px) {
+    .page {
+        margin-left: 90px;
+    }
+
     .sidebar {
         width: 90px;
         height: 100vh;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
     }
 }
 
