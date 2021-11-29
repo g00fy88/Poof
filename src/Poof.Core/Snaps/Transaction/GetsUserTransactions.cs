@@ -15,12 +15,12 @@ using Yaapii.JSON;
 namespace Poof.Core.Snaps.Transaction
 {
     /// <summary>
-    /// Returns a list of the identity user's transaction with all the details
+    /// Returns a list of the identity user's transactions with all the details
     /// </summary>
     public sealed class GetsUserTransactions : SnapEnvelope<IInput>
     {
         /// <summary>
-        /// Returns a list of the identity user's transaction with all the details
+        /// Returns a list of the identity user's transactions with all the details
         /// </summary>
         public GetsUserTransactions(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
@@ -64,23 +64,5 @@ namespace Poof.Core.Snaps.Transaction
             return new JsonRawOutcome(new JSONOf(result));
         })
         { }
-
-        internal class TransactionDate : Comparer<string>
-        {
-            private readonly IDataBuilding mem;
-
-            public TransactionDate(IDataBuilding mem)
-            {
-                this.mem = mem;
-            }
-
-            public override int Compare(string t1, string t2)
-            {
-                return
-                    new Date.Of(new TransactionOf(this.mem, t2)).Value().CompareTo(
-                        new Date.Of(new TransactionOf(this.mem, t1)).Value()
-                    );
-            }
-        }
     }
 }
