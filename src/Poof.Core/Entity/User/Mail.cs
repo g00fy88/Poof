@@ -11,8 +11,8 @@ namespace Poof.Core.Entity.User
         /// <summary>
         /// The mail address of the user
         /// </summary>
-        public Mail(string address) : base(mem =>
-            mem.Update("mail", address)
+        public Mail(string address) : base(floor =>
+            floor.Update("mail", address)
         )
         { }
 
