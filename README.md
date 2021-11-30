@@ -138,7 +138,7 @@ This is basically it. If our app needs new features, we will simply add addition
 
 ### The Entities-Layer (Core)
 The Entities consist of three interfaces:
-- the catalog, to add, remove and list the entitie ids
+- the catalog, to add, remove and list the entity ids
 - the entity itself, which gives access to its specific memory area (-> ```IDataFloor```)
 - the entity input, which represents a specific property of the entity, that can be updated or retrieved
 
