@@ -30,3 +30,83 @@ A snap is simply said the represenation of a request. It converts a demand (with
 
 To get a first understanding of the functionality of the app, just have a look at the [Private Snap](https://github.com/g00fy88/Poof/blob/main/src/Poof.Core/Snaps/PrivateSnap.cs) object. It summarizes all the UseCases, which the backend provides for a logged-in user.
 
+Let's take a look at the Snap ```GetsUserTransactions```, to give you a basic understanding on how the code works. The snap returns a list of all the transactions, which the user was part of:
+```csharp
+/// <summary>
+/// Returns a list of the identity user's transactions with all the details
+/// </summary>
+public sealed class GetsUserTransactions : SnapEnvelope<IInput>
+{
+    /// <summary>
+    /// Returns a list of the identity user's transactions with all the details
+    /// </summary>
+    public GetsUserTransactions(IDataBuilding mem, IIdentity identity) : base(dmd =>
+    {
+        var userId = identity.UserID();
+        var userTransactions = 
+            new Transactions(mem).List(
+                new Participant.Match(userId), 
+                new Date.SortMatch()
+            );
+        var result = new JArray();
+
+        foreach(var id in userTransactions)
+        {
+            var transaction = new TransactionOf(mem, id);
+            var giveSide = new GiveSide.Entity(transaction).AsString();
+            var takeSide = new TakeSide.Entity(transaction).AsString();
+            result.Add(
+                new JObject(
+                    new JProperty("title", new Title.Of(transaction).AsString()),
+                    new JProperty("date", new Date.Of(transaction).Value().ToString("dd/MM/yyyy H:mm:ss zzz")),
+                    new JProperty("amount", new Amount.Of(transaction).Value()),
+                    new JProperty("type", giveSide == userId ? "give" : "receive"),
+                    new JProperty(giveSide == userId ? "me" : "other",
+                        new JObject(
+                            new JProperty("name", new Pseudonym.Name(new UserOf(mem, giveSide)).AsString()),
+                            new JProperty("score", new BalanceScore.Total(new UserOf(mem, giveSide)).Value()),
+                            new JProperty("pictureUrl", new Picture.Base64Url(new UserOf(mem, giveSide)).AsString())
+                        )
+                    ),
+                    new JProperty(takeSide == userId ? "me" : "other",
+                        new JObject(
+                            new JProperty("name", new Pseudonym.Name(new UserOf(mem, takeSide)).AsString()),
+                            new JProperty("score", new BalanceScore.Total(new UserOf(mem, takeSide)).Value()),
+                            new JProperty("pictureUrl", new Picture.Base64Url(new UserOf(mem, takeSide)).AsString())
+                        )
+                    )
+                )
+            );
+        }
+
+        return new JsonRawOutcome(new JSONOf(result));
+    })
+    { }
+}
+```
+
+Let' start with the top
+```csharp
+public sealed class GetsUserTransactions : SnapEnvelope<IInput>
+```
+```SnapEnvelope``` is simply an encapsulation for the implementation of the snap interface, we saw earlier. In this case the conversion from demand to outcome is instantiated in the base ctor call.
+
+
+```csharp
+var userId = identity.UserID();
+var userTransactions = 
+    new Transactions(mem).List(
+        new Participant.Match(userId), 
+        new Date.SortMatch()
+    );
+var result = new JArray();
+
+foreach(var id in userTransactions)
+```
+What happens here at the top is, that the user id of the person requesting the transactions is evaluated. The DataBuilding ```mem``` gives us access to the database. Only our entity-objects are allowed to use the DataBuilding. We will learn about them later. What we do here is that we list all the transactions in the DataBuilding with some filters:
+- Only transactions, where the current user is a participant in
+- Sorted after the transaction date
+
+Then we initialize an empty json array and iterate through our transactions. 
+We access the data of each transaction entity and fill in the details into the json array. Each transaction consists of a Give- and a Take-Side, but the response expects these sides to be divided into "me" and "other" and also which type ("give"/"receive") the transaction is from the current users point ("me"). So we make some conversion tricks here.
+
