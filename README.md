@@ -176,7 +176,7 @@ public sealed class Mail : EntityInputEnvelope
     }
 }
 ```
-An entity input writes something into the data-floor. In this example the property "mail" of the data-floor is updated with the given value. To read this value, we us sub-classes, that get the entity object into their ctors. The usage should always look like this:
+An entity input writes something into the data-floor. In this example the property "mail" of the data-floor is updated with the given value. To read this value, we use sub-classes, that get the entity object into their ctors. The usage should always look like this:
 ```csharp
 // write email value:
 new UserOf(mem, userId).Update(
