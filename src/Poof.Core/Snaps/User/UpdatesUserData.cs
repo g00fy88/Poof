@@ -11,8 +11,16 @@ using Yaapii.Atoms.Enumerable;
 
 namespace Poof.Core.Snaps.User.Configuration
 {
+    /// <summary>
+    /// Updates the user data.
+    /// The pseudonym name is updated and a unque pseudonym number is evaluated.
+    /// </summary>
     public sealed class UpdatesUserData : SnapEnvelope<IInput>
     {
+        /// <summary>
+        /// Updates the user data.
+        /// The pseudonym name is updated and a unque pseudonym number is evaluated.
+        /// </summary>
         public UpdatesUserData(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
             var pseudonym = dmd.Param("pseudonym");
