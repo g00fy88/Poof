@@ -28,10 +28,7 @@ namespace Poof.Core.Snaps.User.Configuration
             var existentNumbers =
                 new Yaapii.Atoms.List.Mapped<string, int>(id =>
                     new Pseudonym.Number(new UserOf(mem, id)).Value(),
-                    new Filtered<string>(
-                        id => new Pseudonym.Name(new UserOf(mem, id)).AsString().Equals(pseudonym, StringComparison.OrdinalIgnoreCase),
-                        new Users(mem).List()
-                    )
+                    new Users(mem).List(new Pseudonym.Match(pseudonym))
                 );
             var random = new Random();
             var number = random.Next(0, 10000);
