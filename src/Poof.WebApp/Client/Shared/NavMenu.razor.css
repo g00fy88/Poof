@@ -10,7 +10,6 @@
 
     .onlynarrow {
         display: flex;
-        border-top: solid 1px #ddd;
     }
 
         .onlynarrow .item {

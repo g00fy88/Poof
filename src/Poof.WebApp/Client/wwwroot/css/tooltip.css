@@ -3,7 +3,7 @@
 }
 
     .ttip .ttext {
-        visibility: hidden;
+        visibility: visible;
         opacity: 0;
         background-color: black;
         border: solid 2px #555;
@@ -25,3 +25,9 @@
         visibility: visible;
         opacity: 1;
     }
+
+@media (max-width:650px) {
+    .ttip .ttext {
+        display:none;
+    }
+}
