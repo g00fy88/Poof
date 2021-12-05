@@ -1,6 +1,7 @@
 ﻿using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.Core.Snaps.User.Facets;
 using Poof.Snaps;
 using Poof.Snaps.Outcome;
 using System;
@@ -23,22 +24,11 @@ namespace Poof.Core.Snaps.User.Configuration
         /// </summary>
         public UpdatesUserData(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
-            var pseudonym = dmd.Param("pseudonym");
-
-            var existentNumbers =
-                new Yaapii.Atoms.List.Mapped<string, int>(id =>
-                    new Pseudonym.Number(new UserOf(mem, id)).Value(),
-                    new Users(mem).List(new Pseudonym.Match(pseudonym))
-                );
-            var random = new Random();
-            var number = random.Next(0, 10000);
-            while (existentNumbers.Contains(number))
-            {
-                number = random.Next(0, 10000);
-            }
+            var pseudoname = dmd.Param("pseudonym");
+            var pseudonumber = new NewPseudonumber(mem, pseudoname).Value();
 
             new UserOf(mem, identity.UserID()).Update(
-                new Pseudonym(pseudonym, number)
+                new Pseudonym(pseudoname, pseudonumber)
             );
 
             return new EmptyOutcome<IInput>();

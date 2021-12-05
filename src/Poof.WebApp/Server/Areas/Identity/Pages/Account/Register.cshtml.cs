@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Poof.Core.Model.Data;
+using Poof.Core.Snaps.User.Facets;
 using Poof.DB.Models;
 
 namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
@@ -24,17 +26,20 @@ namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IDataBuilding mem;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IDataBuilding mem)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.mem = mem;
         }
 
         [BindProperty]
@@ -61,6 +66,10 @@ namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(AllowEmptyStrings = false)]
+            [Display(Name = "Pseudonym")]
+            public string Pseudoname { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +84,14 @@ namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var pseudonumber = new NewPseudonumber(this.mem, Input.Pseudoname).Value();
+                var user = 
+                    new ApplicationUser { 
+                        UserName = Input.Email, 
+                        Email = Input.Email, 
+                        Pseudonym = Input.Pseudoname, 
+                        PseudoNumber = pseudonumber 
+                    };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
