@@ -89,7 +89,7 @@ namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
                     new ApplicationUser { 
                         UserName = Input.Email, 
                         Email = Input.Email, 
-                        Pseudonym = Input.Pseudoname, 
+                        Pseudonym = Input.Pseudoname,
                         PseudoNumber = pseudonumber 
                     };
                 var result = await _userManager.CreateAsync(user, Input.Password);
