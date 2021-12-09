@@ -1,4 +1,5 @@
-﻿using Poof.Core.Entity.User;
+﻿using Poof.Core.Entity;
+using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Snaps;

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Poof.Core.Entity;
 using Poof.Core.Entity.Transaction;
 using Poof.Core.Entity.User;
 using Poof.Core.Model;

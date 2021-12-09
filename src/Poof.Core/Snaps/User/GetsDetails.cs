@@ -12,6 +12,7 @@ using Yaapii.Atoms.Text;
 using Yaapii.Atoms.Enumerable;
 using Poof.Core.Entity.Fellowship;
 using Poof.Core.Entity.Transaction;
+using Poof.Core.Entity;
 
 namespace Poof.Core.Snaps.User
 {

@@ -1,4 +1,5 @@
-﻿using Poof.DB.Test;
+﻿using Poof.Core.Entity.User;
+using Poof.DB.Test;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
-namespace Poof.Core.Entity.User.Test
+namespace Poof.Core.Entity.Test
 {
     public sealed class PictureTests
     {
