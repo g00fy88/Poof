@@ -34,6 +34,7 @@ a, .btn-link {
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .top-row {
@@ -175,6 +176,14 @@ a, .btn-link {
 }
 
 @media (max-width:650px) {
+    .poghead {
+        font-size: 2em;
+    }
+
+        .poghead img {
+            height: 36px;
+        }
+
     .page {
         display:block;
     }
