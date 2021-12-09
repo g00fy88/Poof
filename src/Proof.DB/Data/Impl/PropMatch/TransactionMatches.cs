@@ -23,6 +23,9 @@ namespace Poof.DB.Data.Impl.PropMatch
                                     new KvpOf<IEnumerable<DbTransaction>>("title", () =>
                                         transactions.Where(t => t.Title.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
                                     ),
+                                    new KvpOf<IEnumerable<DbTransaction>>("type", () =>
+                                        transactions.Where(t => t.Type.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
+                                    ),
                                     new KvpOf<IEnumerable<DbTransaction>>("participant", () =>
                                         transactions.Where(t => t.GiveSide == match.Value<string>() || t.TakeSide == match.Value<string>())
                                     ),
