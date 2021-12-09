@@ -8,12 +8,12 @@ using Yaapii.Atoms.Text;
 namespace Poof.Core.Entity
 {
     /// <summary>
-    /// The Title of the transaction
+    /// The type of the entity
     /// </summary>
     public sealed class Type : EntityInputEnvelope
     {
         /// <summary>
-        /// The Title of the transaction
+        /// The type of the entity
         /// </summary>
         public Type(string type) : base(floor =>
             floor.Update("type", type)
@@ -21,12 +21,12 @@ namespace Poof.Core.Entity
         { }
 
         /// <summary>
-        /// The Title of the transaction
+        /// The type of the entity
         /// </summary>
         public sealed class Of : TextEnvelope
         {
             /// <summary>
-            /// The Title of the transaction
+            /// The type of the entity
             /// </summary>
             public Of(IEntity entity) : base(()=>
                 entity.Memory().Prop<string>("type"),

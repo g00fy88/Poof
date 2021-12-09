@@ -9,12 +9,12 @@ using Yaapii.Atoms.Text;
 namespace Poof.Core.Entity
 {
     /// <summary>
-    /// The mail address of the user
+    /// The picture stored in the entity
     /// </summary>
     public sealed class Picture : EntityInputEnvelope
     {
         /// <summary>
-        /// The mail address of the user
+        /// The picture stored in the entity
         /// </summary>
         public Picture(IInput picture) : base(mem =>
             mem.Update("picture", new BytesOf(picture).AsBytes())
@@ -22,14 +22,14 @@ namespace Poof.Core.Entity
         { }
 
         /// <summary>
-        /// The mail address of the user
+        /// The picture stored in the entity
         /// </summary>
         public sealed class Of : IInput
         {
             private readonly IScalar<byte[]> pic;
 
             /// <summary>
-            /// The mail address of the user
+            /// The picture stored in the entity
             /// </summary>
             public Of(IEntity entity)
             {
