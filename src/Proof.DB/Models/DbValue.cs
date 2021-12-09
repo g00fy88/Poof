@@ -35,13 +35,17 @@ namespace Poof.DB.Models
                     new KvpOf<Type, IDictionary<string, TValue>>(
                         typeof(DbFellowship),
                         () => new MapOf<TValue>(
-                            new KvpOf<TValue>("name", () => Cast<TValue>("name", (entity as DbFellowship).Name, ""))
+                            new KvpOf<TValue>("name", () => Cast<TValue>("name", (entity as DbFellowship).Name, "")),
+                            new KvpOf<TValue>("type", () => Cast<TValue>("type", (entity as DbFellowship).Type, "")),
+                            new KvpOf<TValue>("picture", () => Cast<TValue>("picture", (entity as DbFellowship).Picture, new byte[0]))
                         )
                     ),
                     new KvpOf<Type, IDictionary<string, TValue>>(
                         typeof(DbTransaction),
                         () => new MapOf<TValue>(
                             new KvpOf<TValue>("title", () => Cast<TValue>("title", (entity as DbTransaction).Title, "")),
+                            new KvpOf<TValue>("initiator", () => Cast<TValue>("initiator", (entity as DbTransaction).Initiator.Id)),
+                            new KvpOf<TValue>("type", () => Cast<TValue>("type", (entity as DbTransaction).Type, "")),
                             new KvpOf<TValue>("amount", () => Cast<TValue>("amount", (entity as DbTransaction).Amount)),
                             new KvpOf<TValue>("date", () => Cast<TValue>("date", (entity as DbTransaction).Date)),
                             new KvpOf<TValue>("giveside", () => Cast<TValue>("giveside", (entity as DbTransaction).GiveSide)),

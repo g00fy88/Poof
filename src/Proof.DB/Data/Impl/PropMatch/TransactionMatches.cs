@@ -13,7 +13,6 @@ namespace Poof.DB.Data.Impl.PropMatch
 {
     public sealed class TransactionMatches : ListEnvelope<DbTransaction>
     {
-
         public TransactionMatches(IEnumerable<DbTransaction> transactions, IPropMatch match) : base(
             new ScalarOf<IEnumerable<DbTransaction>>(()=>
                 new FallbackMap<IEnumerable<DbTransaction>>(

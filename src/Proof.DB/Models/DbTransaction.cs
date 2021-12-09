@@ -10,6 +10,8 @@ namespace Poof.DB.Models
         public string Id { get; set; }
 
         public string Title { get; set; } = "";
+        public ApplicationUser Initiator { get; set; }
+        public string Type { get; set; } = "";
         public double Amount { get; set; }
         public DateTime Date { get; set; }
         public string GiveSide { get; set; }

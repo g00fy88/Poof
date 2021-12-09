@@ -12,5 +12,7 @@ namespace Poof.DB.Models
         [Required]
         public string Id { get; set; }
         public string Name { get; set; } = "";
+        public string Type { get; set; } = "";
+        public byte[] Picture { get; set; } = new byte[0];
     }
 }
