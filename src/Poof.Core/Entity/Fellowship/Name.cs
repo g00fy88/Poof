@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Poof.Core.Model.Data;
 using Poof.Core.Model.Entity;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
@@ -33,6 +34,16 @@ namespace Poof.Core.Entity.Fellowship
             public Of(IEntity fellowship) : base(() =>
                 fellowship.Memory().Prop<string>("name"),
                 false
+            )
+            { }
+        }
+
+        public sealed class Match : PropMatchEnvelope
+        {
+            public Match(string name) : base(
+                "name",
+                "equals",
+                name
             )
             { }
         }

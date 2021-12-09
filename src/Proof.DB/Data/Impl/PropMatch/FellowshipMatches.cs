@@ -22,6 +22,9 @@ namespace Poof.DB.Data.Impl.PropMatch
                                 new MapOf<IEnumerable<DbFellowship>>(
                                     new KvpOf<IEnumerable<DbFellowship>>("type", () =>
                                         fellowships.Where(f => f.Type.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
+                                    ),
+                                    new KvpOf<IEnumerable<DbFellowship>>("name", () =>
+                                        fellowships.Where(f => f.Name.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
                                     )
                                 ),
                                 key => throw new ArgumentException($"Unable to filter transactions for field '{key}', " +
