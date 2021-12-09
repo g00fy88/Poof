@@ -27,7 +27,14 @@ namespace Poof.Core.Snaps.Transaction
         public AddsTransaction(IDataBuilding mem, IPulse pulse, IIdentity identity) : base(dmd =>
         {
             var json = new JSONOf(dmd.Body());
+            var receiverType = new Strict(json.Value("givetype"), "user", "fellowship").AsString();
             var receiverId = json.Value("giveside");
+            var senderType = new Strict(json.Value("taketype"), "user", "fellowship").AsString();
+            var senderId = json.Value("takeside");
+            if(senderType == "user")
+            {
+                senderId = identity.UserID();
+            }
             var amount = new DoubleOf(json.Value("amount")).Value();
 
             if(amount < 0)
@@ -37,8 +44,8 @@ namespace Poof.Core.Snaps.Transaction
 
             new TransactionOf(mem, new Transactions(mem).New()).Update(
                 new Title(json.Value("title")),
-                new TakeSide("user", identity.UserID()),
-                new GiveSide("user", receiverId),
+                new TakeSide(senderType, senderId),
+                new GiveSide(receiverType, receiverId),
                 new Date(DateTime.Now),
                 new Amount(amount)
             );
