@@ -75,14 +75,24 @@ namespace Poof.DB.Test
                                 Matches(this.users, (list, match) => new UserMatches(list, match), matches)
                             )
                         ),
-                        new KvpOf<IList<string>>("fellowship", () => new Yaapii.Atoms.List.Mapped<DbFellowship, string>(fellowships => fellowships.Id, this.fellowships)),
+                        new KvpOf<IList<string>>("fellowship", () => 
+                            new Yaapii.Atoms.List.Mapped<DbFellowship, string>(
+                                fellowships => fellowships.Id, 
+                                Matches(this.fellowships, (list, match) => new FellowshipMatches(list, match), matches)
+                            )
+                        ),
                         new KvpOf<IList<string>>("transaction", () => 
                             new Yaapii.Atoms.List.Mapped<DbTransaction, string>(
                                 transactions => transactions.Id, 
                                 Matches(this.transactions, (list, match) => new TransactionMatches(list, match), matches)
                             )
                         ),
-                        new KvpOf<IList<string>>("membership", () => new Yaapii.Atoms.List.Mapped<DbMembership, string>(membership => membership.Id, this.memberships))
+                        new KvpOf<IList<string>>("membership", () => 
+                            new Yaapii.Atoms.List.Mapped<DbMembership, string>(
+                                membership => membership.Id,
+                                Matches(this.memberships, (list, match) => new MembershipMatches(list, match), matches)
+                            )
+                        )
                    ),
                    key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
                )[this.name];
