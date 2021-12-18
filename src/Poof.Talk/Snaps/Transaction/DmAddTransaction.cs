@@ -11,7 +11,7 @@ namespace Poof.Talk.Snaps.Transaction
                 new JSONOf(
                     new JObject(
                         new JProperty("taketype", "user"),
-                        new JProperty("taketype", "me"),
+                        new JProperty("takeside", "me"),
                         new JProperty("givetype", "user"),
                         new JProperty("giveside", user),
                         new JProperty("title", title),
@@ -27,7 +27,7 @@ namespace Poof.Talk.Snaps.Transaction
                 new JSONOf(
                     new JObject(
                         new JProperty("taketype", "user"),
-                        new JProperty("taketype", "me"),
+                        new JProperty("takeside", "me"),
                         new JProperty("givetype", type),
                         new JProperty("giveside", id),
                         new JProperty("title", title),
@@ -43,7 +43,7 @@ namespace Poof.Talk.Snaps.Transaction
                 new JSONOf(
                     new JObject(
                         new JProperty("taketype", senderType),
-                        new JProperty("taketype", senderId),
+                        new JProperty("takeside", senderId),
                         new JProperty("givetype", receiverType),
                         new JProperty("giveside", receiverId),
                         new JProperty("title", title),
