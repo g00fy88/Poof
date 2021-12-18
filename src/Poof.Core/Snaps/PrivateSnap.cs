@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.Core.Snaps.Fellowship;
 using Poof.Core.Snaps.Transaction;
 using Poof.Core.Snaps.User;
 using Poof.Core.Snaps.User.Configuration;
@@ -20,6 +21,16 @@ namespace Poof.Core.Snaps
 
         public PrivateSnap(IDataBuilding mem, IPulse pulse, IIdentity identity) : this(
             new FwChain<IInput>(
+                new FwEntity("fellowship",
+                    new FwCategory("configuration",
+                        new FwAction("add-fellowship", new AddsFellowship(mem, identity)),
+                        new FwAction("add-membership", new AddsMembership(mem, identity)),
+                        new FwAction("update-name", new UpdatesName(mem, identity))
+                    ),
+                    new FwCategory("discovery",
+                        new FwAction("check-name-availability", new CheckNameAvailability(mem))
+                    )
+                ),
                 new FwEntity("transaction",
                     new FwCategory("configuration",
                         new FwAction("add-transaction", new AddsTransaction(mem, pulse, identity))
