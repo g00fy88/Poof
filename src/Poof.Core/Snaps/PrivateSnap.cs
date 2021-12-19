@@ -29,7 +29,9 @@ namespace Poof.Core.Snaps
                         new FwAction("update-name", new UpdatesName(mem, identity))
                     ),
                     new FwCategory("discovery",
-                        new FwAction("check-name-availability", new CheckNameAvailability(mem))
+                        new FwAction("check-name-availability", new CheckNameAvailability(mem)),
+                        new FwAction("get-catalog", new GetsCatalog(mem, identity)),
+                        new FwAction("get-details", new Fellowship.GetsDetails(mem, identity))
                     )
                 ),
                 new FwEntity("transaction",
@@ -50,7 +52,7 @@ namespace Poof.Core.Snaps
                     new FwCategory("discovery",
                         new FwAction("get-nearby-users", new GetsNearbyUsers(mem, identity)),
                         new FwAction("find-by-name", new FindsByName(mem, identity)),
-                        new FwAction("get-details", new GetsDetails(mem, identity)),
+                        new FwAction("get-details", new User.GetsDetails(mem, identity)),
                         new FwAction("get-friends", new GetsFriends(mem, identity))
                     )
                 )
