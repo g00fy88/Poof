@@ -25,6 +25,7 @@ namespace Poof.Core.Snaps
                     new FwCategory("configuration",
                         new FwAction("add-fellowship", new AddsFellowship(mem, identity)),
                         new FwAction("add-membership", new AddsMembership(mem, identity)),
+                        new FwAction("remove-membership", new RemovesMembership(mem, identity)),
                         new FwAction("update-name", new UpdatesName(mem, identity))
                     ),
                     new FwCategory("discovery",

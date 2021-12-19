@@ -34,5 +34,15 @@ namespace Poof.Core.Entity.Membership
             )
             { }
         }
+
+        public sealed class Match : PropMatchEnvelope
+        {
+            public Match(string user) : base(
+                "owner",
+                "equals",
+                user
+            )
+            { }
+        }
     }
 }
