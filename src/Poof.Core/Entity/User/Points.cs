@@ -54,24 +54,10 @@ namespace Poof.Core.Entity.User
             /// because he propably has too much points
             /// </summary>
             public GiveFactor(IEntity user) : base(()=>
-            {
-                Func<double, double> giveFunction = p =>
-                {
-                    var result = 0.5;
-                    if(p>0 && p<400)
-                    {
-                        result = 0.5 - p / 800;
-                    }
-                    else if(p >= 400)
-                    {
-                        result = 0;
-                    }
-                    return result;
-                };
-
-                return giveFunction(new Of(user).Value());
-                    
-            })
+                new Facets.GiveFactor().Invoke(
+                    new Of(user).Value()
+                )
+            )
             { }
         }
 
@@ -92,24 +78,10 @@ namespace Poof.Core.Entity.User
             /// because he propably has a high minus score already.
             /// </summary>
             public TakeFactor(IEntity user) : base(() =>
-            {
-                Func<double, double> takeFunction = p =>
-                {
-                    var result = 0.0;
-                    if (p > -400 && p < 0)
-                    {
-                        result = 0.5 + p / 800;
-                    }
-                    else if (p >= 0)
-                    {
-                        result = 0.5;
-                    }
-                    return result;
-                };
-
-                return takeFunction(new Of(user).Value());
-
-            })
+                new Facets.TakeFactor().Invoke(
+                    new Of(user).Value()
+                )
+            )
             { }
         }
     }

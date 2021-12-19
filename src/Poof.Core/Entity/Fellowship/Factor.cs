@@ -1,4 +1,5 @@
-﻿using Poof.Core.Entity.Membership;
+﻿using Poof.Core.Entity.Facets;
+using Poof.Core.Entity.Membership;
 using Poof.Core.Entity.User;
 using Poof.Core.Model.Data;
 using System;
@@ -17,22 +18,22 @@ namespace Poof.Core.Entity.Fellowship
                 var memberships = new Memberships(mem).List(new Team.Match(fellowship));
 
                 var totalShare = 0.0;
-                var totalFactor = 0.0;
+                var totalPoints = 0.0;
                 foreach (var id in memberships)
                 {
                     var membership = new MembershipOf(mem, id);
                     var share = new Share.Of(membership).Value();
                     totalShare += share;
-                    totalFactor += 
+                    totalPoints += 
                         share * 
-                        new Points.GiveFactor(
+                        new Points.Of(
                             new UserOf(mem, 
                                 new Owner.Of(membership).AsString()
                             )
                         ).Value();
                 }
 
-                return totalFactor / totalShare;
+                return new GiveFactor().Invoke(totalPoints / totalShare);
             })
             { }
         }
@@ -44,22 +45,22 @@ namespace Poof.Core.Entity.Fellowship
                 var memberships = new Memberships(mem).List(new Team.Match(fellowship));
 
                 var totalShare = 0.0;
-                var totalFactor = 0.0;
+                var totalPoints = 0.0;
                 foreach (var id in memberships)
                 {
                     var membership = new MembershipOf(mem, id);
                     var share = new Share.Of(membership).Value();
                     totalShare += share;
-                    totalFactor += 
+                    totalPoints += 
                         share * 
-                        new Points.TakeFactor(
+                        new Points.Of(
                             new UserOf(mem, 
                                 new Owner.Of(membership).AsString()
                             )
                         ).Value();
                 }
 
-                return totalFactor / totalShare;
+                return new TakeFactor().Invoke(totalPoints / totalShare);
             })
             { }
         }

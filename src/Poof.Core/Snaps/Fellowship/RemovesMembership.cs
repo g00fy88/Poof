@@ -15,13 +15,13 @@ using Yaapii.Atoms.Scalar;
 namespace Poof.Core.Snaps.Fellowship
 {
     /// <summary>
-    /// Adds a new member to the given fellowship.
+    /// removes the membership of the requesting user from the given fellowship.
     /// Works only, if the requesting user is a member of the fellowship itself.
     /// </summary>
     public sealed class RemovesMembership : SnapEnvelope<IInput>
     {
         /// <summary>
-        /// Adds a new member to the given fellowship.
+        /// removes the membership of the requesting user from the given fellowship.
         /// Works only, if the requesting user is a member of the fellowship itself.
         /// </summary>
         public RemovesMembership(IDataBuilding mem, IIdentity identity) : base(dmd =>
@@ -33,7 +33,7 @@ namespace Poof.Core.Snaps.Fellowship
                 new FirstOf<string>(
                     memberships.List(new Team.Match(fellowship), new Owner.Match(identity.UserID())),
                     new InvalidOperationException($"Unable to remove the membership of fellowship '{fellowship}', " +
-                    $"because the requesting user is not a member.")
+                        $"because the requesting user is not a member.")
                 ).Value()
             );
         })
