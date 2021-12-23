@@ -5,6 +5,7 @@ using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Core.Snaps.Fellowship;
 using Poof.Core.Snaps.Transaction;
+using Poof.Core.Snaps.Transaction.Facets;
 using Poof.Core.Snaps.User;
 using Poof.Core.Snaps.User.Configuration;
 using Poof.Snaps;
@@ -36,7 +37,11 @@ namespace Poof.Core.Snaps
                 ),
                 new FwEntity("transaction",
                     new FwCategory("configuration",
-                        new FwAction("add-transaction", new AddsTransaction(mem, pulse, identity))
+                        new FwAction("add-user-transaction", 
+                            new WithPointsForReceiver(mem, pulse, identity,
+                                new AddsUserTransaction(mem, identity)
+                            )
+                        )
                     ),
                     new FwCategory("discovery",
                         new FwAction("get-user-transactions", new GetsUserTransactions(mem, identity))
