@@ -57,3 +57,11 @@ ul li {
         .entry-buttons .second:hover {
             background-color: #eee;
         }
+
+
+.help {
+    width: 600px;
+    max-width: 100%;
+    height: auto;
+    padding-bottom: 20px;
+}
