@@ -23,7 +23,7 @@ namespace Poof.Core.Entity.Facets
             }
             else if (p >= 800)
             {
-                result = 0;
+                result = -0.5;
             }
             return result;
         }

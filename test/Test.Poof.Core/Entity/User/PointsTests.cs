@@ -48,7 +48,9 @@ namespace Poof.Core.Entity.User.Test
         [InlineData(0, 0.5)]
         [InlineData(200, 0.25)]
         [InlineData(400, 0)]
-        [InlineData(600, 0)]
+        [InlineData(600, -0.25)]
+        [InlineData(800, -0.5)]
+        [InlineData(1000, -0.5)]
         public void RetrievesGiveFactor(double points, double expected)
         {
             var mem = new TestBuilding();
@@ -67,7 +69,9 @@ namespace Poof.Core.Entity.User.Test
         }
 
         [Theory]
-        [InlineData(-600, 0)]
+        [InlineData(-1000, -0.5)]
+        [InlineData(-800, -0.5)]
+        [InlineData(-600, -0.25)]
         [InlineData(-400, 0)]
         [InlineData(-200, 0.25)]
         [InlineData(0, 0.5)]
