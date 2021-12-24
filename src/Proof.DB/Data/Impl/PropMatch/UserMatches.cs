@@ -22,10 +22,10 @@ namespace Poof.DB.Data.Impl.PropMatch
                             new FallbackMap<IEnumerable<ApplicationUser>>(
                                 new MapOf<IEnumerable<ApplicationUser>>(
                                     new KvpOf<IEnumerable<ApplicationUser>>("mail", () =>
-                                        users.Where(u => u.Email == match.Value<string>())
+                                        users.Where(u => u.Email.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
                                     ),
                                     new KvpOf<IEnumerable<ApplicationUser>>("pseudonym", () =>
-                                        users.Where(u => u.Pseudonym == match.Value<string>())
+                                        users.Where(u => u.Pseudonym.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
                                     ),
                                     new KvpOf<IEnumerable<ApplicationUser>>("pseudonumber", () =>
                                         users.Where(u => u.PseudoNumber == match.Value<int>())
