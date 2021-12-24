@@ -16,8 +16,8 @@ namespace Poof.Core.Entity.Facets
     {
         public double Invoke(double p)
         {
-            var result = 0.0;
-            if (p > -400 && p < 0)
+            var result = -0.5;
+            if (p > -800 && p < 0)
             {
                 result = 0.5 + p / 800;
             }
