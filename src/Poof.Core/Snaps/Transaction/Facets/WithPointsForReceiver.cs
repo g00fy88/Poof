@@ -66,7 +66,7 @@ namespace Poof.Core.Snaps.Transaction.Facets
             }
             else
             {
-                var memberships = new Memberships(mem).List(new Team.Match(senderId));
+                var memberships = new Memberships(mem).List(new Team.Match(receiverId));
                 var totalShare =
                     new SumOf(
                         new Mapped<string, double>(id =>
@@ -85,7 +85,7 @@ namespace Poof.Core.Snaps.Transaction.Facets
                     new TransactionOf(mem, new Transactions(mem).New()).Update(
                         new Title(json.Value("title")),
                         new Entity.Type("automatic"),
-                        new TakeSide("fellowship", senderId),
+                        new TakeSide("fellowship", receiverId),
                         new GiveSide("user", userId),
                         new Date(DateTime.Now),
                         new Amount(amount)

@@ -37,6 +37,11 @@ namespace Poof.Core.Snaps
                 ),
                 new FwEntity("transaction",
                     new FwCategory("configuration",
+                        new FwAction("add-fellowship-transaction",
+                            new WithPointsForReceiver(mem, pulse, identity,
+                                new AddsFellowshipTransaction(mem, pulse, identity)
+                            )
+                        ),
                         new FwAction("add-user-transaction", 
                             new WithPointsForReceiver(mem, pulse, identity,
                                 new AddsUserTransaction(mem, identity)
