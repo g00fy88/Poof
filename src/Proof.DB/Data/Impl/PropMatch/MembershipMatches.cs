@@ -25,6 +25,9 @@ namespace Poof.DB.Data.Impl.PropMatch
                                     ),
                                     new KvpOf<IEnumerable<DbMembership>>("team", () =>
                                         memberships.Where(m => m.Team.Id.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
+                                    ),
+                                    new KvpOf<IEnumerable<DbMembership>>("role", () =>
+                                        memberships.Where(m => m.Role.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
                                     )
                                 ),
                                 key => throw new ArgumentException($"Unable to filter transactions for field '{key}', " +

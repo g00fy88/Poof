@@ -59,7 +59,8 @@ namespace Poof.DB.Models
                         () => new MapOf<TValue>(
                             new KvpOf<TValue>("owner", () => Cast<TValue>("owner", (entity as DbMembership).Owner.Id)),
                             new KvpOf<TValue>("team", () => Cast<TValue>("team", (entity as DbMembership).Team.Id)),
-                            new KvpOf<TValue>("share", () => Cast<TValue>("share", (entity as DbMembership).Share))
+                            new KvpOf<TValue>("share", () => Cast<TValue>("share", (entity as DbMembership).Share)),
+                            new KvpOf<TValue>("role", () => Cast<TValue>("share", (entity as DbMembership).Role, ""))
                         )
                     )
                 );
