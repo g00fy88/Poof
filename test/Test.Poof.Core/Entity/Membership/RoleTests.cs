@@ -6,10 +6,10 @@ using Xunit;
 
 namespace Poof.Core.Entity.Membership.Test
 {
-    public sealed class ShareTests
+    public sealed class RoleTests
     {
         [Fact]
-        public void AddsShare()
+        public void AddsRole()
         {
             var mem = new TestBuilding();
             var membership =
@@ -19,12 +19,12 @@ namespace Poof.Core.Entity.Membership.Test
                 );
 
             membership.Update(
-                new Share(0.1)
+                new Role("admin")
             );
 
             Assert.Equal(
-                0.1,
-                new Share.Of(membership).Value()
+                "admin",
+                new Role.Of(membership).AsString()
             );
         }
     }

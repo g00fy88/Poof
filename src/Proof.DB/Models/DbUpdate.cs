@@ -69,7 +69,8 @@ namespace Poof.DB.Models
                         () => new MapOf<Action<TValue>>(
                             new KvpOf<Action<TValue>>("owner", val => (entity as DbMembership).Owner = tuser(Cast<string>(name, val))),
                             new KvpOf<Action<TValue>>("team", val => (entity as DbMembership).Team = tfellowship(Cast<string>(name, val))),
-                            new KvpOf<Action<TValue>>("share", val => (entity as DbMembership).Share = Cast<double>(name, val))
+                            new KvpOf<Action<TValue>>("share", val => (entity as DbMembership).Share = Cast<double>(name, val)),
+                            new KvpOf<Action<TValue>>("role", val => (entity as DbMembership).Role = Cast<string>(name, val))
                         )
                     )
                 );

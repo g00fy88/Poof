@@ -47,7 +47,8 @@ namespace Poof.Core.Snaps.Fellowship
             new MembershipOf(mem, memberships.New()).Update(
                 new Team(fellowship),
                 new Owner(member),
-                new Share(1)
+                new Share(1),
+                new Role(dmd.Param("role", "member"))
             );
         })
         { }

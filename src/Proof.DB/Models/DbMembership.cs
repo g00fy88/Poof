@@ -17,5 +17,7 @@ namespace Poof.DB.Models
         public DbFellowship Team { get; set; }
 
         public double Share { get; set; }
+
+        public string Role { get; set; }
     }
 }
