@@ -43,7 +43,7 @@ namespace Poof.Web.Server.Data
             return
                 new Mapped<ApplicationUser, string>(
                     entity => entity.Id,
-                    result
+                    result.ToList()
                 );
         }
 

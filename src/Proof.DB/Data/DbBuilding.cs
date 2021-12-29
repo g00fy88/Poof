@@ -22,7 +22,8 @@ namespace Poof.Web.Server.Data
             new MapOf<IDataBuilding>(
                 new KvpOf<IDataBuilding>("user", new DbUserBuilding(context)),
                 new KvpOf<IDataBuilding>("fellowship", new DbFellowshipBuilding(context)),
-                new KvpOf<IDataBuilding>("transaction", new DbTransactionBuilding(context))
+                new KvpOf<IDataBuilding>("transaction", new DbTransactionBuilding(context)),
+                new KvpOf<IDataBuilding>("membership", new DbMembershipBuilding(context))
             )
         )
         { }

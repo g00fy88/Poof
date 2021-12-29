@@ -44,7 +44,7 @@ namespace Poof.Web.Server.Data
             return
                 new Mapped<DbMembership, string>(
                     entity => entity.Id,
-                    result
+                    result.ToList()
                 );
         }
 
