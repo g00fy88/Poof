@@ -5,7 +5,7 @@
 @inject IApi api
 
 <div class="nameInput">
-    <input type="text" @oninput="@(async ui => await UpdateNameList(ui.Value.ToString()))" />
+    <input type="text" @ref="firstInput" @oninput="@(async ui => await UpdateNameList(ui.Value.ToString()))" />
 </div>
 <div class="nameList">
     @if (showSpinner)
@@ -61,6 +61,7 @@
     [Parameter]
     public IList<IJSON> Friends { get; set; }
 
+    private ElementReference firstInput;
     private CancellationTokenSource tokenSource;
     private bool showSpinner = false;
     private IList<IJSON> names;
@@ -71,6 +72,14 @@
         this.names = new List<IJSON>();
         this.tokenSource = new CancellationTokenSource();
         this.names = Friends;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await this.firstInput.FocusAsync();
+        }
     }
 
     private async Task UpdateNameList(string value)

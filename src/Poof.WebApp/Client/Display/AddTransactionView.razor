@@ -14,11 +14,11 @@
     <div class="pointadd">
         <p>Ich möchte Punkte an <span class="name">@selectedPseudonym</span><span class="number">#@selectedPseudonumber.ToString("0000")</span> senden</p>
         <div class="pointinput">
-            <p>@pointValue.ToString("0.00")</p>
-            <input type="number" min="0" @oninput="@(async ui => await UpdatePoints(ui.Value.ToString()))" />
+            <p>@pointValue.ToString("F0")</p>
+            <input type="number" pattern="[0-9]*" min="0" @ref="firstInput" @oninput="@(async ui => await UpdatePoints(ui.Value.ToString()))" />
         </div>
         <div class="titleinput">
-            <input type="text" placeholder="Titel deiner Transaktion" @bind="title" @bind:event="oninput"/>
+            <input type="text" placeholder="Titel deiner Transaktion" @bind="title" @bind:event="oninput" />
         </div>
         <div class="confirm">
             <div class="button @((pointValue > 0 && title != "") ? "":"disabled")" @onclick="ConfirmTransaction">Transaktion ausführen</div>
@@ -48,6 +48,8 @@
     [Parameter]
     public IList<IJSON> Friends { get; set; }
 
+    private ElementReference firstInput;
+
     private string currentStep;
     private string selectedUserId;
     private string selectedPseudonym;
@@ -55,6 +57,7 @@
     private double selectedValue;
     private double pointValue;
     private string title;
+    private bool chosedAndLoaded;
 
     protected override void OnInitialized()
     {
@@ -66,6 +69,16 @@
         this.selectedValue = 0;
         this.pointValue = 0;
         this.title = "";
+        this.chosedAndLoaded = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (this.chosedAndLoaded)
+        {
+            await this.firstInput.FocusAsync();
+            this.chosedAndLoaded = false;
+        }
     }
 
     private void SelectUser(IJSON node)
@@ -74,6 +87,7 @@
         this.selectedPseudonym = node.Value("pseudonym");
         this.selectedPseudonumber = new IntOf(node.Value("pseudonumber")).Value();
         this.currentStep = "choosePoints";
+        this.chosedAndLoaded = true;
     }
 
     private async Task UpdatePoints(string value)
@@ -81,7 +95,7 @@
         if (value == "")
             value = "0";
         var pointNumber = new IntOf(value.Replace(",", "").Replace(".", "")).Value();
-        this.pointValue = Math.Abs(pointNumber / 100.0);
+        this.pointValue = Math.Abs(pointNumber);
         StateHasChanged();
     }
 
@@ -97,5 +111,10 @@
             StateHasChanged();
             await OnSuccess.InvokeAsync();
         }
+    }
+
+    private string Delimiter()
+    {
+        return System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
     }
 }
