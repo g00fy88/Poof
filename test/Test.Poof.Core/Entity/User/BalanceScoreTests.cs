@@ -42,5 +42,45 @@ namespace Poof.Core.Entity.User.Test
                 new BalanceScore.Total(user).Value()
             );
         }
+
+        [Fact]
+        public void ReturnsLevel()
+        {
+            var mem = new TestBuilding();
+            var user =
+                new UserOf(
+                    mem,
+                    new Users(mem).New()
+                );
+
+            user.Update(new BalanceScore(12));
+            user.Update(new BalanceScore(9));
+
+            Assert.Equal(
+                2.55,
+                new BalanceScore.Level(user).Value()
+            );
+        }
+
+        [Fact]
+        public void CannotDescendLevel()
+        {
+            var mem = new TestBuilding();
+            var user =
+                new UserOf(
+                    mem,
+                    new Users(mem).New()
+                );
+
+            user.Update(new BalanceScore(12));
+            user.Update(new BalanceScore(29));
+            user.Update(new BalanceScore(-30));
+
+            Assert.Equal(
+                3.0,
+                new BalanceScore.Level(user).Value(),
+                4
+            );
+        }
     }
 }

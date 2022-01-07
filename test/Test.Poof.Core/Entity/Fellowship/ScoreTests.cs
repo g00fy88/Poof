@@ -33,8 +33,8 @@ namespace Poof.Core.Entity.Fellowship.Test
             );
 
             Assert.Equal(
-                15,
-                new Score.Activity(mem, fellowship).Value()
+                2.25,
+                new Score.ActivityLevel(mem, fellowship).Value()
             );
         }
 
@@ -61,8 +61,8 @@ namespace Poof.Core.Entity.Fellowship.Test
             );
 
             Assert.Equal(
-                16.25,
-                new Score.Activity(mem, fellowship).Value()
+                2.3125,
+                new Score.ActivityLevel(mem, fellowship).Value()
             );
         }
     }

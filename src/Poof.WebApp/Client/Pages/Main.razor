@@ -70,7 +70,7 @@
 
         var response = await api.Private(new DmGetDetails(), "").Content();
         this.userPoints = new AwGetDetails.Points(response).Value();
-        this.userScore = new AwGetDetails.Score(response).Value();
+        this.userScore = new AwGetDetails.Level(response).Value();
         this.userTakeFactor = new AwGetDetails.TakeFactor(response).Value();
         this.userGiveFactor = new AwGetDetails.GiveFactor(response).Value();
 

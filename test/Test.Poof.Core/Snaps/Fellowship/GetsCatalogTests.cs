@@ -21,7 +21,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
         [Theory]
         [InlineData("[0].name", "gandalf and his boys")]
         [InlineData("[0].pictureUrl", "aW1hZ2VieXRlcw==")]
-        [InlineData("[0].score", "0")]
+        [InlineData("[0].level", "1")]
         [InlineData("[0].givefactor", "0.5")]
         [InlineData("[0].takefactor", "0.5")]
         [InlineData("[1].name", "aragorn and his boys")]

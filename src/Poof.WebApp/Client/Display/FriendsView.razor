@@ -23,7 +23,7 @@
                 {
                     <img src="data:image/png;base64,@friend.Value("pictureUrl")">
                 }
-                <div class="score">@(new DoubleOf(friend.Value("score")).Value().ToString("F0"))</div>
+                <div class="score">@(new DoubleOf(friend.Value("level")).Value().ToString("F0"))</div>
             </div>
             <div class="name">
                 <span class="text">@friend.Value("pseudonym")</span><span class="number">#@(new IntOf(friend.Value("pseudonumber")).Value().ToString("0000"))</span>

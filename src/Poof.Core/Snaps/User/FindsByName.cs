@@ -42,7 +42,7 @@ namespace Poof.Core.Snaps.User
                             new JProperty("pseudonym", new Name.Of(fellowship)),
                             new JProperty("pseudonumber", 0),
                             new JProperty("pictureUrl", new Picture.Base64Url(fellowship).AsString()),
-                            new JProperty("score", new TextOf(new Score.Activity(mem, id).Value()).AsString()),
+                            new JProperty("level", new TextOf(new Score.ActivityLevel(mem, id).Value()).AsString()),
                             new JProperty("givefactor", new TextOf(new Factor.Give(mem, id).Value()).AsString()),
                             new JProperty("takefactor", new TextOf(new Factor.Take(mem, id).Value()).AsString())
                         )
@@ -65,7 +65,7 @@ namespace Poof.Core.Snaps.User
                                 new JProperty("pseudonym", new Pseudonym.Name(user).AsString()),
                                 new JProperty("pseudonumber", new Pseudonym.Number(user).Value()),
                                 new JProperty("pictureUrl", new Picture.Base64Url(user).AsString()),
-                                new JProperty("score", new TextOf(new BalanceScore.Total(user).Value()).AsString()),
+                                new JProperty("level", new TextOf(new BalanceScore.Level(user).Value()).AsString()),
                                 new JProperty("givefactor", new TextOf(new Points.GiveFactor(user).Value()).AsString()),
                                 new JProperty("takefactor", new TextOf(new Points.TakeFactor(user).Value()).AsString())
                             )

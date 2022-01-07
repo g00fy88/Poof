@@ -66,11 +66,31 @@ namespace Poof.Talk.Snaps.User.Discovery
             { }
         }
 
-        public sealed class Score : ScalarEnvelope<double>
+        public sealed class Level : ScalarEnvelope<int>
         {
-            public Score(IOutcome<IInput> outcome) : base(() =>
+            public Level(IOutcome<IInput> outcome) : base(() =>
+                new IntOf(
+                    new JSONOf(outcome.Result()).Value("score.level")
+                ).Value()
+            )
+            { }
+        }
+
+        public sealed class ScoreNeeded : ScalarEnvelope<double>
+        {
+            public ScoreNeeded(IOutcome<IInput> outcome) : base(() =>
                 new DoubleOf(
-                    new JSONOf(outcome.Result()).Value("score")
+                    new JSONOf(outcome.Result()).Value("score.needed")
+                ).Value()
+            )
+            { }
+        }
+
+        public sealed class ScoreProgress : ScalarEnvelope<double>
+        {
+            public ScoreProgress(IOutcome<IInput> outcome) : base(() =>
+                new DoubleOf(
+                    new JSONOf(outcome.Result()).Value("score.progress")
                 ).Value()
             )
             { }

@@ -82,7 +82,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
         }
 
         [Fact]
-        public void RetrievesScore()
+        public void RetrievesLevel()
         {
             var mem = new TestBuilding();
             var users = new Users(mem);
@@ -90,12 +90,56 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             new UserOf(mem, user).Update(
                 new Pseudonym("batman", 10),
                 new Points(123.34),
-                new BalanceScore(20.3)
+                new BalanceScore(20)
             );
 
             Assert.Equal(
-                20.3,
-                new AwGetDetails.Score(
+                2,
+                new AwGetDetails.Level(
+                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                        new DmGetDetails()
+                    )
+                ).Value()
+            );
+        }
+
+        [Fact]
+        public void RetrievesScoreNeeded()
+        {
+            var mem = new TestBuilding();
+            var users = new Users(mem);
+            var user = users.New();
+            new UserOf(mem, user).Update(
+                new Pseudonym("batman", 10),
+                new Points(123.34),
+                new BalanceScore(20)
+            );
+
+            Assert.Equal(
+                20,
+                new AwGetDetails.ScoreNeeded(
+                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                        new DmGetDetails()
+                    )
+                ).Value()
+            );
+        }
+
+        [Fact]
+        public void RetrievesScoreProgress()
+        {
+            var mem = new TestBuilding();
+            var users = new Users(mem);
+            var user = users.New();
+            new UserOf(mem, user).Update(
+                new Pseudonym("batman", 10),
+                new Points(123.34),
+                new BalanceScore(20)
+            );
+
+            Assert.Equal(
+                10,
+                new AwGetDetails.ScoreProgress(
                     new GetsDetails(mem, new FkIdentity(user)).Convert(
                         new DmGetDetails()
                     )

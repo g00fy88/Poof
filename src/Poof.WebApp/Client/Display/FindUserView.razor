@@ -34,7 +34,7 @@
                     {
                         <img src="data:image/png;base64,@name.Value("pictureUrl")">
                     }
-                        <div class="score">@(new DoubleOf(name.Value("score")).Value().ToString("F0"))</div>
+                        <div class="score">@(new DoubleOf(name.Value("level")).Value().ToString("F0"))</div>
                     </div>
                     <div class="name">
                         <span class="text">@name.Value("pseudonym")</span><span class="number">#@(new IntOf(name.Value("pseudonumber")).Value().ToString("0000"))</span>

@@ -37,7 +37,7 @@ namespace Poof.Core.Snaps.Fellowship
                         new JProperty("id", fellowshipId),
                         new JProperty("name", new Name.Of(fellowship).AsString()),
                         new JProperty("pictureUrl", new Picture.Base64Url(fellowship).AsString()),
-                        new JProperty("score", new TextOf(new Score.Activity(mem, fellowshipId).Value()).AsString()),
+                        new JProperty("level", new TextOf(new Score.ActivityLevel(mem, fellowshipId).Value()).AsString()),
                         new JProperty("givefactor", new TextOf(new Factor.Give(mem, fellowshipId).Value()).AsString()),
                         new JProperty("takefactor", new TextOf(new Factor.Take(mem, fellowshipId).Value()).AsString())
                     )
