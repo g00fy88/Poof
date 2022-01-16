@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Poof.Talk;
+using Poof.Talk.Memory;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -28,6 +29,7 @@ namespace Poof.WebApp.Client
             builder.Services.AddApiAuthorization();
 
             builder.Services.AddScoped<IApi, ClientApi>();
+            builder.Services.AddScoped<IMemory, MemoryOf>();
 
             await builder.Build().RunAsync();
         }

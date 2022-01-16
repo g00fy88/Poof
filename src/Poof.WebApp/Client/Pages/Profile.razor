@@ -4,8 +4,10 @@
 @using Poof.Talk.Snaps.User.Configuration
 @using Poof.Talk.Snaps.User.Discovery
 @using Poof.WebApp.Client.Display
+@using Yaapii.Atoms.Text
 @attribute [Authorize]
 @inject IApi api
+@inject IMemory mem
 
 <div class="content px-4">
     <div style="height:10px"></div>
@@ -42,6 +44,13 @@
     private IList<IJSON> friends = new List<IJSON>();
     private bool addFriendDialogOpen = false;
 
+    protected override void OnInitialized()
+    {
+        this.pseudonym = mem.Prop("pseudonym", "");
+        this.pseudonumber = new IntOf(mem.Prop("pseudonumber", "0")).Value();
+        this.pictureUrl = mem.Prop("pictureUrl", "");
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await RefreshDetails();
@@ -55,6 +64,10 @@
         this.pictureUrl = new AwGetDetails.PictureUrl(response).AsString();
         this.takeFactor = new AwGetDetails.TakeFactor(response).Value();
         this.giveFactor = new AwGetDetails.GiveFactor(response).Value();
+
+        mem.Update("pseudonym", this.pseudonym);
+        mem.Update("pseudonumber", new TextOf(this.pseudonumber).AsString());
+        mem.Update("pictureUrl", this.pictureUrl);
 
         this.friends = new AwGetFriends.List(await api.Private(new DmGetFriends(), "").Content());
         StateHasChanged();

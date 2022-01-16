@@ -4,12 +4,14 @@
 @using Poof.Talk.Snaps.Transaction
 @using Poof.Talk.Snaps.User.Discovery
 @using Poof.WebApp.Client.Display
+@using Yaapii.Atoms.Text
 @attribute [Authorize]
 @inject IApi api
+@inject IMemory mem
 
 <div class="content px-4">
     <div style="height:10px"></div>
-    <PointView Points=userPoints ActivityScore=userScore></PointView>
+    <PointView Points=userPoints ActivityLevel=userLevel ActivityProgress=userProgress></PointView>
     <div style="height: 50px"></div>
     <div class="centerparent">
         <div class="addtransaction horizontalCentered" @onclick="@OpenAddTransactionDialog">
@@ -38,8 +40,16 @@
     private double userPoints;
     private double userTakeFactor;
     private double userGiveFactor;
-    private double userScore;
+    private int userLevel;
+    private double userProgress;
     private bool addTransactionDialogOpen = false;
+
+    protected override void OnInitialized()
+    {
+        this.userPoints = new DoubleOf(mem.Prop("userPoints", "0")).Value();
+        this.userLevel = new IntOf(mem.Prop("userLevel", "1")).Value();
+        this.userProgress = new DoubleOf(mem.Prop("userProgress", "0")).Value();
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,9 +80,14 @@
 
         var response = await api.Private(new DmGetDetails(), "").Content();
         this.userPoints = new AwGetDetails.Points(response).Value();
-        this.userScore = new AwGetDetails.Level(response).Value();
+        this.userLevel = new AwGetDetails.Level(response).Value();
+        this.userProgress = 100.0 * new AwGetDetails.ScoreProgress(response).Value() / new AwGetDetails.ScoreNeeded(response).Value();
         this.userTakeFactor = new AwGetDetails.TakeFactor(response).Value();
         this.userGiveFactor = new AwGetDetails.GiveFactor(response).Value();
+
+        this.mem.Update("userPoints", new TextOf(this.userPoints).AsString());
+        this.mem.Update("userLevel", new TextOf(this.userLevel).AsString());
+        this.mem.Update("userProgress", new TextOf(this.userLevel).AsString());
 
         this.addTransactionDialogOpen = false;
         StateHasChanged();
