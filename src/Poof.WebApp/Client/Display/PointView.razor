@@ -40,9 +40,12 @@
             <p>@Math.Abs(Points).ToString("0.0")</p>
         </div>
         <div class="activityFrame">
-            <div class="activityText">
-                <p>Mein Activity-Score:</p>
-                <span>@ActivityScore.ToString("F0")</span>
+            <div class="activityProgress">
+                <span style="width:@ActivityProgress.ToString("F0")%"></span>
+            </div>
+            <div class="activityLevel">
+                <p>Stufe</p>
+                <span>@ActivityLevel</span>
             </div>
         </div>
     </div>
@@ -52,7 +55,9 @@
     [Parameter]
     public double Points { get; set; }
     [Parameter]
-    public double ActivityScore { get; set; }
+    public int ActivityLevel { get; set; }
+    [Parameter]
+    public double ActivityProgress { get; set; }
 
     private string PointColor()
     {

@@ -80,28 +80,51 @@
         }
 
 .activityFrame {
-    position:relative;
+    position: relative;
     width: 100%;
-    text-align:center;
+    text-align: center;
     margin-top: 10px;
+    height: 60px;
 }
 
-.activityText {
-    border:solid 1px #ddd;
-    border-radius: 20px;
-    padding: 5px 10px;
-    display:inline-block;
-    text-align:center;
-    font-family: 'Inconsolata', monospace;
-    font-size: 1.1em;
+.activityLevel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    border: solid 1px #bbb;
+    padding: 5px;
+    background-color: white;
 }
 
-    .activityText p {
-        display: inline-block;
-        margin: 0;
+    .activityLevel p {
+        margin-bottom: 0;
+        font-size: 0.8em;
     }
 
-    .activityText span {
-        display: inline-block;
-        font-weight: 700;
+    .activityLevel span {
+        font-size: 1.6em;
+        font-weight: bold;
+        line-height: 1.0;
+    }
+
+.activityProgress {
+    position: absolute;
+    bottom: 5px;
+    left: 20px;
+    right: 0px;
+    border-radius: 20px;
+    padding: 5px 10px 0px 32px;
+    display: inline-block;
+    box-shadow: inset 0px 0px 3px 0px #aaa;
+    height: 14px;
+}
+
+    .activityProgress span {
+        background-color: #67c9f0;
+        height: 4px;
+        border-radius: 2px;
+        display: inherit;
     }
