@@ -1,5 +1,6 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inconsolata:wght@200;400;700&family=Quicksand:wght@300;400;700&display=swap');
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('custom/custom.css');
 
 html, body {
     font-family: 'Inconsolata', monospace;
@@ -216,7 +217,7 @@ a, .btn-link {
 
     .sidebar .oi {
         width: 2rem;
-        font-size: 1.6rem;
+        font-size: 2rem;
         vertical-align: text-top;
         top: -2px;
     }
@@ -237,7 +238,7 @@ a, .btn-link {
             border-radius: 50%;
             height: 3.6rem;
             width: 3.6rem;
-            padding: .5rem 0.6rem;
+            padding: .5rem 0.4rem;
         }
 
             .sidebar .nav-item a.active {

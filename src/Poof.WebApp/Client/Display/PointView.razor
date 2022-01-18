@@ -4,8 +4,8 @@
     <div class="horizontalCentered">
         <div class="pointFrame ttip">
             <span class="ttext">@PointTip()</span>
-            <div class="pointBack horizontalCentered" style="background-color:@PointColor()">
-                <img class="pointFront" src="./images//Point.png" />
+            <div class="pointBack horizontalCentered" style="border: solid 10px @PointColor1(); background-color:@PointColor2(); color: @PointColor1()">
+                <span class="pointFront icon-tribe-icon-37"></span>
             </div>
         </div>
         <div class="pointText">
@@ -59,9 +59,14 @@
     [Parameter]
     public double ActivityProgress { get; set; }
 
-    private string PointColor()
+    private string PointColor1()
     {
-        return Points > 0 ? "#54ff9f" : Points < 0 ? "#67c9f0" : "#f2e685";
+        return Points > 0 ? "#54ff9f" : Points < 0 ? "#9ae0fc" : "#faf1aa";
+    }
+
+    private string PointColor2()
+    {
+        return Points > 0 ? "#43cd80" : Points < 0 ? "#67c9f0" : "#e8d961";
     }
 
     private string PointTip()
