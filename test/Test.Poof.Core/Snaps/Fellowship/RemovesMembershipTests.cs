@@ -30,7 +30,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
                 new Owner("gandalf")
             );
 
-            new RemovesMembership(mem, new FkIdentity("gandalf")).Convert(
+            new RemovesMembership(mem, new UserIdentity("gandalf")).Convert(
                 new DmRemoveMembership(team)
             );
 
@@ -50,7 +50,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             );
 
             Assert.Throws<InvalidOperationException>(()=>
-                new RemovesMembership(mem, new FkIdentity("gandalf")).Convert(
+                new RemovesMembership(mem, new UserIdentity("gandalf")).Convert(
                     new DmRemoveMembership(team)
                 )
             );

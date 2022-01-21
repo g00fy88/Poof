@@ -5,9 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Poof.Core.Future;
 using Poof.Core.Model.Data;
+using Poof.Core.Model.Future;
+using Poof.Core.Snaps.Quest;
 using Poof.DB.Data;
 using Poof.DB.Models;
+using Poof.Snaps;
 using Poof.Web.Server.Data;
 using Poof.WebApp.Server.UserStatus;
 using Pulse;
@@ -44,6 +48,7 @@ namespace Poof.WebApp.Server
 
             services.AddScoped<IDataBuilding, DbBuilding>();
             AddPulse(services);
+            services.AddScoped<IFuture, FutureOf>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -85,6 +90,8 @@ namespace Poof.WebApp.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+
+            InitializeFuture(app);
         }
 
         private void AddPulse(IServiceCollection services)
@@ -95,6 +102,18 @@ namespace Poof.WebApp.Server
 
             services.AddSingleton<IPulse>(pulse);
             services.AddSingleton<IIdentityStatus>(status);
+        }
+
+        private void InitializeFuture(IApplicationBuilder app)
+        {
+            var scope = app.ApplicationServices.CreateScope();
+            var mem = scope.ServiceProvider.GetService<IDataBuilding>();
+            var future = scope.ServiceProvider.GetService<IFuture>();
+            future.RunAsync();
+
+            new InitializesWeeklies(mem, future).Convert(
+                new EmptyDemand()
+            );
         }
     }
 }

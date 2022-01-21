@@ -34,7 +34,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
 
             new AddsFriend(
                 mem,
-                new FkIdentity(me)
+                new UserIdentity(me)
             ).Convert(
                 new DmAddFriend(friend2)
             );
@@ -67,7 +67,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
 
             new AddsFriend(
                 mem,
-                new FkIdentity(me)
+                new UserIdentity(me)
             ).Convert(
                 new DmAddFriend(friend1)
             );
@@ -96,7 +96,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
             Assert.Throws<ArgumentException>(()=>
                 new AddsFriend(
                     mem,
-                    new FkIdentity(me)
+                    new UserIdentity(me)
                 ).Convert(
                     new DmAddFriend(me)
                 )

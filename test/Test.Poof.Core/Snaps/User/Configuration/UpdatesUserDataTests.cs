@@ -20,7 +20,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
 
             new UpdatesUserData(
                 mem,
-                new FkIdentity(user)
+                new UserIdentity(user)
             ).Convert(
                 new DmUpdateUserData("pseudoman")
             );
@@ -43,7 +43,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
 
             new UpdatesUserData(
                 mem,
-                new FkIdentity(user1)
+                new UserIdentity(user1)
             ).Convert(
                 new DmUpdateUserData("pseudoman")
             );

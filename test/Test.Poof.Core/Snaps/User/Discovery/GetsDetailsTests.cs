@@ -30,7 +30,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 "batman",
                 new AwGetDetails.PseudoName(
-                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                    new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
                     )
                 ).AsString()
@@ -52,7 +52,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 10,
                 new AwGetDetails.PseudoNumber(
-                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                    new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
                     )
                 ).Value()
@@ -74,7 +74,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 123.34,
                 new AwGetDetails.Points(
-                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                    new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
                     )
                 ).Value()
@@ -96,7 +96,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 2,
                 new AwGetDetails.Level(
-                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                    new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
                     )
                 ).Value()
@@ -118,7 +118,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 20,
                 new AwGetDetails.ScoreNeeded(
-                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                    new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
                     )
                 ).Value()
@@ -140,7 +140,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 10,
                 new AwGetDetails.ScoreProgress(
-                    new GetsDetails(mem, new FkIdentity(user)).Convert(
+                    new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
                     )
                 ).Value()

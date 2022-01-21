@@ -25,7 +25,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             var meUser = users.New();
             var otherUser = users.New();
 
-            new AddsUserTransaction(mem, new FkIdentity(meUser)).Convert(
+            new AddsUserTransaction(mem, new UserIdentity(meUser)).Convert(
                 new DmAddUserTransaction(otherUser, "title",  34.56)
             );
 
@@ -42,7 +42,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             var meUser = users.New();
             var otherUser = users.New();
 
-            new AddsUserTransaction(mem,  new FkIdentity(meUser)).Convert(
+            new AddsUserTransaction(mem,  new UserIdentity(meUser)).Convert(
                 new DmAddUserTransaction(otherUser, "title", 34.56)
             );
 
@@ -63,7 +63,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             var otherUser = users.New();
 
             Assert.Throws<ArgumentException>(()=>
-                new AddsUserTransaction(mem, new FkIdentity(meUser)).Convert(
+                new AddsUserTransaction(mem, new UserIdentity(meUser)).Convert(
                     new DmAddUserTransaction(otherUser, "title", -34.56)
                 )
             );

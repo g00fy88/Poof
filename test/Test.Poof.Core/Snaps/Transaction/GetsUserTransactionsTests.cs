@@ -61,7 +61,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             Assert.Equal(
                 2,
                 new JSONOf(
-                    new GetsUserTransactions(mem, new FkIdentity(meUser)).Convert(
+                    new GetsUserTransactions(mem, new UserIdentity(meUser)).Convert(
                         new DmGetUserTransactions()
                     ).Result()
                 ).Nodes("[*]").Count

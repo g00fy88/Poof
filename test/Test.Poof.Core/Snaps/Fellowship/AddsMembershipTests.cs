@@ -31,7 +31,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
                 new Owner("gandalf")
             );
 
-            new AddsMembership(mem, new FkIdentity("gandalf")).Convert(
+            new AddsMembership(mem, new UserIdentity("gandalf")).Convert(
                 new DmAddMembership(team, "frodo")
             );
 
@@ -56,7 +56,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             );
 
             Assert.Throws<InvalidOperationException>(()=>
-                new AddsMembership(mem, new FkIdentity("gandalf")).Convert(
+                new AddsMembership(mem, new UserIdentity("gandalf")).Convert(
                     new DmAddMembership(team, "frodo")
                 )
             );
@@ -82,7 +82,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             );
 
             Assert.Throws<InvalidOperationException>(() =>
-                new AddsMembership(mem, new FkIdentity("gandalf")).Convert(
+                new AddsMembership(mem, new UserIdentity("gandalf")).Convert(
                     new DmAddMembership(team, "frodo")
                 )
             );

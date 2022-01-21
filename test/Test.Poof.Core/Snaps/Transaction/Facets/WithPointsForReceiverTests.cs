@@ -30,7 +30,7 @@ namespace Poof.Core.Snaps.Transaction.Facets.Test
             var meUser = users.New();
             var otherUser = users.New();
 
-            new WithPointsForReceiver(mem, new FkPulse(), new FkIdentity(meUser), new FkSnap<IInput>()).Convert(
+            new WithPointsForReceiver(mem, new FkPulse(), new UserIdentity(meUser), new FkSnap<IInput>()).Convert(
                 new DmAddUserTransaction(otherUser, "title", 34.56)
             );
 
@@ -51,7 +51,7 @@ namespace Poof.Core.Snaps.Transaction.Facets.Test
             var otherUser = users.New();
 
             ISignal result = new SignalOf(new SigHead("", "", ""));
-            new WithPointsForReceiver(mem, new FkPulse(sig => result = sig), new FkIdentity(meUser), new FkSnap<IInput>()).Convert(
+            new WithPointsForReceiver(mem, new FkPulse(sig => result = sig), new UserIdentity(meUser), new FkSnap<IInput>()).Convert(
                 new DmAddUserTransaction(otherUser, "title", 34.56)
             );
 
@@ -76,7 +76,7 @@ namespace Poof.Core.Snaps.Transaction.Facets.Test
             new UserOf(mem, otherUser).Update(
                 new Points(300)
             );
-            new WithPointsForReceiver(mem, new FkPulse(), new FkIdentity(meUser), new FkSnap<IInput>()).Convert(
+            new WithPointsForReceiver(mem, new FkPulse(), new UserIdentity(meUser), new FkSnap<IInput>()).Convert(
                 new DmAddUserTransaction(otherUser, "title", 34.56)
             );
 
@@ -111,7 +111,7 @@ namespace Poof.Core.Snaps.Transaction.Facets.Test
                 new Share(1)
             );
 
-            new WithPointsForReceiver(mem, new FkPulse(), new FkIdentity(meUser), new FkSnap<IInput>()).Convert(
+            new WithPointsForReceiver(mem, new FkPulse(), new UserIdentity(meUser), new FkSnap<IInput>()).Convert(
                 new DmAddUserTransaction("fellowship", fellowship, "title", 34.56)
             );
 
@@ -144,7 +144,7 @@ namespace Poof.Core.Snaps.Transaction.Facets.Test
                 new Share(1)
             );
 
-            new WithPointsForReceiver(mem, new FkPulse(), new FkIdentity(meUser), new FkSnap<IInput>()).Convert(
+            new WithPointsForReceiver(mem, new FkPulse(), new UserIdentity(meUser), new FkSnap<IInput>()).Convert(
                 new DmAddUserTransaction("fellowship", fellowship, "title", 34.56)
             );
 

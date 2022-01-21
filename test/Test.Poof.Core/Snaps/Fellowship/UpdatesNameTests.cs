@@ -26,7 +26,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
                 new Owner("gandalf")
             );
 
-            new UpdatesName(mem, new FkIdentity("gandalf")).Convert(
+            new UpdatesName(mem, new UserIdentity("gandalf")).Convert(
                 new DmUpdateName(team, "aragorn and his boys")
             );
 
@@ -47,7 +47,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             );
 
             Assert.Throws<InvalidOperationException>(()=>
-                new UpdatesName(mem, new FkIdentity("gandalf")).Convert(
+                new UpdatesName(mem, new UserIdentity("gandalf")).Convert(
                     new DmUpdateName(team, "aragorn and his boys")
                 )
             );
@@ -71,7 +71,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             );
 
             Assert.Throws<ArgumentException>(() =>
-                 new UpdatesName(mem, new FkIdentity("gandalf")).Convert(
+                 new UpdatesName(mem, new UserIdentity("gandalf")).Convert(
                     new DmUpdateName(team, "aragorn and his boys")
                 )
             );

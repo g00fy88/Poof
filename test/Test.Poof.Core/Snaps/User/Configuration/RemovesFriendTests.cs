@@ -34,7 +34,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
 
             new RemovesFriend(
                 mem,
-                new FkIdentity(me)
+                new UserIdentity(me)
             ).Convert(
                 new DmRemoveFriend(friend2)
             );

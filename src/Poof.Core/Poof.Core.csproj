@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Poof.Demand\Poof.Demand.csproj" />
     <ProjectReference Include="..\Pulse\Pulse.csproj" />
-    <ProjectReference Include="..\Snaps\Snaps.csproj" />
   </ItemGroup>
 
 </Project>

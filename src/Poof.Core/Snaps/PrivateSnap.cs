@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.Core.Model.Future;
 using Poof.Core.Snaps.Fellowship;
+using Poof.Core.Snaps.Quest;
 using Poof.Core.Snaps.Transaction;
 using Poof.Core.Snaps.Transaction.Facets;
 using Poof.Core.Snaps.User;
@@ -20,7 +22,7 @@ namespace Poof.Core.Snaps
     {
         private readonly IFlow<IInput> flow;
 
-        public PrivateSnap(IDataBuilding mem, IPulse pulse, IIdentity identity) : this(
+        public PrivateSnap(IDataBuilding mem, IPulse pulse, IIdentity identity, IFuture future) : this(
             new FwChain<IInput>(
                 new FwEntity("fellowship",
                     new FwCategory("configuration",
@@ -33,6 +35,13 @@ namespace Poof.Core.Snaps
                         new FwAction("check-name-availability", new CheckNameAvailability(mem)),
                         new FwAction("get-catalog", new GetsCatalog(mem, identity)),
                         new FwAction("get-details", new Fellowship.GetsDetails(mem, identity))
+                    )
+                ),
+                new FwEntity("quest",
+                    new FwCategory("configuration",
+                        new FwAction("add-weeklies",
+                            new AddsWeeklyQuests(mem, identity, future)
+                        )
                     )
                 ),
                 new FwEntity("transaction",

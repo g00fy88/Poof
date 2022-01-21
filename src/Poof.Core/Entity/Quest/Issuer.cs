@@ -1,4 +1,6 @@
-﻿using Poof.Core.Model.Entity;
+﻿using Poof.Core.Model;
+using Poof.Core.Model.Data;
+using Poof.Core.Model.Entity;
 using System;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -28,6 +30,16 @@ namespace Poof.Core.Entity.Quest
             /// </summary>
             public Of(IEntity quest) : base(()=>
                 quest.Memory().Prop<string>("issuer")
+            )
+            { }
+        }
+
+        public sealed class Match : PropMatchEnvelope
+        {
+            public Match(IIdentity identity) : base(
+                "issuer",
+                "equals",
+                identity
             )
             { }
         }

@@ -20,7 +20,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
         {
             var mem = new TestBuilding();
             new Users(mem).Put("gandalf");
-            new AddsFellowship(mem, new FkIdentity("gandalf")).Convert(
+            new AddsFellowship(mem, new UserIdentity("gandalf")).Convert(
                 new DmAddFellowship("gandalf and his boys")
             );
 
@@ -34,7 +34,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
         {
             var mem = new TestBuilding();
             new Users(mem).Put("gandalf");
-            new AddsFellowship(mem, new FkIdentity("gandalf")).Convert(
+            new AddsFellowship(mem, new UserIdentity("gandalf")).Convert(
                 new DmAddFellowship("gandalf and his boys")
             );
 
@@ -55,7 +55,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             );
 
             Assert.Throws<ArgumentException>(()=>
-                new AddsFellowship(mem, new FkIdentity("gandalf")).Convert(
+                new AddsFellowship(mem, new UserIdentity("gandalf")).Convert(
                     new DmAddFellowship("gandalf and his boys")
                 )
             );

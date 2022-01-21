@@ -1,4 +1,5 @@
-﻿using Poof.Core.Model.Entity;
+﻿using Poof.Core.Model.Data;
+using Poof.Core.Model.Entity;
 using System;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -37,6 +38,16 @@ namespace Poof.Core.Entity.Quest
             public Of(IEntity quest) : base(()=>
                 quest.Memory().Prop<string>("scope"),
                 false
+            )
+            { }
+        }
+
+        public sealed class Match : PropMatchEnvelope
+        {
+            public Match(string scope) : base(
+                "scope",
+                "equals",
+                scope
             )
             { }
         }

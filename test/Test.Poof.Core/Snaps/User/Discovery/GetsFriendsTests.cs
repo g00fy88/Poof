@@ -40,7 +40,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 2,
                 new AwGetFriends.List(
-                    new GetsFriends(mem, new FkIdentity(me)).Convert(
+                    new GetsFriends(mem, new UserIdentity(me)).Convert(
                         new DmGetFriends()
                     )
                 ).Count
@@ -66,13 +66,13 @@ namespace Poof.Core.Snaps.User.Discovery.Test
                 new Pseudonym("robin", 1)
             );
 
-            new AddsFriend(mem, new FkIdentity(me)).Convert(
+            new AddsFriend(mem, new UserIdentity(me)).Convert(
                 new DmAddFriend(friend1)
             );
 
             Assert.Single(
                 new AwGetFriends.List(
-                    new GetsFriends(mem, new FkIdentity(me)).Convert(
+                    new GetsFriends(mem, new UserIdentity(me)).Convert(
                         new DmGetFriends()
                     )
                 )

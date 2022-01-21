@@ -33,7 +33,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             Assert.Equal(
                 2,
                 new AwFindByName.List(
-                    new FindsByName(mem, new FkIdentity()).Convert(
+                    new FindsByName(mem, new UserIdentity("fake-id")).Convert(
                         new DmFindByName("robin")
                     )
                 ).Count
@@ -52,7 +52,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
 
             Assert.Empty(
                 new AwFindByName.List(
-                    new FindsByName(mem, new FkIdentity(user)).Convert(
+                    new FindsByName(mem, new UserIdentity(user)).Convert(
                         new DmFindByName("batman")
                     )
                 )

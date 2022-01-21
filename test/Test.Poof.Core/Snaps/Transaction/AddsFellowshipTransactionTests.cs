@@ -45,7 +45,7 @@ namespace Poof.Core.Snaps.Transaction.Test
                 new Share(1)
             );
 
-            new AddsFellowshipTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
+            new AddsFellowshipTransaction(mem, new FkPulse(), new UserIdentity(meUser)).Convert(
                 new DmAddFellowshipTransaction(team, "user", otherUser, "title", 34.56)
             );
 
@@ -77,7 +77,7 @@ namespace Poof.Core.Snaps.Transaction.Test
                 new Share(1)
             );
 
-            new AddsFellowshipTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
+            new AddsFellowshipTransaction(mem, new FkPulse(), new UserIdentity(meUser)).Convert(
                 new DmAddFellowshipTransaction(team, "user", otherUser, "title", 34.56)
             );
 
@@ -111,7 +111,7 @@ namespace Poof.Core.Snaps.Transaction.Test
             );
 
             var count = 0;
-            new AddsFellowshipTransaction(mem, new FkPulse(send:sig => count++), new FkIdentity(meUser)).Convert(
+            new AddsFellowshipTransaction(mem, new FkPulse(send:sig => count++), new UserIdentity(meUser)).Convert(
                 new DmAddFellowshipTransaction(team, "user", otherUser, "title", 34.56)
             );
 
@@ -144,7 +144,7 @@ namespace Poof.Core.Snaps.Transaction.Test
                 new Share(1)
             );
 
-            new AddsFellowshipTransaction(mem, new FkPulse(), new FkIdentity(meUser)).Convert(
+            new AddsFellowshipTransaction(mem, new FkPulse(), new UserIdentity(meUser)).Convert(
                 new DmAddFellowshipTransaction(team, "user", otherUser, "title", 34.56)
             );
 

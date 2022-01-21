@@ -57,7 +57,7 @@ namespace Poof.Core.Snaps.Fellowship.Test
             Assert.Equal(
                 expected,
                 new JSONOf(
-                    new GetsCatalog(mem, new FkIdentity("gandalf")).Convert(
+                    new GetsCatalog(mem, new UserIdentity("gandalf")).Convert(
                         new DmGetCatalog()
                     ).Result()
                 ).Value(jsonpath)
