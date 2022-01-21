@@ -62,6 +62,34 @@ namespace Poof.DB.Models
                             new KvpOf<TValue>("share", () => Cast<TValue>("share", (entity as DbMembership).Share)),
                             new KvpOf<TValue>("role", () => Cast<TValue>("share", (entity as DbMembership).Role, ""))
                         )
+                    ),
+                    new KvpOf<Type, IDictionary<string, TValue>>(
+                        typeof(DbQuest),
+                        () => new MapOf<TValue>(
+                            new KvpOf<TValue>("applicants", () => 
+                                Cast<TValue>("applicants",
+                                    new Mapped<ApplicationUser, string>(
+                                        user => user.Id,
+                                        new NoNull<IList<ApplicationUser>>(
+                                            (entity as DbQuest).Applicants,
+                                            new List<ApplicationUser>()
+                                        ).Value()
+                                    ).ToArray()
+                                )
+                            ),
+                            new KvpOf<TValue>("category", () => Cast<TValue>("category", (entity as DbQuest).Category, "")),
+                            new KvpOf<TValue>("description", () => Cast<TValue>("description", (entity as DbQuest).Description, "")),
+                            new KvpOf<TValue>("end-date", () => Cast<TValue>("end-date", (entity as DbQuest).EndDate)),
+                            new KvpOf<TValue>("has-end-date", () => Cast<TValue>("has-end-date", (entity as DbQuest).HasEndDate)),
+                            new KvpOf<TValue>("issuer", () => Cast<TValue>("issuer", (entity as DbQuest).Issuer.Id)),
+                            new KvpOf<TValue>("location", () => Cast<TValue>("location", (entity as DbQuest).Location)),
+                            new KvpOf<TValue>("location-needed", () => Cast<TValue>("location-needed", (entity as DbQuest).HasLocation)),
+                            new KvpOf<TValue>("note", () => Cast<TValue>("note", (entity as DbQuest).Note, "")),
+                            new KvpOf<TValue>("reward", () => Cast<TValue>("reward", (entity as DbQuest).Reward)),
+                            new KvpOf<TValue>("scope", () => Cast<TValue>("scope", (entity as DbQuest).Scope, "")),
+                            new KvpOf<TValue>("status", () => Cast<TValue>("status", (entity as DbQuest).Status, "")),
+                            new KvpOf<TValue>("title", () => Cast<TValue>("title", (entity as DbQuest).Title, ""))
+                        )
                     )
                 );
             this.entity = entity;

@@ -18,23 +18,26 @@ namespace Poof.DB.Test
         private readonly IList<DbFellowship> fellowships;
         private readonly IList<DbTransaction> transactions;
         private readonly IList<DbMembership> memberships;
+        private readonly IList<DbQuest> quests;
 
         public TestBuilding() : this(
             "",
             new List<ApplicationUser>(),
             new List<DbFellowship>(),
             new List<DbTransaction>(),
-            new List<DbMembership>()
+            new List<DbMembership>(),
+            new List<DbQuest>()
         )
         { }
 
-        private TestBuilding(string name, IList<ApplicationUser> users, IList<DbFellowship> fellowships, IList<DbTransaction> transactions, IList<DbMembership> memberships)
+        private TestBuilding(string name, IList<ApplicationUser> users, IList<DbFellowship> fellowships, IList<DbTransaction> transactions, IList<DbMembership> memberships, IList<DbQuest> quests)
         {
             this.name = name;
             this.users = users;
             this.fellowships = fellowships;
             this.transactions = transactions;
             this.memberships = memberships;
+            this.quests = quests;
         }
 
         public void Add(string floor)
@@ -44,7 +47,8 @@ namespace Poof.DB.Test
                     new KvpOf<Action>("user", () => this.users.Add(new ApplicationUser() { Id = floor })),
                     new KvpOf<Action>("fellowship", () => this.fellowships.Add(new DbFellowship() { Id = floor })),
                     new KvpOf<Action>("transaction", () => this.transactions.Add(new DbTransaction() { Id = floor })),
-                    new KvpOf<Action>("membership", () => this.memberships.Add(new DbMembership() { Id = floor }))
+                    new KvpOf<Action>("membership", () => this.memberships.Add(new DbMembership() { Id = floor })),
+                    new KvpOf<Action>("quest", () => this.quests.Add(new DbQuest() { Id = floor }))
                 ),
                 key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
             )[this.name].Invoke();
@@ -58,7 +62,8 @@ namespace Poof.DB.Test
                         new KvpOf<IDataFloor>("user", () => new TestUserFloor(User(id))),
                         new KvpOf<IDataFloor>("fellowship", () => new TestFellowshipFloor(Fellowship(id))),
                         new KvpOf<IDataFloor>("transaction", () =>new TestTransactionFloor(Transaction(id))),
-                        new KvpOf<IDataFloor>("membership", () => new TestMembershipFloor(Membership(id), this.users, this.fellowships))
+                        new KvpOf<IDataFloor>("membership", () => new TestMembershipFloor(Membership(id), this.users, this.fellowships)),
+                        new KvpOf<IDataFloor>("quest", () => new TestQuestFloor(Quest(id), this.users))
                    ),
                    key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
                )[this.name];
@@ -92,6 +97,12 @@ namespace Poof.DB.Test
                                 membership => membership.Id,
                                 Matches(this.memberships, (list, match) => new MembershipMatches(list, match), matches)
                             )
+                        ),
+                        new KvpOf<IList<string>>("quest", () =>
+                            new Yaapii.Atoms.List.Mapped<DbQuest, string>(
+                                quest => quest.Id,
+                                Matches(this.quests, (list, match) => new QuestMatches(list, match), matches)
+                            )
                         )
                    ),
                    key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
@@ -106,7 +117,8 @@ namespace Poof.DB.Test
                     this.users,
                     this.fellowships,
                     this.transactions,
-                    this.memberships
+                    this.memberships,
+                    this.quests
                 );
         }
 
@@ -117,7 +129,8 @@ namespace Poof.DB.Test
                     new KvpOf<Action>("user", () => this.users.Remove(User(floor))),
                     new KvpOf<Action>("fellowship", () => this.fellowships.Remove(Fellowship(floor))),
                     new KvpOf<Action>("transaction", () => this.transactions.Remove(Transaction(floor))),
-                    new KvpOf<Action>("membership", () => this.memberships.Remove(Membership(floor)))
+                    new KvpOf<Action>("membership", () => this.memberships.Remove(Membership(floor))),
+                    new KvpOf<Action>("quest", () => this.memberships.Remove(Membership(floor)))
                 ),
                 key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
             )[this.name].Invoke();
@@ -163,6 +176,17 @@ namespace Poof.DB.Test
                     new Filtered<DbMembership>(
                         user => user.Id == id,
                         this.memberships
+                    )
+                );
+        }
+
+        private DbQuest Quest(string id)
+        {
+            return
+                Single(
+                    new Filtered<DbQuest>(
+                        quest => quest.Id == id,
+                        this.quests
                     )
                 );
         }
