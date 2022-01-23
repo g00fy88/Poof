@@ -65,7 +65,7 @@ namespace Poof.DB.Test
                         new KvpOf<IDataFloor>("membership", () => new TestMembershipFloor(Membership(id), this.users, this.fellowships)),
                         new KvpOf<IDataFloor>("quest", () => new TestQuestFloor(Quest(id), this.users))
                    ),
-                   key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
+                   key => throw new InvalidOperationException($"Unable to retrieve info of entity '{id}', because type '{key}' is unknown.")
                )[this.name];
         }
 
@@ -105,7 +105,7 @@ namespace Poof.DB.Test
                             )
                         )
                    ),
-                   key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
+                   key => throw new InvalidOperationException($"Unable to list entities, because type '{key}' is unknown.")
                )[this.name];
         }
 
@@ -132,7 +132,7 @@ namespace Poof.DB.Test
                     new KvpOf<Action>("membership", () => this.memberships.Remove(Membership(floor))),
                     new KvpOf<Action>("quest", () => this.memberships.Remove(Membership(floor)))
                 ),
-                key => throw new InvalidOperationException($"Unable to add new entity, because type '{key}' is unknown.")
+                key => throw new InvalidOperationException($"Unable to remove entity '{floor}', because type '{key}' is unknown.")
             )[this.name].Invoke();
         }
 

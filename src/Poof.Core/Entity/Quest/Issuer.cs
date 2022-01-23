@@ -43,5 +43,15 @@ namespace Poof.Core.Entity.Quest
             )
             { }
         }
+
+        public sealed class NoMatch : PropMatchEnvelope
+        {
+            public NoMatch(IIdentity identity) : base(
+                "issuer",
+                "not-equal",
+                identity
+            )
+            { }
+        }
     }
 }

@@ -48,7 +48,18 @@ namespace Poof.DB.Data.Impl.PropMatch
                                     )
                                 ),
                                 key => throw new ArgumentException($"Unable to filter transactions for field '{key}', " +
-                                        $"because this field cannot be filtered with 'equal'-comparison")
+                                        $"because this field cannot be filtered with 'sort'-comparison")
+                            )[match.Name()]
+                        ),
+                        new KvpOf<IEnumerable<DbQuest>>("not-equal", () =>
+                            new FallbackMap<IEnumerable<DbQuest>>(
+                                new MapOf<IEnumerable<DbQuest>>(
+                                    new KvpOf<IEnumerable<DbQuest>>("issuer", () =>
+                                        quests.Where(q => q.Issuer.Id != match.Value<string>())
+                                    )
+                                ),
+                                key => throw new ArgumentException($"Unable to filter transactions for field '{key}', " +
+                                        $"because this field cannot be filtered with 'not-equal'-comparison")
                             )[match.Name()]
                         )
                     ),

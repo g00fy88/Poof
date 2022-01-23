@@ -1,4 +1,5 @@
-﻿using Poof.Core.Model.Entity;
+﻿using Poof.Core.Model.Data;
+using Poof.Core.Model.Entity;
 using System;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -45,6 +46,16 @@ namespace Poof.Core.Entity.Quest
                     quest.Memory().Prop<string[]>("applicants"),
                     new InvalidOperationException("Unable to retrieve applicant of quest, because there is no applicant yet")
                 ).Value()
+            )
+            { }
+        }
+
+        public sealed class Match : PropMatchEnvelope
+        {
+            public Match(string user) : base(
+                "applicant",
+                "equals",
+                user
             )
             { }
         }
