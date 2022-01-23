@@ -12,15 +12,29 @@ using Yaapii.Atoms;
 
 namespace Poof.Core.Snaps.Quest
 {
+    /// <summary>
+    /// Checks if there are private quests of the given user.
+    /// If there are quests that are open and the end-date is still in future,
+    /// the use case is rescheduled to this end-date.
+    /// If not, these quests are removed and new quests are added for this user
+    /// with an end-date in 7 days. this use case is rescheduled to this date as well.
+    /// </summary>
     public sealed class AddsWeeklyQuests : SnapEnvelope<IInput>
     {
+        /// <summary>
+        /// Checks if there are private quests of the given user.
+        /// If there are quests that are open and the end-date is still in future,
+        /// the use case is rescheduled to this end-date.
+        /// If not, these quests are removed and new quests are added for this user
+        /// with an end-date in 7 days. this use case is rescheduled to this date as well.
+        /// </summary>
         public AddsWeeklyQuests(IDataBuilding mem, IIdentity identity, IFuture future) : base(dmd =>
         {
             var quests = new Quests(mem);
             var privateQuests =
                 quests.List(
                     new Scope.Match("private"),
-                    new Issuer.Match(identity)
+                    new Issuer.Match(identity.UserID())
                 );
 
             var date = DateTime.Now;

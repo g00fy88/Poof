@@ -36,20 +36,20 @@ namespace Poof.Core.Entity.Quest
 
         public sealed class Match : PropMatchEnvelope
         {
-            public Match(IIdentity identity) : base(
+            public Match(string user) : base(
                 "issuer",
                 "equals",
-                identity
+                user
             )
             { }
         }
 
         public sealed class NoMatch : PropMatchEnvelope
         {
-            public NoMatch(IIdentity identity) : base(
+            public NoMatch(string user) : base(
                 "issuer",
                 "not-equal",
-                identity
+                user
             )
             { }
         }

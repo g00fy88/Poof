@@ -10,7 +10,7 @@ namespace Poof.DB.Models
         public string Id { get; set; }
 
         public ApplicationUser Issuer { get; set; }
-        public List<ApplicationUser> Applicants { get; set; }
+        public List<ApplicationUser> Applicants { get; set; } = new List<ApplicationUser>();
         public string Status { get; set; } = "published";
         public string Scope { get; set; } = "";
         public string Category { get; set; } = "";

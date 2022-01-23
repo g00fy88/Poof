@@ -130,7 +130,7 @@ namespace Poof.DB.Test
                     new KvpOf<Action>("fellowship", () => this.fellowships.Remove(Fellowship(floor))),
                     new KvpOf<Action>("transaction", () => this.transactions.Remove(Transaction(floor))),
                     new KvpOf<Action>("membership", () => this.memberships.Remove(Membership(floor))),
-                    new KvpOf<Action>("quest", () => this.memberships.Remove(Membership(floor)))
+                    new KvpOf<Action>("quest", () => this.quests.Remove(Quest(floor)))
                 ),
                 key => throw new InvalidOperationException($"Unable to remove entity '{floor}', because type '{key}' is unknown.")
             )[this.name].Invoke();

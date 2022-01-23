@@ -4,6 +4,7 @@ using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Snaps;
+using Poof.Snaps.Outcome;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,17 +22,17 @@ namespace Poof.Core.Snaps.Quest
             var quests =
                 new Joined<string>(
                     new Quests(mem).List(
-                        new Issuer.Match(identity)
+                        new Issuer.Match(identity.UserID())
                     ),
                     new Quests(mem).List(
                         new Scope.Match("public"),
                         new Status.Match("open"),
-                        new Issuer.NoMatch(identity)
+                        new Issuer.NoMatch(identity.UserID())
                     ),
                     new Quests(mem).List(
                         new Scope.Match("public"),
                         new Applicant.Match(identity.UserID()),
-                        new Issuer.NoMatch(identity)
+                        new Issuer.NoMatch(identity.UserID())
                     )
                 );
 
@@ -70,7 +71,7 @@ namespace Poof.Core.Snaps.Quest
                         new JProperty("title", new Title.Of(quest).AsString()),
                         new JProperty("description", new Description.Of(quest).AsString()),
                         new JProperty("note", new Note.Of(quest).AsString()),
-                        new JProperty("end-date",
+                        new JProperty("endDate",
                             new JObject(
                                 new JProperty("has", hasEndDate),
                                 new JProperty("value", hasEndDate ? 
@@ -88,6 +89,8 @@ namespace Poof.Core.Snaps.Quest
                     )
                 );
             }
+
+            return new JsonRawOutcome(result);
         })
         {
 
