@@ -1,5 +1,6 @@
 ﻿using Poof.Core.Model;
 using Poof.Core.Model.Data;
+using Poof.DB;
 using Poof.DB.Data;
 using Poof.DB.Data.Impl.PropMatch;
 using Poof.DB.Models;
@@ -13,10 +14,12 @@ namespace Poof.Web.Server.Data
     public sealed class DbFellowshipBuilding : IDataBuilding
     {
         private readonly ApplicationDbContext context;
+        private readonly ICache<DbFellowship> cache;
 
-        public DbFellowshipBuilding(ApplicationDbContext context)
+        public DbFellowshipBuilding(ApplicationDbContext context, ICache<DbFellowship> cache)
         {
             this.context = context;
+            this.cache = cache;
         }
 
         public void Add(string floor)
@@ -30,8 +33,10 @@ namespace Poof.Web.Server.Data
         public IDataFloor Floor(string id)
         {
             return
-                new DbFellowshipFloor(this.context,
-                    this.context.Fellowships.Find(id)
+                new DbFellowshipFloor(
+                    this.context,
+                    this.cache,
+                    id
                 );
         }
 
@@ -60,6 +65,7 @@ namespace Poof.Web.Server.Data
                 this.context.Fellowships.Find(floor)
             );
             this.context.SaveChanges();
+            this.cache.Clear();
         }
     }
 }

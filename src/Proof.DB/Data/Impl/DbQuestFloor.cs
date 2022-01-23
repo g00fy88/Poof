@@ -11,25 +11,35 @@ namespace Poof.DB.Data
     public sealed class DbQuestFloor : IDataFloor
     {
         private readonly ApplicationDbContext context;
-        private readonly DbQuest quest;
+        private readonly ICache<DbQuest> cache;
+        private readonly string id;
 
-        public DbQuestFloor(ApplicationDbContext context, DbQuest quest)
+        public DbQuestFloor(ApplicationDbContext context, ICache<DbQuest> cache, string id)
         {
             this.context = context;
-            this.quest = quest;
+            this.cache = cache;
+            this.id = id;
         }
 
         public T Prop<T>(string name)
         {
-            return new DbValue<DbQuest, T>(this.quest).Invoke(name);
+            return new DbValue<DbQuest, T>(this.cache.Value(this.id)).Invoke(name);
         }
 
         public void Update<T>(string name, T value)
         {
-            new DbUpdate<DbQuest, T>(this.quest, name, this.context).Invoke(value);
-
-            this.context.Quests.Update(this.quest);
-            this.context.SaveChanges();
+            lock (this.id)
+            {
+                this.context.Quests.Update(
+                    new DbUpdate<DbQuest, T>(
+                        this.cache.Value(this.id),
+                        name,
+                        this.context
+                    ).Invoke(value)
+                );
+                this.context.SaveChanges();
+                this.cache.Clear();
+            }
         }
     }
 }

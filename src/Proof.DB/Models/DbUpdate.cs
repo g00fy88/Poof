@@ -11,7 +11,7 @@ using Yaapii.Atoms.Scalar;
 
 namespace Poof.DB.Models
 {
-    public sealed class DbUpdate<TEntity, TValue> : IAction<TValue>
+    public sealed class DbUpdate<TEntity, TValue> : IFunc<TValue, TEntity>
     {
         private readonly IDictionary<Type, IDictionary<string, Action<TValue>>> map;
         private readonly TEntity entity;
@@ -108,7 +108,7 @@ namespace Poof.DB.Models
             this.name = name;
         }
 
-        public void Invoke(TValue input)
+        public TEntity Invoke(TValue input)
         {
             var type =
                 new FirstOf<Type>(
@@ -121,6 +121,8 @@ namespace Poof.DB.Models
                 this.map[type],
                 key => throw new InvalidOperationException($"Unable to update property '{name}', because it does not exist.")
             )[name].Invoke(input);
+
+            return this.entity;
         }
 
         private T Cast<T>(string name, object value)

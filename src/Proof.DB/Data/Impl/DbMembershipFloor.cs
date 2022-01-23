@@ -9,25 +9,35 @@ namespace Poof.DB.Data
     public sealed class DbMembershipFloor : IDataFloor
     {
         private readonly ApplicationDbContext context;
-        private readonly DbMembership membership;
+        private readonly ICache<DbMembership> cache;
+        private readonly string id;
 
-        public DbMembershipFloor(ApplicationDbContext context, DbMembership membership)
+        public DbMembershipFloor(ApplicationDbContext context, ICache<DbMembership> cache, string id)
         {
             this.context = context;
-            this.membership = membership;
+            this.cache = cache;
+            this.id = id;
         }
 
         public T Prop<T>(string name)
         {
-            return new DbValue<DbMembership, T>(this.membership).Invoke(name);
+            return new DbValue<DbMembership, T>(this.cache.Value(this.id)).Invoke(name);
         }
 
         public void Update<T>(string name, T value)
         {
-            new DbUpdate<DbMembership, T>(this.membership, name, this.context).Invoke(value);
-
-            this.context.Memberships.Update(this.membership);
-            this.context.SaveChanges();
+            lock (this.id)
+            {
+                this.context.Memberships.Update(
+                    new DbUpdate<DbMembership, T>(
+                        this.cache.Value(this.id),
+                        name,
+                        this.context
+                    ).Invoke(value)
+                );
+                this.context.SaveChanges();
+                this.cache.Clear();
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Poof.Core.Model.Data;
 using Poof.DB.Data;
+using Poof.DB.Models;
 using System;
 using System.Collections.Generic;
 using Yaapii.Atoms.Map;
@@ -20,11 +21,31 @@ namespace Poof.Web.Server.Data
         public DbBuilding(ApplicationDbContext context, string name) : this(
             name,
             new MapOf<IDataBuilding>(
-                new KvpOf<IDataBuilding>("user", new DbUserBuilding(context)),
-                new KvpOf<IDataBuilding>("fellowship", new DbFellowshipBuilding(context)),
-                new KvpOf<IDataBuilding>("transaction", new DbTransactionBuilding(context)),
-                new KvpOf<IDataBuilding>("membership", new DbMembershipBuilding(context)),
-                new KvpOf<IDataBuilding>("quest", new DbQuestBuilding(context))
+                new KvpOf<IDataBuilding>("user", () =>
+                    new DbUserBuilding(context, 
+                        new DbCache<ApplicationUser>(context.Users)
+                    )
+                ),
+                new KvpOf<IDataBuilding>("fellowship", () =>
+                    new DbFellowshipBuilding(context, 
+                        new DbCache<DbFellowship>(context.Fellowships)
+                    )
+                ),
+                new KvpOf<IDataBuilding>("transaction", () =>
+                    new DbTransactionBuilding(context,
+                        new DbCache<DbTransaction>(context.Transactions)
+                    )
+                ),
+                new KvpOf<IDataBuilding>("membership", () =>
+                    new DbMembershipBuilding(context,
+                        new DbCache<DbMembership>(context.Memberships)
+                    )
+                ),
+                new KvpOf<IDataBuilding>("quest", () =>
+                    new DbQuestBuilding(context,
+                        new DbCache<DbQuest>(context.Quests)
+                    )
+                )
             )
         )
         { }

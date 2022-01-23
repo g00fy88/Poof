@@ -1,4 +1,5 @@
 ﻿using Poof.Core.Model.Data;
+using Poof.DB;
 using Poof.DB.Data;
 using Poof.DB.Data.Impl.PropMatch;
 using Poof.DB.Models;
@@ -11,10 +12,12 @@ namespace Poof.Web.Server.Data
     public sealed class DbTransactionBuilding : IDataBuilding
     {
         private readonly ApplicationDbContext context;
+        private readonly ICache<DbTransaction> cache;
 
-        public DbTransactionBuilding(ApplicationDbContext context)
+        public DbTransactionBuilding(ApplicationDbContext context, ICache<DbTransaction> cache)
         {
             this.context = context;
+            this.cache = cache;
         }
 
         public void Add(string floor)
@@ -28,8 +31,10 @@ namespace Poof.Web.Server.Data
         public IDataFloor Floor(string id)
         {
             return
-                new DbTransactionFloor(this.context,
-                    this.context.Transactions.Find(id)
+                new DbTransactionFloor(
+                    this.context,
+                    this.cache,
+                    id
                 );
         }
 
@@ -58,6 +63,7 @@ namespace Poof.Web.Server.Data
                 this.context.Transactions.Find(floor)
             );
             this.context.SaveChanges();
+            this.cache.Clear();
         }
     }
 }

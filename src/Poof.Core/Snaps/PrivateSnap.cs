@@ -33,7 +33,7 @@ namespace Poof.Core.Snaps
                     ),
                     new FwCategory("discovery",
                         new FwAction("check-name-availability", new CheckNameAvailability(mem)),
-                        new FwAction("get-catalog", new GetsCatalog(mem, identity)),
+                        new FwAction("get-catalog", new Fellowship.GetsCatalog(mem, identity)),
                         new FwAction("get-details", new Fellowship.GetsDetails(mem, identity))
                     )
                 ),

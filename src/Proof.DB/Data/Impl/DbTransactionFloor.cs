@@ -11,25 +11,35 @@ namespace Poof.DB.Data
     public sealed class DbTransactionFloor : IDataFloor
     {
         private readonly ApplicationDbContext context;
-        private readonly DbTransaction transaction;
+        private readonly ICache<DbTransaction> cache;
+        private readonly string id;
 
-        public DbTransactionFloor(ApplicationDbContext context, DbTransaction transaction)
+        public DbTransactionFloor(ApplicationDbContext context, ICache<DbTransaction> cache, string id)
         {
             this.context = context;
-            this.transaction = transaction;
+            this.cache = cache;
+            this.id = id;
         }
 
         public T Prop<T>(string name)
         {
-            return new DbValue<DbTransaction, T>(this.transaction).Invoke(name);
+            return new DbValue<DbTransaction, T>(this.cache.Value(this.id)).Invoke(name);
         }
 
         public void Update<T>(string name, T value)
         {
-            new DbUpdate<DbTransaction, T>(this.transaction, name, this.context).Invoke(value);
-
-            this.context.Transactions.Update(this.transaction);
-            this.context.SaveChanges();
+            lock (this.id)
+            {
+                this.context.Transactions.Update(
+                    new DbUpdate<DbTransaction, T>(
+                        this.cache.Value(this.id),
+                        name,
+                        this.context
+                    ).Invoke(value)
+                );
+                this.context.SaveChanges();
+                this.cache.Clear();
+            }
         }
     }
 }
