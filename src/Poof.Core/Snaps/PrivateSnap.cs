@@ -39,9 +39,10 @@ namespace Poof.Core.Snaps
                 ),
                 new FwEntity("quest",
                     new FwCategory("configuration",
-                        new FwAction("add-weeklies",
-                            new AddsWeeklyQuests(mem, identity, future)
-                        )
+                        new FwAction("add-applicant", new AddsApplicant(mem, identity, future))
+                    ),
+                    new FwCategory("discovery",
+                        new FwAction("get-catalog", new Quest.GetsCatalog(mem, identity))
                     )
                 ),
                 new FwEntity("transaction",
@@ -90,7 +91,7 @@ namespace Poof.Core.Snaps
             if(!response.Has())
             {
                 throw new InvalidOperationException(
-                    new Paragraph($"Unable to process public request with parameters",
+                    new Paragraph($"Unable to process private request with parameters",
                         $"entity: {demand.Param("entity")}",
                         $"category: {demand.Param("category")}",
                         $"action: {demand.Param("action")}.",

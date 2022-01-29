@@ -28,13 +28,14 @@ namespace Poof.Core.Snaps.Quest
         /// If not, these quests are removed and new quests are added for this user
         /// with an end-date in 7 days. this use case is rescheduled to this date as well.
         /// </summary>
-        public AddsWeeklyQuests(IDataBuilding mem, IIdentity identity, IFuture future) : base(dmd =>
+        public AddsWeeklyQuests(IDataBuilding mem, IFuture future) : base(dmd =>
         {
             var quests = new Quests(mem);
+            var user = dmd.Param("user");
             var privateQuests =
                 quests.List(
                     new Scope.Match("private"),
-                    new Issuer.Match(identity.UserID())
+                    new Issuer.Match(user)
                 );
 
             var date = DateTime.Now;
@@ -62,10 +63,10 @@ namespace Poof.Core.Snaps.Quest
                 // create new quests;
             }
 
-            future.Schedule(date,
+            future.Schedule(
                 new JobOf(
-                    identity,
-                    new DmAddWeeklyQuests()
+                    date,
+                    new DmAddWeeklyQuests(user)
                 )
             );
         })

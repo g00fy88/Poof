@@ -12,6 +12,7 @@ namespace Poof.DB.Models
         public ApplicationUser Issuer { get; set; }
         public List<ApplicationUser> Applicants { get; set; } = new List<ApplicationUser>();
         public string Status { get; set; } = "published";
+        public double CompletionTime { get; set; }
         public string Scope { get; set; } = "";
         public string Category { get; set; } = "";
         public string Title { get; set; } = "";
@@ -20,6 +21,7 @@ namespace Poof.DB.Models
         public double Reward { get; set; }
         public bool HasEndDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime ApplyDate { get; set; }
         public bool HasLocation { get; set; }
         public string Location { get; set; }
     }

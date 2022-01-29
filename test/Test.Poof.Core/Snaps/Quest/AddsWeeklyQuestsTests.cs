@@ -54,8 +54,8 @@ namespace Poof.Core.Snaps.Quest.Test
                new EndDate(DateTime.Now.AddDays(-1))
             );
 
-            new AddsWeeklyQuests(mem, new UserIdentity(user), new FkFuture()).Convert(
-                new DmAddWeeklyQuests()
+            new AddsWeeklyQuests(mem, new FkFuture()).Convert(
+                new DmAddWeeklyQuests(user)
             );
 
             Assert.Equal(
@@ -81,14 +81,13 @@ namespace Poof.Core.Snaps.Quest.Test
 
             var result = DateTime.Now;
             new AddsWeeklyQuests(
-                mem, 
-                new UserIdentity(user), 
+                mem,  
                 new FkFuture(
                     ()=> { },
-                    (date, job) => result = date
+                    job => result = job.DueDate()
                 )
             ).Convert(
-                new DmAddWeeklyQuests()
+                new DmAddWeeklyQuests(user)
             );
 
             Assert.Equal(
@@ -114,13 +113,12 @@ namespace Poof.Core.Snaps.Quest.Test
             var result = DateTime.Now;
             new AddsWeeklyQuests(
                 mem,
-                new UserIdentity(user),
                 new FkFuture(
                     () => { },
-                    (date, job) => result = date
+                    job => result = job.DueDate()
                 )
             ).Convert(
-                new DmAddWeeklyQuests()
+                new DmAddWeeklyQuests(user)
             );
 
             Assert.True(

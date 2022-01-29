@@ -9,18 +9,18 @@ namespace Poof.Core.Future
 {
     public sealed class JobOf : IJob
     {
-        private readonly IIdentity identity;
+        private readonly DateTime dueDate;
         private readonly IDemand demand;
 
-        public JobOf(string user, IDemand demand) : this(
-            new UserIdentity(user),
+        public JobOf(IDemand demand) : this(
+            DateTime.Now,
             demand
         )
         { }
 
-        public JobOf(IIdentity identity, IDemand demand)
+        public JobOf(DateTime dueDate, IDemand demand)
         {
-            this.identity = identity;
+            this.dueDate = dueDate;
             this.demand = demand;
         }
 
@@ -29,9 +29,9 @@ namespace Poof.Core.Future
             return this.demand;
         }
 
-        public IIdentity Identity()
+        public DateTime DueDate()
         {
-            return this.identity;
+            return this.dueDate;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Poof.Core.Model.Future
 {
     public interface IJob
     {
-        IIdentity Identity();
+        DateTime DueDate();
         IDemand Demand();
     }
 }

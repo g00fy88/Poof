@@ -6,8 +6,9 @@ namespace Poof.Talk.Snaps.Quest
 {
     public sealed class DmAddWeeklyQuests : DemandEnvelope
     {
-        public DmAddWeeklyQuests() : base(() =>
+        public DmAddWeeklyQuests(string user) : base(() =>
             new PoofDemand("quest", "configuration", "add-weeklies")
+                .Refined("user", user)
         )
         { }
     }

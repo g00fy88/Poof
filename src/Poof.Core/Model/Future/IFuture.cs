@@ -7,6 +7,6 @@ namespace Poof.Core.Model.Future
     public interface IFuture
     {
         void RunAsync();
-        void Schedule(DateTime dueDate, IJob job);
+        void Schedule(IJob job);
     }
 }

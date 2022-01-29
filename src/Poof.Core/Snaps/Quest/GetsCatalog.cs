@@ -63,9 +63,14 @@ namespace Poof.Core.Snaps.Quest
                                 new JProperty("name", hasApplicant ?
                                     new Pseudonym.Name(new UserOf(mem, new Applicant.Of(quest).Value())).AsString() :
                                     ""
+                                ),
+                                new JProperty("startDate", hasApplicant ?
+                                    new Applicant.StartDate(quest).Value().ToString("u", CultureInfo.InvariantCulture) :
+                                    ""
                                 )
                             )
                         ),
+                        new JProperty("completionTime", new TextOf(new CompletionTime.Of(quest).Value()).AsString()),
                         new JProperty("reward", new TextOf(new Reward.Of(quest).Value()).AsString()),
                         new JProperty("category", new Category.Of(quest).AsString()),
                         new JProperty("title", new Title.Of(quest).AsString()),

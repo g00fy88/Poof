@@ -18,10 +18,9 @@ namespace Poof.Core.Snaps.Quest
         {
             foreach(var id in new Users(mem).List())
             {
-                future.Schedule(DateTime.Now,
+                future.Schedule(
                     new JobOf(
-                        new UserIdentity(id),
-                        new DmAddWeeklyQuests()
+                        new DmAddWeeklyQuests(id)
                     )
                 );
             }

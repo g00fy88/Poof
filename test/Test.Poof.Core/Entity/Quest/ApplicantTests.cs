@@ -65,5 +65,25 @@ namespace Poof.Core.Entity.Quest.Test
                 new Applicant.Has(quest).Value()
             );
         }
+
+        [Fact]
+        public void AddsStartDate()
+        {
+            var mem = new TestBuilding();
+            var user = new Users(mem).New();
+            var quest =
+                new QuestOf(
+                    mem,
+                    new Quests(mem).New()
+                );
+
+            quest.Update(
+                new Applicant(user)
+            );
+
+            Assert.True(
+                (new Applicant.StartDate(quest).Value() - DateTime.Now).TotalSeconds < 3
+            );
+        }
     }
 }

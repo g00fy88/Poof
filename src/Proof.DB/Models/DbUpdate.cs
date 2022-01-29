@@ -89,7 +89,9 @@ namespace Poof.DB.Models
                                     applicants.Add(tuser(user));
                                 }
                             }),
+                            new KvpOf<Action<TValue>>("apply-date", val => (entity as DbQuest).ApplyDate = Cast<DateTime>(name, val)),
                             new KvpOf<Action<TValue>>("category", val => (entity as DbQuest).Category = Cast<string>(name, val)),
+                            new KvpOf<Action<TValue>>("completion-time", val => (entity as DbQuest).CompletionTime = Cast<double>(name, val)),
                             new KvpOf<Action<TValue>>("description", val => (entity as DbQuest).Description = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("end-date", val => (entity as DbQuest).EndDate = Cast<DateTime>(name, val)),
                             new KvpOf<Action<TValue>>("has-end-date", val => (entity as DbQuest).HasEndDate = Cast<bool>(name, val)),

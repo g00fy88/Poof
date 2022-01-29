@@ -114,6 +114,9 @@ namespace Poof.WebApp.Server
             new InitializesWeeklies(mem, future).Convert(
                 new EmptyDemand()
             );
+            new InitializesExpiries(mem, future).Convert(
+                new EmptyDemand()
+            );
         }
     }
 }

@@ -77,7 +77,9 @@ namespace Poof.DB.Models
                                     ).ToArray()
                                 )
                             ),
+                            new KvpOf<TValue>("apply-date", () => Cast<TValue>("apply-date", (entity as DbQuest).ApplyDate)),
                             new KvpOf<TValue>("category", () => Cast<TValue>("category", (entity as DbQuest).Category, "")),
+                            new KvpOf<TValue>("completion-time", () => Cast<TValue>("completion-time", (entity as DbQuest).CompletionTime)),
                             new KvpOf<TValue>("description", () => Cast<TValue>("description", (entity as DbQuest).Description, "")),
                             new KvpOf<TValue>("end-date", () => Cast<TValue>("end-date", (entity as DbQuest).EndDate)),
                             new KvpOf<TValue>("has-end-date", () => Cast<TValue>("has-end-date", (entity as DbQuest).HasEndDate)),

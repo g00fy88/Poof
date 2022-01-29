@@ -22,8 +22,8 @@ namespace Poof.Core.Future
     /// </summary>
     public sealed class FutureOf : IFuture
     {
-        private readonly Func<IIdentity, ISnap<IInput>> api;
-        private readonly IList<IKvp<DateTime, IJob>> jobs;
+        private readonly ISnap<IInput> api;
+        private readonly IList<IJob> jobs;
 
         /// <summary>
         /// a future that runs async and can be scheduled with jobs to run at a given time.
@@ -32,8 +32,8 @@ namespace Poof.Core.Future
         /// </summary>
         public FutureOf(IDataBuilding mem, IPulse pulse)
         {
-            this.api = identity => new PrivateSnap(mem, pulse, identity, this);
-            this.jobs = new List<IKvp<DateTime, IJob>>();
+            this.api = new FutureSnap(mem, pulse, this);
+            this.jobs = new List<IJob>();
         }
 
         public void RunAsync()
@@ -42,14 +42,14 @@ namespace Poof.Core.Future
             {
                 while (true)
                 {
-                    var jobCopy = new List<IKvp<DateTime, IJob>>();
+                    var jobCopy = new List<IJob>();
                     lock (this.jobs)
                     {
-                        jobCopy = new List<IKvp<DateTime, IJob>>(this.jobs);
+                        jobCopy = new List<IJob>(this.jobs);
                     }
                     foreach (var job in jobCopy)
                     {
-                        if(job.Key() < DateTime.Now)
+                        if(job.DueDate() < DateTime.Now)
                         {
                             try
                             {
@@ -57,7 +57,7 @@ namespace Poof.Core.Future
                                 {
                                     this.jobs.Remove(job);
                                 }
-                                this.api(job.Value().Identity()).Convert(job.Value().Demand());
+                                this.api.Convert(job.Demand());
                             }
                             catch
                             {
@@ -70,31 +70,25 @@ namespace Poof.Core.Future
             });
         }
 
-        public void Schedule(DateTime dueDate, IJob job)
+        public void Schedule(IJob job)
         {
             lock(this.jobs)
             {
                 if (
                     new LengthOf(
                         new Filtered<IJob>(j =>
-                            j.Identity().UserID() == job.Identity().UserID() &&
                             new And(
                                 new Mapped<string, bool>(p =>
                                     j.Demand().Params().Contains(p) && j.Demand().Param(p, "") == job.Demand().Param(p, ""),
                                     job.Demand().Params()
                                 )
                             ).Value(),
-                            new Mapped<IKvp<DateTime, IJob>, IJob>(kv =>
-                                kv.Value(),
-                                this.jobs
-                            )
+                            this.jobs
                         )
                     ).Value() == 0
                 )
                 {
-                    this.jobs.Add(
-                        new KvpOf<DateTime, IJob>(dueDate, job)
-                    );
+                    this.jobs.Add(job);
                 }
             }
         }

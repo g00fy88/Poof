@@ -1,6 +1,7 @@
 ﻿using Poof.Core.Model.Data;
 using Poof.Core.Model.Entity;
 using System;
+using Yaapii.Atoms;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
@@ -14,8 +15,20 @@ namespace Poof.Core.Entity.Quest
         /// <summary>
         /// The user, that had applied for this quest
         /// </summary>
-        public Applicant(string user) : base(floor =>
-            floor.Update("applicants", new string[] {user})
+        public Applicant(string user) : this(
+            user,
+            new ScalarOf<DateTime>(() => DateTime.Now)
+        )
+        { }
+
+        /// <summary>
+        /// The user, that had applied for this quest
+        /// </summary>
+        public Applicant(string user, IScalar<DateTime> date) : base(floor =>
+        {
+            floor.Update("applicants", new string[] { user });
+            floor.Update("apply-date", date.Value());
+        }
         )
         { }
 
@@ -46,6 +59,20 @@ namespace Poof.Core.Entity.Quest
                     quest.Memory().Prop<string[]>("applicants"),
                     new InvalidOperationException("Unable to retrieve applicant of quest, because there is no applicant yet")
                 ).Value()
+            )
+            { }
+        }
+
+        /// <summary>
+        /// The user, that had applied for this quest
+        /// </summary>
+        public sealed class StartDate : ScalarEnvelope<DateTime>
+        {
+            /// <summary>
+            /// The user, that had applied for this quest
+            /// </summary>
+            public StartDate(IEntity quest) : base(() =>
+                quest.Memory().Prop<DateTime>("apply-date")
             )
             { }
         }

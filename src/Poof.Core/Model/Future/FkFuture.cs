@@ -7,15 +7,15 @@ namespace Poof.Core.Model.Future
     public sealed class FkFuture : IFuture
     {
         private readonly Action runAsync;
-        private readonly Action<DateTime, IJob> schedule;
+        private readonly Action<IJob> schedule;
 
         public FkFuture() : this(
             () => { },
-            (date, job) => { }
+            job => { }
         )
         { }
 
-        public FkFuture(Action runAsync, Action<DateTime, IJob> schedule)
+        public FkFuture(Action runAsync, Action<IJob> schedule)
         {
             this.runAsync = runAsync;
             this.schedule = schedule;
@@ -26,9 +26,9 @@ namespace Poof.Core.Model.Future
             this.runAsync();
         }
 
-        public void Schedule(DateTime dueDate, IJob job)
+        public void Schedule(IJob job)
         {
-            this.schedule(dueDate, job);
+            this.schedule(job);
         }
     }
 }
