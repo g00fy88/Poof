@@ -22,6 +22,7 @@ namespace Poof.DB.Models
         public bool HasEndDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime ApplyDate { get; set; }
+        public DateTime FinishDate { get; set; }
         public bool HasLocation { get; set; }
         public string Location { get; set; }
     }

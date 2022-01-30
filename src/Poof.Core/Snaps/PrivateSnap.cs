@@ -39,7 +39,8 @@ namespace Poof.Core.Snaps
                 ),
                 new FwEntity("quest",
                     new FwCategory("configuration",
-                        new FwAction("add-applicant", new AddsApplicant(mem, identity, future))
+                        new FwAction("add-applicant", new AddsApplicant(mem, identity, future)),
+                        new FwAction("finish-quest", new FinishesQuest(mem, identity))
                     ),
                     new FwCategory("discovery",
                         new FwAction("get-catalog", new Quest.GetsCatalog(mem, identity))

@@ -82,6 +82,7 @@ namespace Poof.DB.Models
                             new KvpOf<TValue>("completion-time", () => Cast<TValue>("completion-time", (entity as DbQuest).CompletionTime)),
                             new KvpOf<TValue>("description", () => Cast<TValue>("description", (entity as DbQuest).Description, "")),
                             new KvpOf<TValue>("end-date", () => Cast<TValue>("end-date", (entity as DbQuest).EndDate)),
+                            new KvpOf<TValue>("finish-date", () => Cast<TValue>("finish-date", (entity as DbQuest).FinishDate)),
                             new KvpOf<TValue>("has-end-date", () => Cast<TValue>("has-end-date", (entity as DbQuest).HasEndDate)),
                             new KvpOf<TValue>("issuer", () => Cast<TValue>("issuer", (entity as DbQuest).Issuer.Id)),
                             new KvpOf<TValue>("location", () => Cast<TValue>("location", (entity as DbQuest).Location)),
