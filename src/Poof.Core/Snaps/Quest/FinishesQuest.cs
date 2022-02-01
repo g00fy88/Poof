@@ -1,4 +1,6 @@
-﻿using Poof.Core.Entity.Quest;
+﻿using Poof.Core.Deal;
+using Poof.Core.Entity.Quest;
+using Poof.Core.Entity.User;
 using Poof.Core.Future;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
@@ -14,14 +16,12 @@ using Yaapii.JSON;
 namespace Poof.Core.Snaps.Quest
 {
     /// <summary>
-    /// Checks if the quest in the demand is expired still not finished.
-    /// If so, the quest status is changed to failed
+    /// Finishes the quest in the demand and rewards the applicant with the points and score by signing the poof deal
     /// </summary>
     public sealed class FinishesQuest : SnapEnvelope<IInput>
     {
         /// <summary>
-        /// Checks if the quest in the demand is expired still not finished.
-        /// If so, the quest status is changed to failed. If not expired, it reschedules itself with the expiry date
+        /// Finishes the quest in the demand and rewards the applicant with the points and score by signing the poof deal
         /// </summary>
         public FinishesQuest(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
@@ -40,10 +40,20 @@ namespace Poof.Core.Snaps.Quest
             }
 
             quest.Update(
-                new FinishDate(date),
                 new Status("finished"),
+                new FinishDate(date),
                 new Note(
                     new JSONOf(dmd.Body()).Value("note")
+                )
+            );
+
+            new PoofDeal(mem).Sign(
+                new DealerOf("user",
+                    new Issuer.Of(quest).Value(),
+                    new Reward.Of(quest).Value()
+                ),
+                new CustomerOf("user",
+                    new Applicant.Of(quest).Value()
                 )
             );
         })
