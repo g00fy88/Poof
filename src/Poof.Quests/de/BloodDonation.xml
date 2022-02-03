@@ -1,0 +1,11 @@
+﻿<quest>
+  <title>Blut spenden gehen</title>
+  <category>Solidarität</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <description>
+    Um Menschen in gesundheitlicher Not zu helfen, wird Spenderblut benötigt. Und du kannst auch etwas spenden.
+    Wie das geht, findest du in der Regel ganz einfach im Internet heraus. 
+    Dieser Quest ist abgeschlossen, sobald du einmal etwas Blut gespendet hast.
+  </description>
+</quest>

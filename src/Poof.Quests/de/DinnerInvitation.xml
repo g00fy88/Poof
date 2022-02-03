@@ -1,0 +1,11 @@
+﻿<quest>
+  <title>Zum Essen einladen</title>
+  <category>Gemeinschaft</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <description>
+    Du kannst selbst etwas kochen, in ein Restaurant gehen oder den Lieferdienst anrufen. 
+    Wichtig ist, dass du es nicht alleine tust. Lade einen Freund, Familienmitglied, Kollegen oder vielleicht sogar einen Fremden mit ein.
+    Dieser Quest ist abgeschlossen, sobald du mit mindestens einer anderen Person nett zusammen gegessen hast.
+  </description>
+</quest>
