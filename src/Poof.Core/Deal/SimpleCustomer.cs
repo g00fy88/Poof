@@ -6,27 +6,20 @@ using Yaapii.Atoms.Text;
 
 namespace Poof.Core.Deal
 {
-    public sealed class DealerOf : IDealer
+    public sealed class SimpleCustomer : ICustomer
     {
         private readonly string type;
         private readonly string id;
-        private readonly double amount;
 
-        public DealerOf(string type, string id, double amount)
+        public SimpleCustomer(string type, string id)
         {
             this.type = type;
             this.id = id;
-            this.amount = amount;
         }
 
         public string ID()
         {
             return this.id;
-        }
-
-        public double Points()
-        {
-            return this.amount;
         }
 
         public string Type()

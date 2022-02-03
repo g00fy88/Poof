@@ -12,11 +12,16 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
-                <span style="padding-top:5px" class="oi icon-scroll-icon-29263"></span><span class="ttext icon-text">Home</span>
+                <span style="padding-top:5px" class="oi oi-home"></span><span class="ttext icon-text">Home</span>
             </NavLink>
         </li>
         <AuthorizeView>
             <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link ttip" href="quests">
+                        <span style="padding-top:5px" class="oi icon-scroll-icon-29263"></span><span class="ttext icon-text">Quests</span>
+                    </NavLink>
+                </li>
                 <li class="nav-item px-3">
                     <NavLink class="nav-link ttip" href="main">
                         <span style="padding-top:5px" class="oi icon-tribe-icon-37"></span><span class="ttext icon-text">My Profile</span>
@@ -50,13 +55,13 @@
 </div>
 
 <div class="onlynarrow">
-    <div class="item">
-         <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
-            <span class="oi icon-scroll-icon-29263" aria-hidden="true"></span> <span class="ttext icon-text">Home</span>
-        </NavLink>
-    </div>
      <AuthorizeView>
         <Authorized>
+            <div class="item">
+                 <NavLink class="nav-link ttip" href="quests">
+                    <span class="oi icon-scroll-icon-29263" aria-hidden="true"></span> <span class="ttext icon-text">Quests</span>
+                </NavLink>
+            </div>
             <div class="item">
                 <NavLink class="nav-link ttip" href="main">
                     <span class="oi icon-tribe-icon-37" aria-hidden="true"></span> <span class="ttext icon-text">My Profile</span>
@@ -69,6 +74,11 @@
             </div>
         </Authorized>
         <NotAuthorized>
+            <div class="item">
+                 <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> <span class="ttext icon-text">Home</span>
+                </NavLink>
+            </div>
             <div class="item">
                 <NavLink class="nav-link ttip" href="authentication/register">
                     <span class="oi oi-pencil" aria-hidden="true"></span> <span class="ttext icon-text">Register</span>

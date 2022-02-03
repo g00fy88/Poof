@@ -48,11 +48,11 @@ namespace Poof.Core.Snaps.Quest
             );
 
             new PoofDeal(mem).Sign(
-                new DealerOf("user",
+                new SimpleDealer("user",
                     new Issuer.Of(quest).Value(),
                     new Reward.Of(quest).Value()
                 ),
-                new CustomerOf("user",
+                new SimpleCustomer("user",
                     new Applicant.Of(quest).Value()
                 )
             );

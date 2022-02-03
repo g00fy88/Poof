@@ -1,0 +1,27 @@
+﻿@page "/quests"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+@using Poof.Talk.Snaps.User.Configuration
+@using Poof.Talk.Snaps.User.Discovery
+@using Poof.WebApp.Client.Display
+@using Yaapii.Atoms.Text
+@attribute [Authorize]
+@inject IApi api
+@inject IMemory mem
+
+<div class="content px-4">
+</div>
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+}

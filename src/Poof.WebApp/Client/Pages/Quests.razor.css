@@ -1,0 +1,26 @@
+﻿.addfriend {
+    color: white;
+    background-color: #43cd80;
+    height: 34px;
+    border-radius: 17px;
+    white-space: nowrap;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: ease 0.2s;
+    font-family: 'Inconsolata', monospace;
+}
+
+    .addfriend:hover {
+        background-color: #54ff9f;
+    }
+
+    .addfriend p {
+    display: inline-block;
+    margin: 0;
+}
+
+.friends {
+    width: 100%;
+    padding-top: 20px;
+    box-shadow: 0 10px 10px -10px #bbb inset;
+}
