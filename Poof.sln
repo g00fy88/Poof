@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pulse", "src\Pulse\Pulse.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poof.Demand", "src\Poof.Demand\Poof.Demand.csproj", "{68F110FF-FC3E-417E-AEB4-893500F5DA9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poof.Quests", "src\Poof.Quests\Poof.Quests.csproj", "{09364813-20A8-483A-AB41-B513C967E6A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poof.PrivateQuests", "src\Poof.Quests\Poof.PrivateQuests.csproj", "{09364813-20A8-483A-AB41-B513C967E6A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

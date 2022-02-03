@@ -5,7 +5,7 @@ using Yaapii.Atoms.IO;
 using Yaapii.Atoms.List;
 using Yaapii.Xml;
 
-namespace Poof.Quests
+namespace Poof.PrivateQuests
 {
     /// <summary>
     /// A list of random quests as xml, with the given count

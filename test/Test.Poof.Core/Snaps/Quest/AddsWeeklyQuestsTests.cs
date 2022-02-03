@@ -97,6 +97,12 @@ namespace Poof.Core.Snaps.Quest.Test
         }
 
         [Fact]
+        public void AddsNewQuests()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Fact]
         public void ReschedulesTo7Days()
         {
             var mem = new TestBuilding();

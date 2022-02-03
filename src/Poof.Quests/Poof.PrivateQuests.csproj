@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="de\BloodDonation.xml" />
+    <None Remove="de\DinnerInvitation.xml" />
+    <None Remove="de\RegionalProducts.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="de\BloodDonation.xml" />
+    <EmbeddedResource Include="de\DinnerInvitation.xml" />
+    <EmbeddedResource Include="de\RegionalProducts.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Yaapii.Atoms" Version="2.6.0" />
+    <PackageReference Include="Yaapii.Xml" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

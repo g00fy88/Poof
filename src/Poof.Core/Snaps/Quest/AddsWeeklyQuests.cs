@@ -1,14 +1,14 @@
 ﻿using Poof.Core.Entity.Quest;
 using Poof.Core.Future;
-using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Core.Model.Future;
+using Poof.PrivateQuests;
 using Poof.Snaps;
 using Poof.Talk.Snaps.Quest;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Yaapii.Atoms;
+using Yaapii.Atoms.Text;
+using Yaapii.Xml;
 
 namespace Poof.Core.Snaps.Quest
 {
@@ -60,7 +60,24 @@ namespace Poof.Core.Snaps.Quest
             if(!hasOpenQuests)
             {
                 date = date.AddDays(7);
-                // create new quests;
+                foreach(var newQuest in new RandomQuests(3))
+                {
+                    new QuestOf(mem, quests.New()).Update(
+                        new Scope("private"),
+                        new Status("open"),
+                        new Issuer(user),
+                        new Title(new XMLString(newQuest, "/quest/title/text()").Value()),
+                        new CompletionTime(
+                            new DoubleOf(new XMLString(newQuest, "/quest/completion-time/text()").Value()).Value()
+                        ),
+                        new EndDate(date),
+                        new Category(new XMLString(newQuest, "/quest/category/text()").Value()),
+                        new Description(new XMLString(newQuest, "/quest/description/text()").Value()),
+                        new Reward(
+                            new DoubleOf(new XMLString(newQuest, "/quest/reward/text()").Value()).Value()
+                        )
+                    );
+                }
             }
 
             future.Schedule(

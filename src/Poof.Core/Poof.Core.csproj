@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Poof.Demand\Poof.Demand.csproj" />
+    <ProjectReference Include="..\Poof.Quests\Poof.PrivateQuests.csproj" />
     <ProjectReference Include="..\Pulse\Pulse.csproj" />
   </ItemGroup>
 
