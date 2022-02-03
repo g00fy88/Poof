@@ -116,7 +116,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             );
 
             Assert.Equal(
-                20,
+                12,
                 new AwGetDetails.ScoreNeeded(
                     new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()
@@ -138,7 +138,7 @@ namespace Poof.Core.Snaps.User.Discovery.Test
             );
 
             Assert.Equal(
-                10,
+                9,
                 new AwGetDetails.ScoreProgress(
                     new GetsDetails(mem, new UserIdentity(user)).Convert(
                         new DmGetDetails()

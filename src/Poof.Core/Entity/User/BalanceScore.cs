@@ -30,7 +30,7 @@ namespace Poof.Core.Entity.User
                 var newLevel = new Level(total + newAmount).Value();
                 if(newLevel < intLevel)
                 {
-                    newAmount = -10 * intLevel * (currentLevel % 1) + double.Epsilon;
+                    newAmount = -(10 + intLevel) * (currentLevel % 1) + double.Epsilon;
                 }
             }
             mem.Update(
@@ -91,12 +91,12 @@ namespace Poof.Core.Entity.User
             {
                 var score = total.Value();
                 var level = 1;
-                while (score - 10 * level > 0)
+                while (score - (10 + level) > 0)
                 {
-                    score -= 10 * level;
+                    score -= 10 + level;
                     level++;
                 }
-                return level + score / (10 * level);
+                return level + score / (10 + level);
             })
             { }
         }

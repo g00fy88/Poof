@@ -18,8 +18,8 @@ namespace Poof.Core.Entity.Fellowship.Test
             
             var user1 = new Users(mem).New();
             var user2 = new Users(mem).New();
-            new UserOf(mem, user1).Update(new BalanceScore(20));
-            new UserOf(mem, user2).Update(new BalanceScore(10));
+            new UserOf(mem, user1).Update(new BalanceScore(17));
+            new UserOf(mem, user2).Update(new BalanceScore(11));
 
             new MembershipOf(mem, new Memberships(mem).New()).Update(
                 new Owner(user1),
@@ -46,8 +46,8 @@ namespace Poof.Core.Entity.Fellowship.Test
 
             var user1 = new Users(mem).New();
             var user2 = new Users(mem).New();
-            new UserOf(mem, user1).Update(new BalanceScore(20));
-            new UserOf(mem, user2).Update(new BalanceScore(10));
+            new UserOf(mem, user1).Update(new BalanceScore(17));
+            new UserOf(mem, user2).Update(new BalanceScore(11));
 
             new MembershipOf(mem, new Memberships(mem).New()).Update(
                 new Owner(user1),

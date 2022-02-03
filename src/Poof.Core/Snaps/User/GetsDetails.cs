@@ -45,8 +45,8 @@ namespace Poof.Core.Snaps.User
                         new JProperty("score",
                             new JObject(
                                 new JProperty("level", new TextOf(intLvl).AsString()),
-                                new JProperty("needed", new TextOf(intLvl * 10).AsString()),
-                                new JProperty("progress", new TextOf(intLvl * 10 * (level % 1)).AsString())
+                                new JProperty("needed", new TextOf(intLvl + 10).AsString()),
+                                new JProperty("progress", new TextOf((intLvl + 10) * (level % 1)).AsString())
                             )
                         )
                     )

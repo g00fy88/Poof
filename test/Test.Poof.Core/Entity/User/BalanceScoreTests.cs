@@ -54,10 +54,10 @@ namespace Poof.Core.Entity.User.Test
                 );
 
             user.Update(new BalanceScore(12));
-            user.Update(new BalanceScore(9));
+            user.Update(new BalanceScore(8));
 
             Assert.Equal(
-                2.55,
+                2.75,
                 new BalanceScore.Level(user).Value()
             );
         }
@@ -77,7 +77,7 @@ namespace Poof.Core.Entity.User.Test
             user.Update(new BalanceScore(-30));
 
             Assert.Equal(
-                3.0,
+                4.0,
                 new BalanceScore.Level(user).Value(),
                 4
             );
