@@ -76,19 +76,7 @@ namespace Poof.DB.Models
                     new KvpOf<Type, IDictionary<string, Action<TValue>>>(
                         typeof(DbQuest), () =>
                         new MapOf<Action<TValue>>(
-                            new KvpOf<Action<TValue>>("applicants", val =>
-                            {
-                                if((entity as DbQuest).Applicants is null)
-                                {
-                                    (entity as DbQuest).Applicants = new List<ApplicationUser>();
-                                }
-                                var applicants = (entity as DbQuest).Applicants;
-                                applicants.Clear();
-                                foreach(var user in Cast<string[]>(name, val))
-                                {
-                                    applicants.Add(tuser(user));
-                                }
-                            }),
+                            new KvpOf<Action<TValue>>("applicant", val => (entity as DbQuest).Applicant = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("apply-date", val => (entity as DbQuest).ApplyDate = Cast<DateTime>(name, val)),
                             new KvpOf<Action<TValue>>("category", val => (entity as DbQuest).Category = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("completion-time", val => (entity as DbQuest).CompletionTime = Cast<double>(name, val)),
@@ -96,10 +84,13 @@ namespace Poof.DB.Models
                             new KvpOf<Action<TValue>>("end-date", val => (entity as DbQuest).EndDate = Cast<DateTime>(name, val)),
                             new KvpOf<Action<TValue>>("finish-date", val => (entity as DbQuest).FinishDate = Cast<DateTime>(name, val)),
                             new KvpOf<Action<TValue>>("has-end-date", val => (entity as DbQuest).HasEndDate = Cast<bool>(name, val)),
-                            new KvpOf<Action<TValue>>("issuer", val => (entity as DbQuest).Issuer = tuser(Cast<string>(name, val))),
+                            new KvpOf<Action<TValue>>("issuer", val => (entity as DbQuest).Issuer = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("location", val => (entity as DbQuest).Location = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("location-needed", val => (entity as DbQuest).HasLocation = Cast<bool>(name, val)),
                             new KvpOf<Action<TValue>>("note", val => (entity as DbQuest).Note = Cast<string>(name, val)),
+                            new KvpOf<Action<TValue>>("picture-data", val => (entity as DbQuest).PictureData = Cast<byte[]>(name, val)),
+                            new KvpOf<Action<TValue>>("picture-type", val => (entity as DbQuest).PictureType = Cast<string>(name, val)),
+                            new KvpOf<Action<TValue>>("picture-url", val => (entity as DbQuest).PictureUrl = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("reward", val => (entity as DbQuest).Reward = Cast<double>(name, val)),
                             new KvpOf<Action<TValue>>("scope", val => (entity as DbQuest).Scope = Cast<string>(name, val)),
                             new KvpOf<Action<TValue>>("status", val => (entity as DbQuest).Status = Cast<string>(name, val)),

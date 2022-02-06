@@ -1,0 +1,84 @@
+﻿@using Yaapii.Atoms.Text
+@using Yaapii.Atoms.Map
+@using Yaapii.Atoms.Enumerable
+
+<div class="green quest" @onclick="ShowDetails">
+    @if(@HasPicture)
+    {
+        <img class="image" src="@PictureUrl">
+    }
+    else
+    {
+        <div class="image"></div>
+        <span class="oi icon-scroll-icon-29263"></span>
+    }
+    <div class="overlay"></div>
+    <div class="time">Läuft ab in @Counter()</div>
+    <div class="title">@Title</div>
+    <div class="category">
+        <span class="@Icon()"></span>
+    </div>
+    <div class="reward" style="margin-bottom: 33px">
+        <span class="icon-tribe-icon-37"></span>
+        <a>@Reward</a>
+    </div>
+    <div class="reward">
+        <span class="icon-award-icon-11"></span>
+        <a>@Score</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string Category { get; set; }
+    [Parameter]
+    public string Reward { get; set; }
+    [Parameter]
+    public string Score { get; set; }
+    [Parameter]
+    public int TimeRemaining { get; set; } = 0;
+    [Parameter]
+    public bool HasPicture { get; set; }
+    [Parameter]
+    public string PictureUrl { get; set; }
+    [Parameter]
+    public EventCallback<string> Open { get; set; }
+
+    private Task ShowDetails()
+    {
+        return Open.InvokeAsync(Id);
+    }
+
+    private string Counter()
+    {
+        var result = "-";
+        if(TimeRemaining > 0)
+        {
+            var timeLeft = TimeSpan.FromSeconds(TimeRemaining);
+            result = "";
+            if(timeLeft.Days > 0)
+            {
+                result = $"{timeLeft.Days}T ";
+            }
+            result += $"{timeLeft.Hours.ToString("00")}:{timeLeft.Minutes.ToString("00")}:{timeLeft.Seconds.ToString("00")}";
+        }
+        return result;
+    }
+
+    private string Icon()
+    {
+        return 
+            new FallbackMap(
+                new MapOf(
+                    "solidarity", "icon-teamwork-icon-37",
+                    "community", "icon-friends-icon-png-19",
+                    "sustainability", "icon-sustainability-icon-3_1"
+                ),
+                key => "icon-scroll-icon-29263"
+            )[Category];
+    }
+}

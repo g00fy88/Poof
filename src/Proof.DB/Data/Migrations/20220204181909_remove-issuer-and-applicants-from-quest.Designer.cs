@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Poof.DB.Data;
 
 namespace Poof.DB.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220204181909_remove-issuer-and-applicants-from-quest")]
+    partial class removeissuerandapplicantsfromquest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -393,9 +395,6 @@ namespace Poof.DB.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Applicant")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("ApplyDate")
                         .HasColumnType("datetime2");
 
@@ -420,22 +419,10 @@ namespace Poof.DB.Data.Migrations
                     b.Property<bool>("HasLocation")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Issuer")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("PictureData")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("PictureType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PictureUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Reward")

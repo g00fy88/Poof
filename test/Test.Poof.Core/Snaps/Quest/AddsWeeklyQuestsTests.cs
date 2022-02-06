@@ -99,7 +99,25 @@ namespace Poof.Core.Snaps.Quest.Test
         [Fact]
         public void AddsNewQuests()
         {
-            throw new NotImplementedException();
+            var mem = new TestBuilding();
+            var user = new Users(mem).New();
+            var quests = new Quests(mem);
+
+            var result = DateTime.Now;
+            new AddsWeeklyQuests(
+                mem,
+                new FkFuture(
+                    () => { },
+                    job => result = job.DueDate()
+                )
+            ).Convert(
+                new DmAddWeeklyQuests(user)
+            );
+
+            Assert.Equal(
+                3,
+                quests.List().Count
+            );
         }
 
         [Fact]

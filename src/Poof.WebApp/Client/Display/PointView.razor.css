@@ -84,28 +84,34 @@
     position: relative;
     width: 100%;
     text-align: center;
-    margin-top: 10px;
-    height: 60px;
+    height: 70px;
 }
 
 .activityLevel {
     position: absolute;
     top: 0;
     left: 0;
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 70px;
     border-radius: 30px;
-    border: solid 1px #bbb;
-    padding: 5px;
+    padding: 5px 5px 5px 10px;
     background-color: white;
 }
 
+    .activityLevel .oi {
+        font-size: 4.5em;
+        position: absolute;
+        left: -15px;
+        top: 10px;
+        color: #bbb;
+    }
+
     .activityLevel p {
-        margin-bottom: 0;
+        margin-bottom: 5px;
         font-size: 0.8em;
     }
 
-    .activityLevel span {
+    .activityLevel .number {
         font-size: 1.6em;
         font-weight: bold;
         line-height: 1.0;

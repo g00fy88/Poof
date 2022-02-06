@@ -27,10 +27,10 @@ namespace Poof.DB.Data.Impl.PropMatch
                                         quests.Where(t => t.Scope.Equals(match.Value<string>(), StringComparison.OrdinalIgnoreCase))
                                     ),
                                     new KvpOf<IEnumerable<DbQuest>>("issuer", () =>
-                                        quests.Where(t => t.Issuer.Id == match.Value<string>())
+                                        quests.Where(t => t.Issuer != null && t.Issuer == match.Value<string>())
                                     ),
                                     new KvpOf<IEnumerable<DbQuest>>("applicant", () =>
-                                        quests.Where(t => t.Applicants.Select(user => user.Id).Contains(match.Value<string>()))
+                                        quests.Where(t => t.Applicant != null && t.Applicant == match.Value<string>())
                                     ),
                                     new KvpOf<IEnumerable<DbQuest>>("status", () =>
                                         quests.Where(t => t.Status == match.Value<string>())
@@ -55,7 +55,7 @@ namespace Poof.DB.Data.Impl.PropMatch
                             new FallbackMap<IEnumerable<DbQuest>>(
                                 new MapOf<IEnumerable<DbQuest>>(
                                     new KvpOf<IEnumerable<DbQuest>>("issuer", () =>
-                                        quests.Where(q => q.Issuer.Id != match.Value<string>())
+                                        quests.Where(q => q.Issuer != match.Value<string>())
                                     )
                                 ),
                                 key => throw new ArgumentException($"Unable to filter transactions for field '{key}', " +

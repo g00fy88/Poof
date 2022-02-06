@@ -45,6 +45,7 @@ namespace Poof.Core.Snaps.Quest
                 var hasApplicant = new Applicant.Has(quest).Value();
                 var hasEndDate = new EndDate.Has(quest).Value();
                 var needsLocation = new Location.Needed(quest).Value();
+                var hasPicture = new Picture.Has(quest).Value();
 
                 result.Add(
                     new JObject(
@@ -72,6 +73,7 @@ namespace Poof.Core.Snaps.Quest
                         ),
                         new JProperty("completionTime", new TextOf(new CompletionTime.Of(quest).Value()).AsString()),
                         new JProperty("reward", new TextOf(new Reward.Of(quest).Value()).AsString()),
+                        new JProperty("factor", new TextOf(new Points.TakeFactor(issuer).Value()).AsString()),
                         new JProperty("category", new Category.Of(quest).AsString()),
                         new JProperty("title", new Title.Of(quest).AsString()),
                         new JProperty("description", new Description.Of(quest).AsString()),
@@ -88,7 +90,13 @@ namespace Poof.Core.Snaps.Quest
                         new JProperty("location",
                             new JObject(
                                 new JProperty("has", needsLocation),
-                                new JProperty("value", new Location.Of(quest).AsString())
+                                new JProperty("value", needsLocation ? new Location.Of(quest).AsString() : "")
+                            )
+                        ),
+                        new JProperty("picture",
+                            new JObject(
+                                new JProperty("has", hasPicture),
+                                new JProperty("url", hasPicture ? new Picture.Url(quest).AsString() : "")
                             )
                         )
                     )

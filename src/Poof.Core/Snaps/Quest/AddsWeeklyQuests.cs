@@ -38,14 +38,16 @@ namespace Poof.Core.Snaps.Quest
                     new Issuer.Match(user)
                 );
 
+            var now = DateTime.Now;
             var date = DateTime.Now;
             bool hasOpenQuests = false;
             foreach(var id in privateQuests)
             {
                 var quest = new QuestOf(mem, id);
+
                 if(new Status.Of(quest).AsString() == "open")
                 {
-                    if(new EndDate.Of(quest).Value() > date)
+                    if(new EndDate.Of(quest).Value() > now)
                     {
                         hasOpenQuests = true;
                         date = new EndDate.Of(quest).Value();
@@ -75,7 +77,8 @@ namespace Poof.Core.Snaps.Quest
                         new Description(new XMLString(newQuest, "/quest/description/text()").Value()),
                         new Reward(
                             new DoubleOf(new XMLString(newQuest, "/quest/reward/text()").Value()).Value()
-                        )
+                        ),
+                        new Picture(new XMLString(newQuest, "/quest/pictureUrl/text()").Value())
                     );
                 }
             }

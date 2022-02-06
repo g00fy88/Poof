@@ -12,7 +12,7 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
-                <span style="padding-top:5px" class="oi oi-home"></span><span class="ttext icon-text">Home</span>
+                <span style="padding-left:3px; font-size:1.7rem" class="oi oi-home"></span><span class="ttext icon-text">Home</span>
             </NavLink>
         </li>
         <AuthorizeView>
@@ -41,12 +41,12 @@
             <NotAuthorized>
                 <li class="nav-item px-3">
                     <NavLink class="nav-link ttip" href="authentication/register">
-                        <span class="oi oi-pencil" aria-hidden="true"></span> <span class="ttext icon-text">Register</span>
+                        <span style="padding-left:3px; font-size:1.7rem" class="oi oi-pencil" aria-hidden="true"></span> <span class="ttext icon-text">Register</span>
                     </NavLink>
                 </li>
                 <li class="nav-item bottom px-3">
                     <NavLink class="nav-link ttip" href="authentication/login">
-                        <span class="oi oi-account-login" aria-hidden="true"></span> <span class="ttext icon-text">Login</span>
+                        <span style="font-size:1.7rem" class="oi oi-account-login" aria-hidden="true"></span> <span class="ttext icon-text">Login</span>
                     </NavLink>
                 </li>
             </NotAuthorized>
@@ -55,6 +55,11 @@
 </div>
 
 <div class="onlynarrow">
+    <div class="item">
+        <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
+            <span style="font-size:1.7rem" class="oi oi-home" aria-hidden="true"></span> <span class="ttext icon-text">Home</span>
+        </NavLink>
+    </div>
      <AuthorizeView>
         <Authorized>
             <div class="item">
@@ -75,18 +80,13 @@
         </Authorized>
         <NotAuthorized>
             <div class="item">
-                 <NavLink class="nav-link ttip" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> <span class="ttext icon-text">Home</span>
-                </NavLink>
-            </div>
-            <div class="item">
                 <NavLink class="nav-link ttip" href="authentication/register">
-                    <span class="oi oi-pencil" aria-hidden="true"></span> <span class="ttext icon-text">Register</span>
+                    <span style="font-size:1.7rem" class="oi oi-pencil" aria-hidden="true"></span> <span class="ttext icon-text">Register</span>
                 </NavLink>
             </div>
             <div class="item">
                 <NavLink class="nav-link ttip" href="authentication/login">
-                    <span class="oi oi-account-login" aria-hidden="true"></span> <span class="ttext icon-text">Login</span>
+                    <span style="font-size:1.7rem" class="oi oi-account-login" aria-hidden="true"></span> <span class="ttext icon-text">Login</span>
                 </NavLink>
             </div>
         </NotAuthorized>

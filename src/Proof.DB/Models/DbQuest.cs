@@ -9,8 +9,8 @@ namespace Poof.DB.Models
         [Required]
         public string Id { get; set; }
 
-        public ApplicationUser Issuer { get; set; }
-        public List<ApplicationUser> Applicants { get; set; } = new List<ApplicationUser>();
+        public string Issuer { get; set; }
+        public string Applicant { get; set; } = "";
         public string Status { get; set; } = "published";
         public double CompletionTime { get; set; }
         public string Scope { get; set; } = "";
@@ -25,5 +25,8 @@ namespace Poof.DB.Models
         public DateTime FinishDate { get; set; }
         public bool HasLocation { get; set; }
         public string Location { get; set; }
+        public string PictureType { get; set; } = "none";
+        public string PictureUrl { get; set; } = "";
+        public byte[] PictureData { get; set; }
     }
 }

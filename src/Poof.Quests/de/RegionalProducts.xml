@@ -1,11 +1,12 @@
 ﻿<quest>
   <title>Regionale Produkte kaufen</title>
-  <category>Ökologische Nachhaltigkeit</category>
+  <category>sustainability</category>
   <reward>10</reward>
   <completion-time>336</completion-time>
+  <pictureUrl>images/quests/local_food.jpg</pictureUrl>
   <description>
     Der Lieferverkehr rund um den Globus führt zu einem immensen CO2-Ausstoß, was unserer Umwelt nachhaltigen Schaden zufügt.
-    Regionale Produkte haben diesen Nachteil nicht und fördern gleichzeitig die lokale Wirtschaft.
+    Regionale Produkte müssen nicht so weit transportiert werden und fördern gleichzeitig die lokale Wirtschaft.
     Dieser Quest ist abgeschlossen, wenn du bei 3 Einkäufen ausschließlich regionale Produkte aus deinem Umland eingekauft hast.
   </description>
 </quest>

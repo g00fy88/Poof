@@ -26,7 +26,7 @@ namespace Poof.Core.Entity.Quest
         /// </summary>
         public Applicant(string user, IScalar<DateTime> date) : base(floor =>
         {
-            floor.Update("applicants", new string[] { user });
+            floor.Update("applicant", user);
             floor.Update("apply-date", date.Value());
         }
         )
@@ -41,7 +41,7 @@ namespace Poof.Core.Entity.Quest
             /// The user, that had applied for this quest
             /// </summary>
             public Has(IEntity quest) : base(()=>
-                quest.Memory().Prop<string[]>("applicants").Length > 0
+                quest.Memory().Prop<string>("applicant").Length > 0
             )
             { }
         }
@@ -55,10 +55,7 @@ namespace Poof.Core.Entity.Quest
             /// The user, that had applied for this quest
             /// </summary>
             public Of(IEntity quest) : base(() =>
-                new FirstOf<string>(
-                    quest.Memory().Prop<string[]>("applicants"),
-                    new InvalidOperationException("Unable to retrieve applicant of quest, because there is no applicant yet")
-                ).Value()
+                quest.Memory().Prop<string>("applicant")
             )
             { }
         }

@@ -1,27 +1,144 @@
 ﻿@page "/quests"
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Authorization
-@using Poof.Talk.Snaps.User.Configuration
+@using Poof.Demand.Snaps.Quest
 @using Poof.Talk.Snaps.User.Discovery
 @using Poof.WebApp.Client.Display
+@using System.Globalization
+@using Yaapii.Atoms.Scalar
 @using Yaapii.Atoms.Text
+@using Yaapii.Atoms.Map
+@using Yaapii.Atoms.Enumerable
 @attribute [Authorize]
 @inject IApi api
 @inject IMemory mem
 
-<div class="content px-4">
+<div class="content">
+    <div class="questbox container">
+        <p>7-Tage-Rotation</p>
+        @foreach(var quest in Weeklies())
+        {
+            var id = quest.Value("id");
+            <QuestCard 
+                Id=@id
+                Category=@quest.Value("category")
+                Title=@quest.Value("title")
+                Reward="-"
+                Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
+                PictureUrl=@quest.Value("picture.url")
+                TimeRemaining=@Counter(id)
+                Open=OpenQuestDialog
+            ></QuestCard>
+        }
+    </div>
 </div>
 
+@if (showQuestDialogOpen && selectedQuestId != "")
+{
+    <ModalDialog OnClose="@CancelQuestDialog" MaxWidth="800px">
+        <Content>
+            <QuestDetails Details=@SelectedQuest()></QuestDetails>
+        </Content>
+    </ModalDialog>
+}
 
 @code {
+    private IList<IJSON> quests = new List<IJSON>();
+    private IDictionary<string, int> counters = new Dictionary<string, int>();
+    private double giveFactor = 0.5;
+    private System.Timers.Timer timer;
+    private bool showQuestDialogOpen = false;
+    private string selectedQuestId = "";
 
     protected override void OnInitialized()
     {
-
+        this.timer = new System.Timers.Timer(1000);
+        this.timer.Elapsed += CountClocks;
+        this.timer.Enabled = true;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        
+        this.giveFactor = new AwGetDetails.GiveFactor(await api.Private(new DmGetDetails(), "").Content()).Value();
+        this.quests = new JSONOf((await api.Private(new DmGetCatalog(), "").Content()).Result()).Nodes("[*]");
+        foreach(var quest in quests)
+        {
+            if (new BoolOf(quest.Value("endDate.has")).Value())
+            {
+                var id = quest.Value("id");
+                var date = DateTime.Parse(quest.Value("endDate.value"), CultureInfo.InvariantCulture);
+                this.counters[id] = (int)(date.Subtract(DateTime.Now).TotalSeconds);
+            }
+        }
+    }
+
+    public void CountClocks(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        var allFinished = true;
+        foreach(var id in this.counters.Keys)
+        {
+            if(this.counters[id] > 0)
+            {
+                this.counters[id] -= 1;
+                allFinished = false;
+            }
+        }
+        if(allFinished)
+        {
+            this.timer.Enabled = false;
+        }
+        InvokeAsync(() => StateHasChanged());
+    }
+
+    private IEnumerable<IJSON> Weeklies()
+    {
+        return
+            new Filtered<IJSON>(quest =>
+                quest.Value("scope") == "private" &&
+                quest.Value("status") == "open",
+                this.quests
+            );
+    }
+
+    private int Counter(string id)
+    {
+        var result = 0;
+        if(this.counters.ContainsKey(id))
+        {
+            result = this.counters[id];
+        }
+        return result;
+    }
+
+    private string Reward(string points)
+    {
+        return new DoubleOf(points).Value().ToString("F0");
+    }
+
+    private string Score(string points, string factor)
+    {
+        return (new DoubleOf(points).Value() * (new DoubleOf(factor).Value() + this.giveFactor)).ToString("F0");
+    }
+
+    private void OpenQuestDialog(string quest)
+    {
+        this.selectedQuestId = quest;
+        this.showQuestDialogOpen = true;
+        StateHasChanged();
+    }
+
+    private void CancelQuestDialog()
+    {
+        this.showQuestDialogOpen = false;
+    }
+
+    private IJSON SelectedQuest()
+    {
+        return
+            new FirstOf<IJSON>(
+                quest => quest.Value("id") == this.selectedQuestId,
+                this.quests
+            ).Value();
     }
 }

@@ -66,17 +66,7 @@ namespace Poof.DB.Models
                     new KvpOf<Type, IDictionary<string, TValue>>(
                         typeof(DbQuest),
                         () => new MapOf<TValue>(
-                            new KvpOf<TValue>("applicants", () => 
-                                Cast<TValue>("applicants",
-                                    new Mapped<ApplicationUser, string>(
-                                        user => user.Id,
-                                        new NoNull<IList<ApplicationUser>>(
-                                            (entity as DbQuest).Applicants,
-                                            new List<ApplicationUser>()
-                                        ).Value()
-                                    ).ToArray()
-                                )
-                            ),
+                            new KvpOf<TValue>("applicant", () => Cast<TValue>("applicant", (entity as DbQuest).Applicant)),
                             new KvpOf<TValue>("apply-date", () => Cast<TValue>("apply-date", (entity as DbQuest).ApplyDate)),
                             new KvpOf<TValue>("category", () => Cast<TValue>("category", (entity as DbQuest).Category, "")),
                             new KvpOf<TValue>("completion-time", () => Cast<TValue>("completion-time", (entity as DbQuest).CompletionTime)),
@@ -84,10 +74,13 @@ namespace Poof.DB.Models
                             new KvpOf<TValue>("end-date", () => Cast<TValue>("end-date", (entity as DbQuest).EndDate)),
                             new KvpOf<TValue>("finish-date", () => Cast<TValue>("finish-date", (entity as DbQuest).FinishDate)),
                             new KvpOf<TValue>("has-end-date", () => Cast<TValue>("has-end-date", (entity as DbQuest).HasEndDate)),
-                            new KvpOf<TValue>("issuer", () => Cast<TValue>("issuer", (entity as DbQuest).Issuer.Id)),
+                            new KvpOf<TValue>("issuer", () => Cast<TValue>("issuer", (entity as DbQuest).Issuer)),
                             new KvpOf<TValue>("location", () => Cast<TValue>("location", (entity as DbQuest).Location)),
                             new KvpOf<TValue>("location-needed", () => Cast<TValue>("location-needed", (entity as DbQuest).HasLocation)),
                             new KvpOf<TValue>("note", () => Cast<TValue>("note", (entity as DbQuest).Note, "")),
+                            new KvpOf<TValue>("picture-data", () => Cast<TValue>("picture-data", (entity as DbQuest).PictureData, new byte[0])),
+                            new KvpOf<TValue>("picture-type", () => Cast<TValue>("picture-type", (entity as DbQuest).PictureType, "none")),
+                            new KvpOf<TValue>("picture-url", () => Cast<TValue>("picture-url", (entity as DbQuest).PictureUrl, "")),
                             new KvpOf<TValue>("reward", () => Cast<TValue>("reward", (entity as DbQuest).Reward)),
                             new KvpOf<TValue>("scope", () => Cast<TValue>("scope", (entity as DbQuest).Scope, "")),
                             new KvpOf<TValue>("status", () => Cast<TValue>("status", (entity as DbQuest).Status, "")),

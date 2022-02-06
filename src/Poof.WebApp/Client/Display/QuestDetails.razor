@@ -1,0 +1,50 @@
+﻿@using Yaapii.Atoms.Text
+@using Yaapii.Atoms.Map
+@using Yaapii.Atoms.Enumerable
+
+<div class="details">
+    @if(new BoolOf(Details.Value("picture.has")).Value())
+    {
+        <img src="@Details.Value("picture.url")" />
+    }
+    <div class="category">
+        <span class="@Icon()"></span>
+        <a>@CategoryText()</a>
+    </div>
+    <div class="title">@Details.Value("title")</div>
+    <div class="reward">
+
+    </div>
+    <div class="description">@Details.Value("description")</div>
+</div>
+
+@code {
+    [Parameter]
+    public IJSON Details { get; set; }
+
+    private string Icon()
+    {
+        return 
+            new FallbackMap(
+                new MapOf(
+                    "solidarity", "icon-teamwork-icon-37",
+                    "community", "icon-friends-icon-png-19",
+                    "sustainability", "icon-sustainability-icon-3_1"
+                ),
+                key => "icon-scroll-icon-29263"
+            )[Details.Value("category")];
+    }
+
+    private string CategoryText()
+    {
+        return 
+            new FallbackMap(
+                new MapOf(
+                    "solidarity", "Solidarität",
+                    "community", "Gemeinschaft",
+                    "sustainability", "Ökologische Nachhaltigkeit"
+                ),
+                key => key
+            )[Details.Value("category")];
+    }
+}
