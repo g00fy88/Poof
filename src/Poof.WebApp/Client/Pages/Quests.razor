@@ -38,7 +38,13 @@
 {
     <ModalDialog OnClose="@CancelQuestDialog" MaxWidth="800px">
         <Content>
-            <QuestDetails Details=@SelectedQuest()></QuestDetails>
+            <QuestDetails
+                Details=@SelectedQuest() 
+                Reward="-" 
+                Score=@Score() 
+                TimeRemaining=@Counter(selectedQuestId) 
+                Cancel=CancelQuestDialog>
+            </QuestDetails>
         </Content>
     </ModalDialog>
 }
@@ -101,12 +107,18 @@
             );
     }
 
-    private int Counter(string id)
+    private string Counter(string id)
     {
-        var result = 0;
-        if(this.counters.ContainsKey(id))
+        var result = "-";
+        if(this.counters.ContainsKey(id) && this.counters[id] > 0)
         {
-            result = this.counters[id];
+            var timeLeft = TimeSpan.FromSeconds(this.counters[id]);
+            result = "";
+            if(timeLeft.Days > 0)
+            {
+                result = $"{timeLeft.Days}T ";
+            }
+            result += $"{timeLeft.Hours.ToString("00")}:{timeLeft.Minutes.ToString("00")}:{timeLeft.Seconds.ToString("00")}";
         }
         return result;
     }
@@ -114,6 +126,12 @@
     private string Reward(string points)
     {
         return new DoubleOf(points).Value().ToString("F0");
+    }
+
+    private string Score()
+    {
+        var node = SelectedQuest();
+        return Score(node.Value("reward"), node.Value("factor"));
     }
 
     private string Score(string points, string factor)

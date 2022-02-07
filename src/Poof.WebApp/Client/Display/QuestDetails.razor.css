@@ -1,31 +1,130 @@
 ﻿.details {
-
+    background-color: #222;
+    color: white;
+    border-radius: 2px;
 }
 
-    .details img {
-
+    .details .header {
+        position: relative;
     }
 
-    .details .category {
-
-    }
-
-        .details .category span {
-
+        .details .header img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
         }
 
-        .details .category a {
-
+        .details .header .overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            background-image:linear-gradient(transparent 70%, #222 100%)
         }
 
-    .details .title {
+        .details .header .title {
+            color: white;
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+        }
 
+    .details .content {
+        padding: 0.2rem 1rem;
     }
 
-    .details .reward {
+        .details .content .time {
+            font-size: 0.9em;
+            float: right;
+            padding-bottom:10px;
+        }
 
-    }
+        .details .content .category {
+            background-color: #f2e685;
+            color: black;
+            height: 36px;
+            border-radius: 18px;
+            padding: 8px;
+            display: inline-block;
+        }
 
-    .details .description {
+            .details .content .category .oi {
+                font-size: 1.3em;
+                vertical-align: middle;
+                padding-bottom: 6px;
+            }
 
-    }
+            .details .content .category span {
+            }
+
+        .details .content .reward {
+            padding-top: 15px;
+            height: 36px;
+        }
+
+            .details .content .reward p{
+                display: inline-block;
+            }
+
+            .details .content .reward .details {
+                display: inline-block;
+                background-color: #ddd;
+                color: black;
+                height: 30px;
+                padding: 3px 8px;
+                border-radius: 15px;
+                vertical-align: middle;
+            }
+
+                .details .content .reward .details span {
+                    font-size: 1.3em;
+                    vertical-align: middle;
+                }
+
+                .details .content .reward .details a {
+                    display: inline-block;
+                    width: 20px;
+                    text-align: right;
+                    padding-right: 5px;
+                }
+
+        .details .content .description {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .details .content .buttons {
+            padding: 25px 0px;
+            text-align: center;
+        }
+
+            .details .content .buttons div {
+                display: inline-block;
+                padding: 3px 12px;
+                margin: 0px 4px;
+                border-radius: 15px;
+                color: black;
+                cursor: pointer;
+            }
+
+            .details .content .buttons .cancel {
+                background-color: #ddd;
+            }
+
+                .details .content .buttons .cancel:hover {
+                    background-color: #eee;
+                }
+
+            .details .content .buttons .apply {
+                background-color: #43cd80;
+            }
+
+                .details .content .buttons .apply:hover {
+                    background-color: #54ff9f;
+                }
+
+
+
+.title {
+    font-size: 1.8em;
+}

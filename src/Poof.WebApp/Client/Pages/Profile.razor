@@ -29,8 +29,10 @@
 {
     <ModalDialog OnClose="@CancelAddFriendDialog" MaxWidth="800px">
         <Content>
-            <p>Gib den Namen der Person ein, die du hinzufügen möchtest.</p>
-            <FindUserView TakeFactor=takeFactor GiveFactor=giveFactor Friends=@(new List<IJSON>()) Select=@AddFriend></FindUserView>
+            <div style="padding:1rem">
+                <p>Gib den Namen der Person ein, die du hinzufügen möchtest.</p>
+                <FindUserView TakeFactor=takeFactor GiveFactor=giveFactor Friends=@(new List<IJSON>()) Select=@AddFriend></FindUserView>
+            </div>
         </Content>
     </ModalDialog>
 }

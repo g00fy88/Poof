@@ -29,7 +29,9 @@
 {
     <ModalDialog OnClose="@CancelAddTransactionDialog" MaxWidth="800px">
         <Content>
-            <AddTransactionView Friends=friends TakeFactor=userTakeFactor GiveFactor=userGiveFactor OnSuccess="@UpdateTransactions"></AddTransactionView>
+            <div style="padding:1rem">
+                <AddTransactionView Friends=friends TakeFactor=userTakeFactor GiveFactor=userGiveFactor OnSuccess="@UpdateTransactions"></AddTransactionView>
+            </div>
         </Content>
     </ModalDialog>
 }

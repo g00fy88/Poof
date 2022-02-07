@@ -5,22 +5,52 @@
 <div class="details">
     @if(new BoolOf(Details.Value("picture.has")).Value())
     {
-        <img src="@Details.Value("picture.url")" />
+        <div class="header">
+            <img src="@Details.Value("picture.url")" />
+            <div class="overlay"></div>
+            <div class="title">@Details.Value("title")</div>
+        </div>
     }
-    <div class="category">
-        <span class="@Icon()"></span>
-        <a>@CategoryText()</a>
+    else
+    {
+        <div class="title">@Details.Value("title")</div>
+    }
+    <div class="content">
+        <div class="time">Quest läuft ab in @TimeRemaining</div>
+        <div class="category">
+            <span class="oi @Icon()"></span>
+            <span>@CategoryText()</span>
+        </div>
+        <div class="reward">
+            <p>Belohnung:</p>
+            <div class="details">
+                <span class="icon-tribe-icon-37"></span>
+                <a>@Reward</a>
+            </div>
+            <div class="details">
+                <span class="icon-award-icon-11"></span>
+                <a>@Score</a>
+            </div>
+        </div>
+        <div class="description">@Details.Value("description")</div>
+        <div class="buttons">
+            <div class="cancel" @onclick="Close">Abbrechen</div>
+            <div class="apply">Quest annehmen</div>
+        </div>
     </div>
-    <div class="title">@Details.Value("title")</div>
-    <div class="reward">
-
-    </div>
-    <div class="description">@Details.Value("description")</div>
 </div>
 
 @code {
     [Parameter]
     public IJSON Details { get; set; }
+    [Parameter]
+    public string Reward { get; set; }
+    [Parameter]
+    public string Score { get; set; }
+    [Parameter]
+    public string TimeRemaining { get; set; }
+    [Parameter]
+    public EventCallback Cancel { get; set; }
 
     private string Icon()
     {
@@ -46,5 +76,10 @@
                 ),
                 key => key
             )[Details.Value("category")];
+    }
+
+    private Task Close()
+    {
+        return this.Cancel.InvokeAsync();
     }
 }

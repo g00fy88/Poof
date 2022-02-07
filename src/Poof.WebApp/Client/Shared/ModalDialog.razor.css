@@ -1,0 +1,11 @@
+﻿.close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: rgba(0,0,0,0.9);
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    color: white;
+    z-index: 1;
+}
