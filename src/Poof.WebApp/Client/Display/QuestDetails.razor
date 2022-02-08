@@ -16,27 +16,48 @@
         <div class="title">@Details.Value("title")</div>
     }
     <div class="content">
-        <div class="time">Quest läuft ab in @TimeRemaining</div>
-        <div class="category">
-            <span class="oi @Icon()"></span>
-            <span>@CategoryText()</span>
-        </div>
-        <div class="reward">
-            <p>Belohnung:</p>
-            <div class="details">
-                <span class="icon-tribe-icon-37"></span>
-                <a>@Reward</a>
+        @if(confirmationNeeded)
+        {
+            <div class="confirmation">
+                Bist du dir sicher? Du hast @RemainingTime() Zeit, um diesen Quest abzuschließen.
+                Solltest du das nicht schaffen, kann dies einen negativen Einfluss auf deine Stufenpunkte haben.
             </div>
-            <div class="details">
-                <span class="icon-award-icon-11"></span>
-                <a>@Score</a>
+            <div class="buttons">
+                <div class="cancel" @onclick="Close">Nein, lieber doch nicht</div>
+                <div class="apply" @onclick="ConfirmQuest">Ja, Quest annehmen</div>
             </div>
-        </div>
-        <div class="description">@Details.Value("description")</div>
-        <div class="buttons">
-            <div class="cancel" @onclick="Close">Abbrechen</div>
-            <div class="apply">Quest annehmen</div>
-        </div>
+        }
+        else
+        {
+            <div class="time">Quest läuft ab in @TimeRemaining</div>
+            <div class="category">
+                <span class="oi @Icon()"></span>
+                <span>@CategoryText()</span>
+            </div>
+            <div class="reward">
+                <p>Belohnung:</p>
+                <div class="details">
+                    <span class="icon-tribe-icon-37"></span>
+                    <a>@Reward</a>
+                </div>
+                <div class="details">
+                    <span class="icon-award-icon-11"></span>
+                    <a>@Score</a>
+                </div>
+            </div>
+            <div class="description">@Details.Value("description")</div>
+            <div class="buttons">
+                <div class="cancel" @onclick="Close">Abbrechen</div>
+                @if (Details.Value("status") == "open")
+                {
+                    <div class="apply" @onclick="Apply">Quest annehmen</div>
+                }
+                else if(Details.Value("status") == "pending")
+                {
+                    <div class="apply" @onclick="Apply">Quest abschließen</div>
+                }
+            </div>
+        }
     </div>
 </div>
 
@@ -51,6 +72,10 @@
     public string TimeRemaining { get; set; }
     [Parameter]
     public EventCallback Cancel { get; set; }
+    [Parameter]
+    public EventCallback<string> Confirm { get; set; }
+
+    private bool confirmationNeeded = false;
 
     private string Icon()
     {
@@ -78,8 +103,31 @@
             )[Details.Value("category")];
     }
 
+    private string RemainingTime()
+    {
+        var timeLeft = TimeSpan.FromHours(new IntOf(Details.Value("completionTime")).Value());
+        var result = "";
+        if (timeLeft.Days > 0)
+        {
+            result = $"{timeLeft.Days} Tage und ";
+        }
+        result += $"{timeLeft.Hours} Stunden";
+        return result;
+    }
+
     private Task Close()
     {
         return this.Cancel.InvokeAsync();
+    }
+
+    private void Apply()
+    {
+        this.confirmationNeeded = true;
+        StateHasChanged();
+    }
+
+    private Task ConfirmQuest()
+    {
+        return this.Confirm.InvokeAsync(Details.Value("id"));
     }
 }

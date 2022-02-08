@@ -123,6 +123,11 @@
                     background-color: #54ff9f;
                 }
 
+    .details .content .confirmation {
+        text-align: center;
+        padding: 15px 5px;
+    }
+
 
 
 .title {

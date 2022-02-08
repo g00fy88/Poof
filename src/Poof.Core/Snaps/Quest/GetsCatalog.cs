@@ -61,6 +61,10 @@ namespace Poof.Core.Snaps.Quest
                         new JProperty("applicant",
                             new JObject(
                                 new JProperty("has", hasApplicant),
+                                new JProperty("me", hasApplicant ?
+                                    new Applicant.Of(quest).Value() == identity.UserID() :
+                                    false
+                                ),
                                 new JProperty("name", hasApplicant ?
                                     new Pseudonym.Name(new UserOf(mem, new Applicant.Of(quest).Value())).AsString() :
                                     ""

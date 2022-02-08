@@ -22,6 +22,26 @@
             <QuestCard 
                 Id=@id
                 Category=@quest.Value("category")
+                Status=@quest.Value("status")
+                Title=@quest.Value("title")
+                Reward="-"
+                Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
+                PictureUrl=@quest.Value("picture.url")
+                TimeRemaining=@Counter(id)
+                Open=OpenQuestDialog
+            ></QuestCard>
+        }
+    </div>
+    <div class="questbox container">
+        <p>Meine laufenden Quests</p>
+        @foreach(var quest in UserQuests())
+        {
+            var id = quest.Value("id");
+            <QuestCard 
+                Id=@id
+                Category=@quest.Value("category")
+                Status=@quest.Value("status")
                 Title=@quest.Value("title")
                 Reward="-"
                 Score=@Score(quest.Value("reward"), quest.Value("factor"))
@@ -43,7 +63,8 @@
                 Reward="-" 
                 Score=@Score() 
                 TimeRemaining=@Counter(selectedQuestId) 
-                Cancel=CancelQuestDialog>
+                Cancel=CancelQuestDialog
+                Confirm=ApplyForQuest>
             </QuestDetails>
         </Content>
     </ModalDialog>
@@ -66,14 +87,27 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await Refresh();
+    }
+
+    private async Task Refresh()
+    {
         this.giveFactor = new AwGetDetails.GiveFactor(await api.Private(new DmGetDetails(), "").Content()).Value();
         this.quests = new JSONOf((await api.Private(new DmGetCatalog(), "").Content()).Result()).Nodes("[*]");
         foreach(var quest in quests)
         {
-            if (new BoolOf(quest.Value("endDate.has")).Value())
+            if (quest.Value("status") == "open" && new BoolOf(quest.Value("endDate.has")).Value())
             {
                 var id = quest.Value("id");
                 var date = DateTime.Parse(quest.Value("endDate.value"), CultureInfo.InvariantCulture);
+                this.counters[id] = (int)(date.Subtract(DateTime.Now).TotalSeconds);
+            }
+            else if(quest.Value("status") == "pending")
+            {
+                var id = quest.Value("id");
+                var date =
+                    DateTime.Parse(quest.Value("applicant.startDate"), CultureInfo.InvariantCulture)
+                    .Add(TimeSpan.FromHours(new IntOf(quest.Value("completionTime")).Value()));
                 this.counters[id] = (int)(date.Subtract(DateTime.Now).TotalSeconds);
             }
         }
@@ -103,6 +137,16 @@
             new Filtered<IJSON>(quest =>
                 quest.Value("scope") == "private" &&
                 quest.Value("status") == "open",
+                this.quests
+            );
+    }
+
+    private IEnumerable<IJSON> UserQuests()
+    {
+        return
+            new Filtered<IJSON>(quest =>
+                quest.Value("status") == "pending" &&
+                new BoolOf(quest.Value("applicant.me")).Value(),
                 this.quests
             );
     }
@@ -146,9 +190,18 @@
         StateHasChanged();
     }
 
+    private async Task ApplyForQuest(string quest)
+    {
+        await api.Private(new DmAddApplicant(quest), "").Touch();
+        await Refresh();
+        this.showQuestDialogOpen = false;
+        StateHasChanged();
+    }
+
     private void CancelQuestDialog()
     {
         this.showQuestDialogOpen = false;
+        StateHasChanged();
     }
 
     private IJSON SelectedQuest()
