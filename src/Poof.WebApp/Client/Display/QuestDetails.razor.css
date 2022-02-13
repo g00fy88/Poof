@@ -26,7 +26,6 @@
             color: white;
             position: absolute;
             bottom: 5px;
-            left: 10px;
         }
 
     .details .content {
@@ -93,6 +92,22 @@
             padding-top: 20px;
         }
 
+        .details .content .questlog {
+            text-align: center;
+            padding:20px;
+        }
+
+            .details .content .questlog h3 {
+                font-size: 1.4em;
+            }
+
+            .details .content .questlog .logcontent {
+
+            }
+
+                .details .content .questlog .logcontent p{
+                }
+
         .details .content .buttons {
             padding: 25px 0px;
             text-align: center;
@@ -105,6 +120,12 @@
                 border-radius: 15px;
                 color: black;
                 cursor: pointer;
+            }
+
+            .details .content .buttons .disabled {
+                cursor: not-allowed;
+                background-color: #54ff9f;
+                color: #aaa;
             }
 
             .details .content .buttons .cancel {
@@ -123,13 +144,52 @@
                     background-color: #54ff9f;
                 }
 
-    .details .content .confirmation {
-        text-align: center;
-        padding: 15px 5px;
-    }
+        .details .content .confirmation {
+            text-align: center;
+            padding: 15px 5px;
+        }
+
+        .details .content .finishing {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .details .content .note {
+        }
+
+            .details .content .note textarea {
+                width: 100%;
+                height: 200px;
+                border-radius: 5px;
+                box-shadow: inset 1px 1px 5px 3px #aaa;
+                padding: 5px 10px;
+            }
+
+        .details .content .gratulations {
+            text-align: center;
+            font-size: 1.4em;
+            padding: 15px;
+        }
+
+        .details .content .activity {
+            transition: opacity ease 1s;
+            width:300px;
+            max-width: 100%;
+            height: 80px;
+            margin: 40px auto;
+        }
+
+        .details .content .hide {
+            opacity: 0.0;
+        }
+
+        .details .content .show {
+            opacity: 1.0;
+        }
 
 
 
 .title {
     font-size: 1.8em;
+    padding-left: 10px;
 }

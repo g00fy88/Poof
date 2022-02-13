@@ -1,6 +1,10 @@
 ﻿.green {
-    background-color: #54ff9f;
+    border: solid 3px white;
 }
+
+    .green:hover {
+        border: solid 3px #54ff9f;
+    }
 
 
     .green .oi {
@@ -11,10 +15,10 @@
     position: relative;
     max-width: 500px;
     min-width: 300px;
-    height: 240px;
+    height: 200px;
+    background-color: #222;
     border-radius: 5px;
     margin: 10px;
-    box-shadow: -3px 3px 5px 0px #ddd;
     flex-grow: 1;
     text-align: left;
     overflow: hidden;
@@ -31,6 +35,7 @@
         width: 100%;
         height: 100%;
         position: absolute;
+        border-radius: 5px;
     }
 
     .quest .oi {
@@ -46,7 +51,7 @@
         width: 100%;
         height: 100%;
         background-image: linear-gradient(transparent 40%, #222 70%);
-        border-radius: 3px;
+        border-radius: 5px;
     }
 
     .quest .title {
@@ -76,6 +81,34 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+    .quest .status {
+        position: absolute;
+        bottom: 5px;
+        left: 56px;
+        width: 36px;
+        height: 36px;
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 18px;
+    }
+
+        .quest .status .oi {
+            font-size: 1.1em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+        }
+
+    .quest .finished {
+        background-color: #54ff9f;
+    }
+
+    .quest .failed {
+        background-color: #ed6678;
+    }
 
     .quest .time {
         padding: 4px 10px;

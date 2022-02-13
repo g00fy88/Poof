@@ -39,16 +39,7 @@
             </div>
             <p>@Math.Abs(Points).ToString("0.0")</p>
         </div>
-        <div class="activityFrame">
-            <div class="activityProgress">
-                <span style="width:@ActivityProgress.ToString("F0")%"></span>
-            </div>
-            <div class="activityLevel">
-                <span class="oi icon-award-icon-11"></span>
-                <p>Stufe</p>
-                <span class="number">@ActivityLevel</span>
-            </div>
-        </div>
+        <ActivityLevel Level=ActivityLevel Progress=ActivityProgress></ActivityLevel>
     </div>
 </div>
 

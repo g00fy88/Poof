@@ -1,0 +1,22 @@
+﻿@using Yaapii.Atoms.Text
+
+<div class="activityFrame">
+    <div class="activityProgress">
+        <span style="width:@Progress.ToString("F0")%"></span>
+    </div>
+    <div class="activityLevel" style="background-color: @Background">
+        <span class="oi icon-award-icon-11"></span>
+        <p>Stufe</p>
+        <span class="number">@Level</span>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Level { get; set; }
+    [Parameter]
+    public double Progress { get; set; }
+    [Parameter]
+    public string Background { get; set; } = "white";
+
+}

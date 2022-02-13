@@ -1,4 +1,74 @@
-﻿.questbox {
+﻿.options {
+    position: relative;
+    text-align: center;
+}
+
+    .options div {
+        transition: 0.05s ease;
+    }
+
+    .options div:hover {
+        transform: scale(1.05);
+    }
+
+    .options .item {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        color: white;
+        display: inline-block;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    .options .add-new {
+        background-color: #43cd80;
+    }
+
+        .options .add-new .one {
+            font-size: 2.4em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .options .add-new .two {
+            position: absolute;
+            top: 13px;
+            left: 37px;
+            -webkit-text-stroke: 2px #43cd80;
+        }
+
+    .options .jump {
+        background-color: #bbb;
+    }
+
+        .options .jump .one {
+            font-size: 2.2em;
+            position: absolute;
+            top: 10px;
+            left: 14px;
+        }
+
+        .options .jump .two {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            -webkit-text-stroke: 1px #bbb;
+            font-size: 2em;
+        }
+
+        .options .jump .three {
+            position: absolute;
+            top: 25px;
+            left: 42px;
+            -webkit-text-stroke: 1px #bbb;
+            font-size: 0.8em;
+        }
+
+.questbox {
     flex-flow: row wrap;
     display: flex;
     text-align: center;

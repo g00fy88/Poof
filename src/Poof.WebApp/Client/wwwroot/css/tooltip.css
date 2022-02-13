@@ -16,7 +16,7 @@
         transition: ease 0.2s;
         /* Position the tooltip */
         position: absolute;
-        z-index: 0;
+        z-index: 1;
         left: 60%;
         bottom: 80%;
     }

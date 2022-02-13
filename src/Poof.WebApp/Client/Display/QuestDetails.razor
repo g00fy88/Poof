@@ -1,22 +1,49 @@
-﻿@using Yaapii.Atoms.Text
+﻿@using Poof.Demand.Snaps.Quest
+@using Poof.Talk.Snaps.User.Discovery
+@using Yaapii.Atoms.Text
 @using Yaapii.Atoms.Map
 @using Yaapii.Atoms.Enumerable
 
 <div class="details">
-    @if(new BoolOf(Details.Value("picture.has")).Value())
+    @if(!showFinishSequence)
     {
-        <div class="header">
-            <img src="@Details.Value("picture.url")" />
-            <div class="overlay"></div>
+        @if(!showFinishDialog && new BoolOf(Details.Value("picture.has")).Value())
+        {
+            <div class="header">
+                <img src="@Details.Value("picture.url")" />
+                <div class="overlay"></div>
+                <div class="title">@Details.Value("title")</div>
+            </div>
+        }
+        else
+        {
             <div class="title">@Details.Value("title")</div>
-        </div>
-    }
-    else
-    {
-        <div class="title">@Details.Value("title")</div>
+        }
     }
     <div class="content">
-        @if(confirmationNeeded)
+        @if(showFinishSequence)
+        {
+            <div class="gratulations">Herzlichen Glückwunsch!</div>
+            <div class="activity @Visibility()">
+                <ActivityLevel Level=currentLevel Progress=currentProgress Background="#222"></ActivityLevel>
+            </div>
+        }
+        else if(showFinishDialog)
+        {
+            <div class="finishing">
+                Toll, dass du bereit bist deinen Quest abzuschließen. 
+                Schreibe in einem kurzen Satz auf, wo du warst und was du dafür gemacht hast, 
+                um dir deine Belohnung abzuholen.
+            </div>
+            <div class="note">
+                <textarea maxlength=400 @oninput="@(async ui => await UpdateNote(ui.Value.ToString()))"></textarea>
+            </div>
+            <div class="buttons">
+                <div class="cancel" @onclick="Close">Abbrechen</div>
+                <div class="@ButtonClass()" @onclick="Finish">Bestätigen</div>
+            </div>
+        }
+        else if(confirmationNeeded)
         {
             <div class="confirmation">
                 Bist du dir sicher? Du hast @RemainingTime() Zeit, um diesen Quest abzuschließen.
@@ -46,6 +73,29 @@
                 </div>
             </div>
             <div class="description">@Details.Value("description")</div>
+            @if(Details.Value("status") != "open")
+            {
+                <div class="questlog">
+                    <h3>Quest-Log</h3>
+                    @if(new BoolOf(Details.Value("applicant.me")).Value())
+                    {
+                        <div class="logcontent">
+                            |<br>
+                            |<br>
+                            <p>Du hast diesen Quest angenommen</p>
+                        </div>
+                    }
+                    @if(Details.Value("status") == "finished")
+                    {
+                        <div class="logcontent">
+                            |<br>
+                            |<br>
+                            <p>Dieser Quest ist abgeschlossen mit der Notiz: </p>
+                            <p>"@Details.Value("note")"</p>
+                        </div>
+                    }
+                </div>
+            }
             <div class="buttons">
                 <div class="cancel" @onclick="Close">Abbrechen</div>
                 @if (Details.Value("status") == "open")
@@ -54,7 +104,7 @@
                 }
                 else if(Details.Value("status") == "pending")
                 {
-                    <div class="apply" @onclick="Apply">Quest abschließen</div>
+                    <div class="apply" @onclick="StartFinish">Quest abschließen</div>
                 }
             </div>
         }
@@ -71,11 +121,19 @@
     [Parameter]
     public string TimeRemaining { get; set; }
     [Parameter]
+    public IApi Server { get; set; }
+    [Parameter]
     public EventCallback Cancel { get; set; }
     [Parameter]
-    public EventCallback<string> Confirm { get; set; }
+    public EventCallback RefreshAndClose { get; set; }
 
     private bool confirmationNeeded = false;
+    private bool showFinishDialog = false;
+    private string questNote = "";
+    private bool showFinishSequence = false;
+    private bool showActivity = false;
+    private int currentLevel;
+    private double currentProgress;
 
     private string Icon()
     {
@@ -115,6 +173,22 @@
         return result;
     }
 
+    private async Task UpdateNote(string value)
+    {
+        this.questNote = value;
+        StateHasChanged();
+    }
+
+    private string ButtonClass()
+    {
+        return this.questNote == "" ? "disabled" : "apply";
+    }
+
+    private string Visibility()
+    {
+        return this.showActivity ? "show" : "hide";
+    }
+
     private Task Close()
     {
         return this.Cancel.InvokeAsync();
@@ -126,8 +200,43 @@
         StateHasChanged();
     }
 
-    private Task ConfirmQuest()
+    private async Task ConfirmQuest()
     {
-        return this.Confirm.InvokeAsync(Details.Value("id"));
+        await Server.Private(new DmAddApplicant(Details.Value("id")), "").Touch();
+        await this.RefreshAndClose.InvokeAsync();
+    }
+
+    private void StartFinish()
+    {
+        this.showFinishDialog = true;
+        StateHasChanged();
+    }
+
+    private async Task Finish()
+    {
+        this.showFinishSequence = true;
+        StateHasChanged();
+        var details = await Server.Private(new DmGetDetails(), "").Content();
+        this.currentLevel = new AwGetDetails.Level(details).Value();
+        this.currentProgress =
+            100.0 * new AwGetDetails.ScoreProgress(details).Value() /
+                    new AwGetDetails.ScoreNeeded(details).Value();
+
+        this.showActivity = true;
+        StateHasChanged();
+        await Server.Private(new DmFinishQuest(Details.Value("id"), this.questNote), "json").Touch();
+        details = await Server.Private(new DmGetDetails(), "").Content();
+        var start = this.currentLevel + this.currentProgress / 100;
+        var end = new AwGetDetails.Level(details).Value() + new AwGetDetails.ScoreProgress(details).Value() / new AwGetDetails.ScoreNeeded(details).Value();;
+
+        var step = (end - start) / 100;
+        for(int i = 1; i<=100; i++)
+        {
+            var current = start + step * i;
+            this.currentLevel = (int)current;
+            this.currentProgress = (current % 1) * 100;
+            StateHasChanged();
+            await Task.Delay(40);
+        }
     }
 }

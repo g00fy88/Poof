@@ -1,0 +1,54 @@
+﻿.activityFrame {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 70px;
+}
+
+.activityLevel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55px;
+    height: 70px;
+    border-radius: 30px;
+    padding: 5px 5px 5px 10px;
+}
+
+    .activityLevel .oi {
+        font-size: 4.5em;
+        position: absolute;
+        left: -15px;
+        top: 10px;
+        color: #bbb;
+    }
+
+    .activityLevel p {
+        margin-bottom: 5px;
+        font-size: 0.8em;
+    }
+
+    .activityLevel .number {
+        font-size: 1.6em;
+        font-weight: bold;
+        line-height: 1.0;
+    }
+
+.activityProgress {
+    position: absolute;
+    bottom: 5px;
+    left: 20px;
+    right: 0px;
+    border-radius: 20px;
+    padding: 5px 10px 0px 32px;
+    display: inline-block;
+    box-shadow: inset 0px 0px 3px 0px #aaa;
+    height: 14px;
+}
+
+    .activityProgress span {
+        background-color: #67c9f0;
+        height: 4px;
+        border-radius: 2px;
+        display: inherit;
+    }

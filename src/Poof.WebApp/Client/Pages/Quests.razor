@@ -14,6 +14,33 @@
 @inject IMemory mem
 
 <div class="content">
+    <div class="options">
+        <div class="add-new item">
+            <span class="one icon-scroll-icon-29263"></span>
+            <span class="two oi oi-plus"></span>
+        </div>
+        <AnchorLink href="#mypending">
+            <div class="jump item" >
+                <span class="one icon-user-account-icon-10"></span>
+                <span class="two icon-scroll-icon-29263"></span>
+                <span class="three oi oi-star"></span>
+            </div>
+        </AnchorLink>
+        <AnchorLink href="#mycreated">
+            <div class="jump item">
+                <span class="one icon-user-account-icon-10"></span>
+                <span class="two icon-scroll-icon-29263"></span>
+                <span class="three oi oi-plus"></span>
+            </div>
+        </AnchorLink>
+        <AnchorLink href="#myfinished">
+            <div class="jump item ">
+                <span class="one icon-user-account-icon-10"></span>
+                <span class="two icon-scroll-icon-29263"></span>
+                <span class="three oi oi-check"></span>
+            </div>
+        </AnchorLink>
+    </div>
     <div class="questbox container">
         <p>7-Tage-Rotation</p>
         @foreach(var quest in Weeklies())
@@ -33,7 +60,7 @@
             ></QuestCard>
         }
     </div>
-    <div class="questbox container">
+    <div class="questbox container" id="mypending">
         <p>Meine laufenden Quests</p>
         @foreach(var quest in UserQuests())
         {
@@ -43,7 +70,45 @@
                 Category=@quest.Value("category")
                 Status=@quest.Value("status")
                 Title=@quest.Value("title")
-                Reward="-"
+                Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
+                Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
+                PictureUrl=@quest.Value("picture.url")
+                TimeRemaining=@Counter(id)
+                Open=OpenQuestDialog
+            ></QuestCard>
+        }
+    </div>
+    <div class="questbox container" id="mycreated">
+        <p>Meine erstellten Quests</p>
+        @foreach(var quest in CreatedQuests())
+        {
+            var id = quest.Value("id");
+            <QuestCard 
+                Id=@id
+                Category=@quest.Value("category")
+                Status=@quest.Value("status")
+                Title=@quest.Value("title")
+                Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
+                Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
+                PictureUrl=@quest.Value("picture.url")
+                TimeRemaining=@Counter(id)
+                Open=OpenQuestDialog
+            ></QuestCard>
+        }
+    </div>
+    <div class="questbox container" id="myfinished">
+        <p>Meine abgeschlossenen Quests</p>
+        @foreach(var quest in FinishedQuests())
+        {
+            var id = quest.Value("id");
+            <QuestCard 
+                Id=@id
+                Category=@quest.Value("category")
+                Status=@quest.Value("status")
+                Title=@quest.Value("title")
+                Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
                 Score=@Score(quest.Value("reward"), quest.Value("factor"))
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
                 PictureUrl=@quest.Value("picture.url")
@@ -60,11 +125,12 @@
         <Content>
             <QuestDetails
                 Details=@SelectedQuest() 
-                Reward="-" 
+                Reward=@Reward()
                 Score=@Score() 
                 TimeRemaining=@Counter(selectedQuestId) 
+                Server=api
                 Cancel=CancelQuestDialog
-                Confirm=ApplyForQuest>
+                RefreshAndClose=RefreshAndCloseQuestDialog>
             </QuestDetails>
         </Content>
     </ModalDialog>
@@ -151,6 +217,26 @@
             );
     }
 
+    private IEnumerable<IJSON> CreatedQuests()
+    {
+        return
+            new Filtered<IJSON>(quest =>
+                quest.Value("scope") != "private" &&
+                new BoolOf(quest.Value("issuer.me")).Value(),
+                this.quests
+            );
+    }
+
+    private IEnumerable<IJSON> FinishedQuests()
+    {
+        return
+            new Filtered<IJSON>(quest =>
+                quest.Value("status") == "finished" &&
+                new BoolOf(quest.Value("applicant.me")).Value(),
+                this.quests
+            );
+    }
+
     private string Counter(string id)
     {
         var result = "-";
@@ -167,9 +253,20 @@
         return result;
     }
 
-    private string Reward(string points)
+    private string Reward()
     {
-        return new DoubleOf(points).Value().ToString("F0");
+        var node = SelectedQuest();
+        return Reward(node.Value("reward"), node.Value("scope"));
+    }
+
+    private string Reward(string points, string scope)
+    {
+        var result = "-";
+        if(scope != "private")
+        {
+            result = new DoubleOf(points).Value().ToString("F0");
+        }
+        return result;
     }
 
     private string Score()
@@ -190,9 +287,8 @@
         StateHasChanged();
     }
 
-    private async Task ApplyForQuest(string quest)
+    private async Task RefreshAndCloseQuestDialog()
     {
-        await api.Private(new DmAddApplicant(quest), "").Touch();
         await Refresh();
         this.showQuestDialogOpen = false;
         StateHasChanged();

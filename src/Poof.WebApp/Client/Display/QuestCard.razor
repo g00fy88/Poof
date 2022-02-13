@@ -16,8 +16,14 @@
     <div class="time">Läuft ab in @TimeRemaining</div>
     <div class="title">@Title</div>
     <div class="category">
-        <span class="@Icon()"></span>
+        <span class="@CategoryIcon()"></span>
     </div>
+    @if (Status == "finished" || Status == "failed")
+    {
+        <div class="status @Status">
+            <span class="@StatusIcon()"></span>
+        </div>
+    }
     <div class="reward" style="margin-bottom: 33px">
         <span class="icon-tribe-icon-37"></span>
         <a>@Reward</a>
@@ -55,7 +61,7 @@
         return Open.InvokeAsync(Id);
     }
 
-    private string Icon()
+    private string CategoryIcon()
     {
         return 
             new FallbackMap(
@@ -66,5 +72,17 @@
                 ),
                 key => "icon-scroll-icon-29263"
             )[Category];
+    }
+
+    private string StatusIcon()
+    {
+        return 
+            new FallbackMap(
+                new MapOf(
+                    "finished", "oi oi-check",
+                    "failed", "oi oi-x"
+                ),
+                key => "oi oi-timer"
+            )[Status];
     }
 }
