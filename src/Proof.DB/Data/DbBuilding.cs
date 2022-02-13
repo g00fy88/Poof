@@ -22,28 +22,43 @@ namespace Poof.Web.Server.Data
             name,
             new MapOf<IDataBuilding>(
                 new KvpOf<IDataBuilding>("user", () =>
-                    new DbUserBuilding(context, 
-                        new DbCache<ApplicationUser>(context.Users)
+                    new ExclusiveBuilding<ApplicationUser>(
+                        context.Users,
+                        new DbUserBuilding(context, 
+                            new DbCache<ApplicationUser>(context.Users)
+                        )
                     )
                 ),
                 new KvpOf<IDataBuilding>("fellowship", () =>
-                    new DbFellowshipBuilding(context, 
-                        new DbCache<DbFellowship>(context.Fellowships)
+                    new ExclusiveBuilding<DbFellowship>(
+                        context.Fellowships,
+                        new DbFellowshipBuilding(context, 
+                            new DbCache<DbFellowship>(context.Fellowships)
+                        )
                     )
                 ),
                 new KvpOf<IDataBuilding>("transaction", () =>
-                    new DbTransactionBuilding(context,
-                        new DbCache<DbTransaction>(context.Transactions)
+                    new ExclusiveBuilding<DbTransaction>(
+                        context.Transactions,
+                        new DbTransactionBuilding(context,
+                            new DbCache<DbTransaction>(context.Transactions)
+                        )
                     )
                 ),
                 new KvpOf<IDataBuilding>("membership", () =>
-                    new DbMembershipBuilding(context,
-                        new DbCache<DbMembership>(context.Memberships)
+                    new ExclusiveBuilding<DbMembership>(
+                        context.Memberships,
+                        new DbMembershipBuilding(context,
+                            new DbCache<DbMembership>(context.Memberships)
+                        )
                     )
                 ),
                 new KvpOf<IDataBuilding>("quest", () =>
-                    new DbQuestBuilding(context,
-                        new DbCache<DbQuest>(context.Quests)
+                    new ExclusiveBuilding<DbQuest>(
+                        context.Quests,
+                        new DbQuestBuilding(context,
+                            new DbCache<DbQuest>(context.Quests)
+                        )
                     )
                 )
             )

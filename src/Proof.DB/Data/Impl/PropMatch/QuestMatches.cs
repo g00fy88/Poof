@@ -56,6 +56,9 @@ namespace Poof.DB.Data.Impl.PropMatch
                                 new MapOf<IEnumerable<DbQuest>>(
                                     new KvpOf<IEnumerable<DbQuest>>("issuer", () =>
                                         quests.Where(q => q.Issuer != match.Value<string>())
+                                    ),
+                                    new KvpOf<IEnumerable<DbQuest>>("scope", () =>
+                                        quests.Where(q => q.Scope != match.Value<string>())
                                     )
                                 ),
                                 key => throw new ArgumentException($"Unable to filter transactions for field '{key}', " +
