@@ -51,5 +51,15 @@ namespace Poof.Core.Entity.Quest
             )
             { }
         }
+
+        public sealed class NoMatch : PropMatchEnvelope
+        {
+            public NoMatch(string scope) : base(
+                "scope",
+                "not-equal",
+                scope
+            )
+            { }
+        }
     }
 }

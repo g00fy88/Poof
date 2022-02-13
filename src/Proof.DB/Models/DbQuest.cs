@@ -25,6 +25,8 @@ namespace Poof.DB.Models
         public DateTime FinishDate { get; set; }
         public bool HasLocation { get; set; }
         public string Location { get; set; }
+        public bool HasContact { get; set; }
+        public string Contact { get; set; }
         public string PictureType { get; set; } = "none";
         public string PictureUrl { get; set; } = "";
         public byte[] PictureData { get; set; }

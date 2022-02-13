@@ -26,6 +26,7 @@ namespace Poof.Core.Snaps.Quest.Test
         [InlineData("[0].endDate.has", "True")]
         [InlineData("[0].location.has", "True")]
         [InlineData("[0].location.value", "ground zero")]
+        [InlineData("[0].contact.has", "True")]
         [InlineData("[0].reward", "40")]
         [InlineData("[0].completionTime", "48")]
         public void RetrievesValues(string jsonPath, string expected)
@@ -48,6 +49,7 @@ namespace Poof.Core.Snaps.Quest.Test
                 new Title("project x revival"),
                 new Description("party like theres no tomorrow"),
                 new Location(true, "ground zero"),
+                new Contact(false, ""),
                 new Reward(40),
                 new CompletionTime(48)
             );

@@ -40,18 +40,20 @@ namespace Poof.Core.Snaps.Quest
             foreach(var id in quests)
             {
                 var quest = new QuestOf(mem, id);
+                var status = new Status.Of(quest).AsString();
                 var issuerId = new Issuer.Of(quest).Value();
                 var issuer = new UserOf(mem, issuerId);
                 var hasApplicant = new Applicant.Has(quest).Value();
                 var hasEndDate = new EndDate.Has(quest).Value();
                 var needsLocation = new Location.Needed(quest).Value();
+                var needsContact = new Contact.Needed(quest).Value();
                 var hasPicture = new Picture.Has(quest).Value();
 
                 result.Add(
                     new JObject(
                         new JProperty("id", id),
                         new JProperty("scope", new Scope.Of(quest).AsString()),
-                        new JProperty("status", new Status.Of(quest).AsString()),
+                        new JProperty("status", status),
                         new JProperty("issuer",
                             new JObject(
                                 new JProperty("me", issuerId == identity.UserID()),
@@ -96,6 +98,16 @@ namespace Poof.Core.Snaps.Quest
                             new JObject(
                                 new JProperty("has", needsLocation),
                                 new JProperty("value", needsLocation ? new Location.Of(quest).AsString() : "")
+                            )
+                        ),
+                         new JProperty("contact",
+                            new JObject(
+                                new JProperty("has", needsContact),
+                                new JProperty("value", 
+                                    status != "open" && needsLocation ? 
+                                    new Location.Of(quest).AsString() : 
+                                    ""
+                                )
                             )
                         ),
                         new JProperty("picture",

@@ -27,7 +27,8 @@ namespace Poof.Core.Snaps
                 new FwEntity("quest",
                     new FwCategory("configuration",
                         new FwAction("add-weeklies", new AddsWeeklyQuests(mem, future)),
-                        new FwAction("fail-unfinished", new FailsWhenUnfinished(mem, future))
+                        new FwAction("fail-unfinished", new FailsWhenUnfinished(mem, future)),
+                        new FwAction("remove-unapplied", new RemovesUnapplied(mem, future))
                     )
                 )
             )

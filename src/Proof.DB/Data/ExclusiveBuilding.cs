@@ -29,7 +29,7 @@ namespace Poof.DB.Data
 
         public IDataFloor Floor(string id)
         {
-            return new ExclusiveFloor<T>(this.mutex, this.origin.Floor(id))
+            return new ExclusiveFloor<T>(this.mutex, this.origin.Floor(id));
         }
 
         public IList<string> Floors(params IPropMatch[] matches)

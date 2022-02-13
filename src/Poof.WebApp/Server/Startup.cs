@@ -111,7 +111,7 @@ namespace Poof.WebApp.Server
             var future = scope.ServiceProvider.GetService<IFuture>();
             future.RunAsync();
 
-            new InitializesWeeklies(mem, future).Convert(
+            new InitializesQuests(mem, future).Convert(
                 new EmptyDemand()
             );
             new InitializesExpiries(mem, future).Convert(
