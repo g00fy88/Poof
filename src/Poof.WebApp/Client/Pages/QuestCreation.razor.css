@@ -1,0 +1,146 @@
+﻿.content {
+    text-align: center;
+}
+
+    .content .form {
+        width: 100%;
+        max-width: 800px;
+        background-color: #222;
+        color: white;
+        margin: auto;
+        border-radius: 5px;
+    }
+
+        .content .form .picture {
+            position: relative;
+            min-height: 200px;
+        }
+
+            .content .form .picture img {
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+            .content .form .picture .overlay {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0px;
+                background-image: linear-gradient(transparent 70%, #222 100%)
+            }
+
+            .content .form .picture .upload {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 0px 0px 30px 0px;
+                display: inline-block;
+                background-color: #ddd;
+                color: black;
+                padding: 5px 10px;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: 0.3s ease;
+            }
+
+            .content .form .picture .upload:hover {
+                background-color: #eee;
+            }
+
+                .content .form .picture .upload span{
+                    vertical-align: middle;
+                }
+
+                .content .form .picture .upload a {
+                }
+
+            .content .form .picture .title {
+                background-color: rgba(255,255,255,0.1);
+                position: absolute;
+                bottom: 5px;
+                left: 10px;
+                border: solid 1px #ddd;
+                font-size: 1.8em;
+                border-radius: 5px;
+                padding-left: 10px;
+                color: white;
+            }
+
+        .content .form .details {
+            padding: 10px;
+        }
+
+            .content .form .details .category {
+                text-align: left;
+            }
+
+                .content .form .details .category div {
+                    background-color: #f2e685;
+                    color: black;
+                    height: 36px;
+                    border-radius: 18px;
+                    padding: 8px;
+                    margin: 3px;
+                    display: inline-block;
+                }
+
+                    .content .form .details .category div input {
+                        cursor:pointer;
+                    }
+
+                    .content .form .details .category div label {
+                        cursor:pointer;
+                    }
+
+                    .content .form .details .category div label span {
+
+                    }
+
+            .content .form .details .reward {
+                text-align: left;
+                padding-top: 15px;
+            }
+
+                .content .form .details .reward p {
+                    display: inline-block
+                }
+
+                .content .form .details .reward input {
+                    display: inline-block;
+                    background-color: rgba(255,255,255,0.5);
+                    border: solid 1px #ddd;
+                    border-radius: 15px;
+                    padding-left: 10px;
+                }
+
+            .content .form .details .description {
+                padding-top: 15px;
+            }
+
+                .content .form .details textarea {
+                    background-color: rgba(255,255,255,0.1);
+                    border: solid 1px #ddd;
+                    border-radius: 5px;
+                    width: 100%;
+                    height: 200px;
+                    text-align: center;
+                    color: white;
+                    padding: 5px;
+                }
+
+            .content .form .details .selector {
+                padding-top: 15px;
+                font-size: 1.3em;
+            }
+
+            .content .form .details .location {
+                padding-top: 15px;
+                text-align: left;
+            }
+
+            .content .form .details .contact {
+                padding-top: 15px;
+                text-align: left;
+            }

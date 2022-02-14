@@ -1,0 +1,119 @@
+﻿@page "/newquest"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+@using Poof.Demand.Snaps.Quest
+@using Poof.Talk.Snaps.User.Discovery
+@using Poof.WebApp.Client.Display
+@using System.Globalization
+@using Yaapii.Atoms.Scalar
+@using Yaapii.Atoms.Text
+@using Yaapii.Atoms.Map
+@using Yaapii.Atoms.Enumerable
+@attribute [Authorize]
+@inject IApi api
+@inject IMemory mem
+
+<div class="content">
+    <div class="form">
+        <div class="picture">
+            @if(picture.Length > 0)
+            {
+                <img src="@PictureUrl()" />
+                <div class="overlay"></div>
+            }
+            <div class="upload">
+                <span class="oi oi-image"></span> <a>Quest-Bild hochladen</a>
+                <InputFile OnChange="@EditPicture" accept="image/x-png,image/jpeg" style="position: absolute;top: 0;right: 0;width: 100%;height: 100%;opacity: 0;cursor:pointer;"></InputFile>
+            </div>
+            <input placeholder="Titel" class="title" type="text" @bind="@title"/>
+        </div>
+        <div class="details">
+            <div class="category">
+                <div>
+                  <input type="radio" name="category" id="community" value="community" @onchange="CategorySelection" checked=@category.Equals("community") />
+                  <label for="community"><span class="icon-friends-icon-png-19"></span> Gemeinschaft</label>
+                </div><br />
+                <div>
+                  <input type="radio" name="category" id="solidarity" value="solidarity" @onchange="CategorySelection" checked=@category.Equals("solidarity") />
+                  <label for="solidarity"><span class="icon-teamwork-icon-37"></span> Solidarität</label>
+                </div><br />
+                <div>
+                  <input type="radio" name="category" id="sustainability" value="sustainability" @onchange="CategorySelection" checked=@category.Equals("sustainability") />
+                  <label for="sustainability"><span class="icon-sustainability-icon-3_1"></span> Ökologische Nachhaltigkeit</label>
+                </div><br />
+                <div>
+                    <input type="radio" name="category" id="other" value="other" @onchange="CategorySelection" checked=@category.Equals("other") />
+                    <label for="other"><span class="icon-scroll-icon-29263"></span> Sonstige</label>
+                </div><br />
+            </div>
+            <div class="reward">
+                <p>Belohnung: </p>
+                <input type="number" @bind="@reward" />
+            </div>
+            <div class="description">
+                <textarea @bind="@description" placeholder="Beschreibe, worum es in dem Quest geht und was getan werden muss, um ihn abzuschließen"></textarea>
+            </div>
+            <div class="location">
+                <div class="selector">
+                    <input type="checkbox" id="loc" @bind-value="@needsLocation"/>
+                    <label for="loc">Standort</label>
+                </div>
+                @if(needsLocation)
+                {
+                    <textarea @bind="@location" placeholder="Wenn der Quest standortgebunden ist, beschreibe den Ort oder gib eine Addresse oder Standort-Link ein. Achtung, diese Info kann von allen Usern eingesehen werden! Gebe hier keine privaten Addressen ein."></textarea>
+                }
+            </div>
+            <div class="contact">
+                <div class="selector">
+                    <input type="checkbox" id="con" @bind-value="@needsContact"/>
+                    <label for="con">Kontakt</label>
+                </div>
+                @if(needsContact)
+                {
+                    <textarea @bind="@contact" placeholder="Wenn eine Kontaktaufnahme notwendig ist, gebe hier ein, wie du am besten zu erreichen bist (Email, Telefonnummer, etc.). Diese Info wird nur dem User angezeigt, der den Quest angenommen hat."></textarea>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private byte[] picture = new byte[0];
+    private string title = "";
+    private string category = "community";
+    private double reward;
+    private string description = "";
+    private bool needsLocation = false;
+    private string location = "";
+    private bool needsContact = false;
+    private string contact = "";
+
+    protected override void OnInitialized()
+    { }
+
+    protected override async Task OnInitializedAsync()
+    { }
+
+    private async Task EditPicture(InputFileChangeEventArgs e)
+    {
+        if (e.GetMultipleFiles().Count > 0)
+        {
+            var file = e.File;
+            var format = "image/jpg";
+            var resizedImageFile = await file.RequestImageFileAsync(format, 1600, 900);
+            this.picture = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream(5242880).ReadAsync(this.picture);
+        }
+        StateHasChanged();
+    }
+
+    private string PictureUrl()
+    {
+        return "data:image/png;base64," + Convert.ToBase64String(this.picture);
+    }
+
+    private void CategorySelection(ChangeEventArgs args)
+    {
+        this.category = args.Value.ToString();
+    }
+}
