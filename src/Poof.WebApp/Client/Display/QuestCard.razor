@@ -15,15 +15,29 @@
     <div class="overlay"></div>
     <div class="time">Läuft ab in @TimeRemaining</div>
     <div class="title">@Title</div>
-    <div class="category">
-        <span class="@CategoryIcon()"></span>
-    </div>
-    @if (Status == "finished" || Status == "failed")
-    {
-        <div class="status @Status">
-            <span class="@StatusIcon()"></span>
+    <div class="icons">
+        <div class="category">
+            <span class="oi @CategoryIcon()"></span>
         </div>
-    }
+        @if(NeedsLocation)
+        {
+            <div class="category">
+                <span class="oi oi-map-marker"></span>
+            </div>
+        }
+        @if(NeedsContact)
+        {
+            <div class="category">
+                <span class="oi oi-phone"></span>
+            </div>
+        }
+        @if (Status == "finished" || Status == "failed")
+        {
+            <div class="@Status">
+                <span class="oi @StatusIcon()"></span>
+            </div>
+        }
+    </div>
     <div class="reward" style="margin-bottom: 33px">
         <span class="icon-tribe-icon-37"></span>
         <a>@Reward</a>
@@ -49,6 +63,10 @@
     public string Score { get; set; }
     [Parameter]
     public string TimeRemaining { get; set; } = "-";
+    [Parameter]
+    public bool NeedsLocation { get; set; }
+    [Parameter]
+    public bool NeedsContact { get; set; }
     [Parameter]
     public bool HasPicture { get; set; }
     [Parameter]
@@ -79,10 +97,10 @@
         return 
             new FallbackMap(
                 new MapOf(
-                    "finished", "oi oi-check",
-                    "failed", "oi oi-x"
+                    "finished", "oi-check",
+                    "failed", "oi-x"
                 ),
-                key => "oi oi-timer"
+                key => "oi-timer"
             )[Status];
     }
 }

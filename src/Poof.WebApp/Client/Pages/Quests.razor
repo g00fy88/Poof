@@ -53,6 +53,29 @@
                 Title=@quest.Value("title")
                 Reward="-"
                 Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
+                NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
+                HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
+                PictureUrl=@quest.Value("picture.url")
+                TimeRemaining=@Counter(id)
+                Open=OpenQuestDialog
+            ></QuestCard>
+        }
+    </div>
+    <div class="questbox container" id="mypending">
+        <p>Offene User-Quests</p>
+        @foreach(var quest in OpenQuests())
+        {
+            var id = quest.Value("id");
+            <QuestCard 
+                Id=@id
+                Category=@quest.Value("category")
+                Status=@quest.Value("status")
+                Title=@quest.Value("title")
+                Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
+                Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
+                NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
                 PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
@@ -72,6 +95,8 @@
                 Title=@quest.Value("title")
                 Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
                 Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
+                NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
                 PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
@@ -91,6 +116,8 @@
                 Title=@quest.Value("title")
                 Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
                 Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
+                NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
                 PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
@@ -110,6 +137,8 @@
                 Title=@quest.Value("title")
                 Reward=@Reward(quest.Value("reward"), quest.Value("scope"))
                 Score=@Score(quest.Value("reward"), quest.Value("factor"))
+                NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
+                NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
                 PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
@@ -202,6 +231,16 @@
         return
             new Filtered<IJSON>(quest =>
                 quest.Value("scope") == "private" &&
+                quest.Value("status") == "open",
+                this.quests
+            );
+    }
+
+    private IEnumerable<IJSON> OpenQuests()
+    {
+        return
+            new Filtered<IJSON>(quest =>
+                quest.Value("scope") != "private" &&
                 quest.Value("status") == "open",
                 this.quests
             );

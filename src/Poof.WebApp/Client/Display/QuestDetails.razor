@@ -73,6 +73,20 @@
                 </div>
             </div>
             <div class="description">@Details.Value("description")</div>
+            @if(new BoolOf(Details.Value("location.has")).Value())
+            {
+                <div class="additional">
+                    <h3>Standort des Quests</h3>
+                    <div class="text">@Details.Value("location.value")</div>
+                </div>
+            }
+            @if(new BoolOf(Details.Value("contact.has")).Value())
+            {
+                <div class="additional">
+                    <h3>Kontaktinfos (werden erst nach Annahme des Quests angezeigt</h3>
+                    <div class="text">@Details.Value("contact.value")</div>
+                </div>
+            }
             @if(Details.Value("status") != "open")
             {
                 <div class="questlog">

@@ -92,6 +92,17 @@
             padding-top: 20px;
         }
 
+        .details .content .additional {
+            padding: 20px;
+        }
+
+            .details .content .additional h3 {
+                font-size: 1.4em;
+            }
+
+            .details .content .additional .text {
+            }
+
         .details .content .questlog {
             text-align: center;
             padding:20px;

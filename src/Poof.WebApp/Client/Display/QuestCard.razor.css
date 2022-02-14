@@ -62,53 +62,43 @@
         color: white;
     }
 
-    .quest .category {
+    .quest .icons {
         position: absolute;
         bottom: 5px;
         left: 10px;
-        width: 36px;
-        height: 36px;
-        background-color: #f2e685;
-        display: inline-block;
-        padding: 2px 8px;
-        border-radius: 18px;
     }
 
-        .quest .category span {
-            font-size: 1.3em;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .quest .icons div {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            padding: 2px 8px;
+            margin: 0px 10px 0px 0px;
+            display: inline-block;
+            position: relative;
+            vertical-align: bottom;
         }
 
-    .quest .status {
-        position: absolute;
-        bottom: 5px;
-        left: 56px;
-        width: 36px;
-        height: 36px;
-        display: inline-block;
-        padding: 2px 8px;
-        border-radius: 18px;
-    }
+            .quest .icons div .oi {
+                font-size: 1.3em;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: black;
+            }
 
-        .quest .status .oi {
-            font-size: 1.1em;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: black;
+        .quest .icons .category {
+            background-color: #f2e685;
         }
 
-    .quest .finished {
-        background-color: #54ff9f;
-    }
+        .quest .icons .finished {
+            background-color: #54ff9f;
+        }
 
-    .quest .failed {
-        background-color: #ed6678;
-    }
+        .quest .icons .failed {
+            background-color: #ed6678;
+        }
 
     .quest .time {
         padding: 4px 10px;
