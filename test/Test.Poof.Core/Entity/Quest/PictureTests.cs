@@ -71,7 +71,7 @@ namespace Poof.Core.Entity.Quest.Test
             );
 
             Assert.Equal(
-                base64Text,
+                $"data:image/jpg;base64,{base64Text}",
                 new Picture.Url(quest).AsString()
             );
         }

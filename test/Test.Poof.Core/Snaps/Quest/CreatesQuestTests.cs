@@ -27,7 +27,7 @@ namespace Poof.Core.Snaps.Quest.Test
         [InlineData("[0].contact.has", "False")]
         [InlineData("[0].reward", "40")]
         [InlineData("[0].completionTime", "48")]
-        public void RetrievesValues(string jsonPath, string expected)
+        public void CreatesQuestWithDetails(string jsonPath, string expected)
         {
             var mem = new TestBuilding();
             var user = new Users(mem).New();

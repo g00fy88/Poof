@@ -32,7 +32,7 @@
                     }
                     else
                     {
-                        <img src="data:image/png;base64,@name.Value("pictureUrl")">
+                        <img src="@name.Value("pictureUrl")">
                     }
                         <div class="score">@(new DoubleOf(name.Value("level")).Value().ToString("F0"))</div>
                     </div>

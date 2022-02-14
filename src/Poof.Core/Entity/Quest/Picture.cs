@@ -61,6 +61,7 @@ namespace Poof.Core.Entity.Quest
                 new FallbackMap(
                     new MapOf(
                         new KvpOf("bytes", ()=>
+                            "data:image/jpg;base64," +
                             new TextOf(
                                 new InputOf(
                                     new BytesBase64(

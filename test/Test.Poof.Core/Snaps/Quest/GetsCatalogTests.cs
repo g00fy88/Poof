@@ -26,7 +26,7 @@ namespace Poof.Core.Snaps.Quest.Test
         [InlineData("[0].endDate.has", "True")]
         [InlineData("[0].location.has", "True")]
         [InlineData("[0].location.value", "ground zero")]
-        [InlineData("[0].contact.has", "True")]
+        [InlineData("[0].contact.has", "False")]
         [InlineData("[0].reward", "40")]
         [InlineData("[0].completionTime", "48")]
         public void RetrievesValues(string jsonPath, string expected)

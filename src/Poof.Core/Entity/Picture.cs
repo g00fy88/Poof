@@ -45,9 +45,18 @@ namespace Poof.Core.Entity
             }
         }
 
+        public sealed class Has : ScalarEnvelope<bool>
+        {
+            public Has(IEntity entity) : base(()=>
+                entity.Memory().Prop<byte[]>("picture").Length > 0
+            )
+            { }
+        }
+
         public sealed class Base64Url : TextEnvelope
         {
             public Base64Url(IEntity entity) : base(()=>
+                "data:image/png;base64," +
                 new TextOf(
                     new InputOf(
                         new BytesBase64(

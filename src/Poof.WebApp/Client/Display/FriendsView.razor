@@ -21,7 +21,7 @@
                     </div>
                 } else
                 {
-                    <img src="data:image/png;base64,@friend.Value("pictureUrl")">
+                    <img src="@friend.Value("pictureUrl")">
                 }
                 <div class="score">@(new DoubleOf(friend.Value("level")).Value().ToString("F0"))</div>
             </div>

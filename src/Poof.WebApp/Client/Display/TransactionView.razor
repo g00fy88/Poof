@@ -36,7 +36,7 @@
             }
             else
             {
-                <img src="data:image/png;base64,@transaction.Value("me.pictureUrl")">
+                <img src="@transaction.Value("me.pictureUrl")">
             }
             <p class="name">@transaction.Value("me.name")</p>
             <p class="score">@(new DoubleOf(transaction.Value("me.level")).Value().ToString("F0"))</p>
@@ -51,7 +51,7 @@
                 }
                 else
                 {
-                    <img src="data:image/png;base64,@transaction.Value("other.pictureUrl")">
+                    <img src="@transaction.Value("other.pictureUrl")">
                 }
                 <p class="name">@transaction.Value("other.name")</p>
                 <p class="score">@(new DoubleOf(transaction.Value("other.level")).Value().ToString("F0"))</p>

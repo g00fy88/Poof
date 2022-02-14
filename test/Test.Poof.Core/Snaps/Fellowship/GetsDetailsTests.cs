@@ -20,19 +20,19 @@ namespace Poof.Core.Snaps.Fellowship.Test
     {
         [Theory]
         [InlineData("name", "gandalf and his boys")]
-        [InlineData("pictureUrl", "aW1hZ2VieXRlcw==")]
+        [InlineData("pictureUrl", "data:image/png;base64,aW1hZ2VieXRlcw==")]
         [InlineData("level", "4.642857142857142")]
         [InlineData("givefactor", "0.49375")]
         [InlineData("takefactor", "0.5")]
         [InlineData("members[0].id", "gandalf")]
         [InlineData("members[0].pseudonym", "the grey")]
         [InlineData("members[0].pseudonumber", "9000")]
-        [InlineData("members[0].pictureUrl", "aW1hZ2VieXRlcw==")]
+        [InlineData("members[0].pictureUrl", "data:image/png;base64,aW1hZ2VieXRlcw==")]
         [InlineData("members[0].level", "5")]
         [InlineData("members[1].id", "frodo")]
         [InlineData("members[1].pseudonym", "the small")]
         [InlineData("members[1].pseudonumber", "1")]
-        [InlineData("members[1].pictureUrl", "aW1hZ2VieXRlcw==")]
+        [InlineData("members[1].pictureUrl", "data:image/png;base64,aW1hZ2VieXRlcw==")]
         [InlineData("members[1].level", "4.285714285714286")]
         public void RetrievesDetails(string jsonpath, string expected)
         {

@@ -60,7 +60,7 @@ namespace Poof.Core.Entity.Test
             );
 
             Assert.Equal(
-                base64Text,
+                $"data:image/png;base64,{base64Text}",
                 new Picture.Base64Url(user).AsString()
             );
         }
