@@ -5,6 +5,7 @@
 @using Poof.Talk.Snaps.User.Discovery
 @using Poof.WebApp.Client.Display
 @using System.Globalization
+@using System.ComponentModel.DataAnnotations
 @using Yaapii.Atoms.Scalar
 @using Yaapii.Atoms.Text
 @using Yaapii.Atoms.Map
@@ -14,84 +15,117 @@
 @inject IMemory mem
 
 <div class="content">
+    <div class="header">
+        <p>Erstelle einen eigenen Quest, den andere User annehmen und abschließen können. Vergebe Punkte als Belohnung.
+            Nach Abschluss des Quests werden diese Punkte von deinem Konto abgezogen und dem Quest-User gutgeschrieben.
+        </p>
+    </div>
     <div class="form">
-        <div class="picture">
-            @if(picture.Length > 0)
-            {
-                <img src="@PictureUrl()" />
-                <div class="overlay"></div>
-            }
-            <div class="upload">
-                <span class="oi oi-image"></span> <a>Quest-Bild hochladen</a>
-                <InputFile OnChange="@EditPicture" accept="image/x-png,image/jpeg" style="position: absolute;top: 0;right: 0;width: 100%;height: 100%;opacity: 0;cursor:pointer;"></InputFile>
+        @if(showPreview)
+        {
+            <QuestDetails 
+                Details="@(new JSONOf(previewToken))"
+                Reward="@(new TextOf(questForm.Reward).AsString())"
+                Score="@(new TextOf(questForm.Reward).AsString())"
+                TimeRemaining="7 Tage"
+            ></QuestDetails>
+        }
+        else
+        {
+        <EditForm Model="@questForm" OnValidSubmit="@Preview">
+            <div style="text-align:left">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
             </div>
-            <input placeholder="Titel" class="title" type="text" @bind="@title"/>
-        </div>
-        <div class="details">
-            <div class="category">
-                <div>
-                  <input type="radio" name="category" id="community" value="community" @onchange="CategorySelection" checked=@category.Equals("community") />
-                  <label for="community"><span class="icon-friends-icon-png-19"></span> Gemeinschaft</label>
-                </div><br />
-                <div>
-                  <input type="radio" name="category" id="solidarity" value="solidarity" @onchange="CategorySelection" checked=@category.Equals("solidarity") />
-                  <label for="solidarity"><span class="icon-teamwork-icon-37"></span> Solidarität</label>
-                </div><br />
-                <div>
-                  <input type="radio" name="category" id="sustainability" value="sustainability" @onchange="CategorySelection" checked=@category.Equals("sustainability") />
-                  <label for="sustainability"><span class="icon-sustainability-icon-3_1"></span> Ökologische Nachhaltigkeit</label>
-                </div><br />
-                <div>
-                    <input type="radio" name="category" id="other" value="other" @onchange="CategorySelection" checked=@category.Equals("other") />
-                    <label for="other"><span class="icon-scroll-icon-29263"></span> Sonstige</label>
-                </div><br />
-            </div>
-            <div class="reward">
-                <p>Belohnung: </p>
-                <input type="number" @bind="@reward" />
-            </div>
-            <div class="description">
-                <textarea @bind="@description" placeholder="Beschreibe, worum es in dem Quest geht und was getan werden muss, um ihn abzuschließen"></textarea>
-            </div>
-            <div class="location">
-                <div class="selector">
-                    <input type="checkbox" id="loc" @bind-value="@needsLocation"/>
-                    <label for="loc">Standort</label>
-                </div>
-                @if(needsLocation)
+            <div class="picture">
+                @if(questForm.Picture.Length > 0)
                 {
-                    <textarea @bind="@location" placeholder="Wenn der Quest standortgebunden ist, beschreibe den Ort oder gib eine Addresse oder Standort-Link ein. Achtung, diese Info kann von allen Usern eingesehen werden! Gebe hier keine privaten Addressen ein."></textarea>
+                    <img src="@questForm.PictureUrl" />
+                    <div class="overlay"></div>
                 }
-            </div>
-            <div class="contact">
-                <div class="selector">
-                    <input type="checkbox" id="con" @bind-value="@needsContact"/>
-                    <label for="con">Kontakt</label>
+                <div class="upload">
+                    <span class="oi oi-image"></span> <a>Bild hochladen</a>
+                    <InputFile OnChange="@EditPicture" accept="image/x-png,image/jpeg" style="position: absolute;top: 0;right: 0;width: 100%;height: 100%;opacity: 0;cursor:pointer;"></InputFile>
                 </div>
-                @if(needsContact)
-                {
-                    <textarea @bind="@contact" placeholder="Wenn eine Kontaktaufnahme notwendig ist, gebe hier ein, wie du am besten zu erreichen bist (Email, Telefonnummer, etc.). Diese Info wird nur dem User angezeigt, der den Quest angenommen hat."></textarea>
-                }
+                <div class="title">
+                    <InputText placeholder="Titel" class="title" @bind-Value="@questForm.Title"></InputText>
+                </div>
             </div>
-        </div>
+            <div class="details">
+                <div class="category">
+                    <InputRadioGroup @bind-Value="@questForm.Category">
+                        <div>
+                          <InputRadio Value='"community"' id="community"></InputRadio>
+                          <label for="community"><span class="icon-friends-icon-png-19"></span> Gemeinschaft</label>
+                        </div>
+                        <div>
+                          <InputRadio Value='"solidarity"' id="solidarity"></InputRadio>
+                          <label for="solidarity"><span class="icon-teamwork-icon-37"></span> Solidarität</label>
+                        </div>
+                        <div>
+                          <InputRadio Value='"sustainability"' id="sustainability"></InputRadio>
+                          <label for="sustainability"><span class="icon-sustainability-icon-3_1"></span> Ökologische Nachhaltigkeit</label>
+                        </div>
+                        <div>
+                            <InputRadio Value='"other"' id="other"></InputRadio>
+                            <label for="other"><span class="icon-scroll-icon-29263"></span> Sonstige</label>
+                        </div>
+                    </InputRadioGroup>
+                </div>
+                <div class="reward">
+                    <p>Belohnung: </p>
+                    <InputNumber @bind-Value="@questForm.Reward" style="width:100px"></InputNumber>
+                </div>
+                <div class="endDate">
+                    <p>Quest läuft aus am:</p>
+                    <InputDate @bind-Value="@questForm.EndDate"></InputDate>
+                </div>
+                <div class="reward">
+                    <p>Zeit für die Ausführung des Quests: </p>
+                    <InputNumber @bind-Value="@questForm.CompletionDays" style="width:60px"></InputNumber>
+                </div>
+                <div class="description">
+                    <InputTextArea @bind-Value="@questForm.Description" placeholder="Beschreibe, worum es in dem Quest geht und was getan werden muss, um ihn abzuschließen"></InputTextArea>
+                </div>
+                <div class="location">
+                    <div class="selector">
+                        <InputCheckbox id="loc" @bind-Value="@questForm.NeedsLocation"></InputCheckbox>
+                        <label for="loc">Standort <a>(bei standortgebundenen Quests)</a></label>
+                    </div>
+                    @if(questForm.NeedsLocation)
+                    {
+                        <InputTextArea @bind-Value="@questForm.Location" placeholder="Wenn der Quest standortgebunden ist, beschreibe den Ort oder gib eine Addresse oder Standort-Link ein. Achtung, diese Info kann von allen Usern eingesehen werden! Gebe hier keine privaten Addressen ein."></InputTextArea>
+                    }
+                </div>
+                <div class="contact">
+                    <div class="selector">
+                        <InputCheckbox id="con" @bind-Value="@questForm.NeedsContact"></InputCheckbox>
+                        <label for="con">Kontakt <a>(wenn Kontaktaufnahme erwünscht)</a></label>
+                    </div>
+                    @if(questForm.NeedsContact)
+                    {
+                        <InputTextArea @bind-Value="@questForm.Contact" placeholder="Wenn eine Kontaktaufnahme notwendig ist, gebe hier ein, wie du am besten zu erreichen bist (Email, Telefonnummer, etc.). Diese Info wird nur dem User angezeigt, der den Quest angenommen hat."></InputTextArea>
+                    }
+                </div>
+            </div>
+            <div class="buttons">
+                <NavLink href="quests">
+                    <div class="cancel">Abbrechen</div>
+                </NavLink>
+                <button type="submit">zur Vorschau</button>
+            </div>
+        </EditForm>
+        }
     </div>
 </div>
 
 @code {
-    private byte[] picture = new byte[0];
-    private string title = "";
-    private string category = "community";
-    private double reward;
-    private string description = "";
-    private bool needsLocation = false;
-    private string location = "";
-    private bool needsContact = false;
-    private string contact = "";
+    private Quest questForm = new Quest();
+
+    private bool showPreview = false;
+    private JObject previewToken = new JObject();
 
     protected override void OnInitialized()
-    { }
-
-    protected override async Task OnInitializedAsync()
     { }
 
     private async Task EditPicture(InputFileChangeEventArgs e)
@@ -101,19 +135,94 @@
             var file = e.File;
             var format = "image/jpg";
             var resizedImageFile = await file.RequestImageFileAsync(format, 1600, 900);
-            this.picture = new byte[resizedImageFile.Size];
-            await resizedImageFile.OpenReadStream(5242880).ReadAsync(this.picture);
+            this.questForm.Picture = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream(5242880).ReadAsync(this.questForm.Picture);
+            this.questForm.PictureUrl = "data:image/png;base64," + Convert.ToBase64String(this.questForm.Picture);
         }
         StateHasChanged();
     }
 
-    private string PictureUrl()
+    private void Preview()
     {
-        return "data:image/png;base64," + Convert.ToBase64String(this.picture);
+        this.previewToken =
+            new JObject(
+                new JProperty("scope", "public"),
+                new JProperty("status", "open"),
+                new JProperty("issuer",
+                    new JObject(
+                        new JProperty("me", true),
+                        new JProperty("name", "")
+                    )
+                ),
+                new JProperty("applicant",
+                    new JObject(
+                        new JProperty("has", false),
+                        new JProperty("me", false),
+                        new JProperty("name", ""),
+                        new JProperty("startDate", "")
+                    )
+                ),
+                new JProperty("completionTime", new TextOf(questForm.CompletionDays * 24).AsString()),
+                new JProperty("reward", new TextOf(questForm.Reward).AsString()),
+                new JProperty("factor", "0.5"),
+                new JProperty("category", questForm.Category),
+                new JProperty("title", questForm.Title),
+                new JProperty("description", questForm.Description),
+                new JProperty("note", ""),
+                new JProperty("endDate",
+                    new JObject(
+                        new JProperty("has", true),
+                        new JProperty("value", questForm.EndDate.ToString(CultureInfo.InvariantCulture)
+                        )
+                    )
+                ),
+                new JProperty("location",
+                    new JObject(
+                        new JProperty("has", questForm.NeedsLocation),
+                        new JProperty("value", questForm.Location)
+                    )
+                ),
+                    new JProperty("contact",
+                    new JObject(
+                        new JProperty("has", questForm.NeedsContact),
+                        new JProperty("value", questForm.Contact)
+                    )
+                ),
+                new JProperty("picture",
+                    new JObject(
+                        new JProperty("has", questForm.Picture.Length > 0),
+                        new JProperty("url", questForm.PictureUrl)
+                    )
+                )
+            );
+        this.showPreview = true;
+        StateHasChanged();
     }
 
-    private void CategorySelection(ChangeEventArgs args)
+    public class Quest
     {
-        this.category = args.Value.ToString();
+        public byte[] Picture { get; set; } = new byte[0];
+        public string PictureUrl { get; set; } = "";
+
+        [Required(ErrorMessage = "Ein Titel ist erforderlich")]
+        [StringLength(100, MinimumLength = 1)]
+        public string Title { get; set; }
+
+        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(7);
+
+        [Required]
+        [Range(1, 50, ErrorMessage = "Die Ausführungszeit muss zwischen 1 und 50 Tagen liegen")]
+        public double CompletionDays { get; set; }
+
+        public string Category { get; set; } = "community";
+        public double Reward { get; set; }
+
+        [Required(ErrorMessage = "Eine Beschreibung ist erforderlich")]
+        public string Description { get; set; }
+
+        public bool NeedsLocation { get; set; } = false;
+        public string Location { get; set; } = "";
+        public bool NeedsContact { get; set; } = false;
+        public string Contact { get; set; } = "";
     }
 }

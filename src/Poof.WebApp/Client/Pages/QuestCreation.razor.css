@@ -2,6 +2,13 @@
     text-align: center;
 }
 
+    .content .header {
+        text-align: center;
+        width: 100%;
+        max-width: 900px;
+        margin: auto;
+    }
+
     .content .form {
         width: 100%;
         max-width: 800px;
@@ -56,7 +63,7 @@
                 .content .form .picture .upload a {
                 }
 
-            .content .form .picture .title {
+            .content .form .picture .title ::deep input {
                 background-color: rgba(255,255,255,0.1);
                 position: absolute;
                 bottom: 5px;
@@ -74,6 +81,7 @@
 
             .content .form .details .category {
                 text-align: left;
+                padding-top: 15px;
             }
 
                 .content .form .details .category div {
@@ -86,7 +94,7 @@
                     display: inline-block;
                 }
 
-                    .content .form .details .category div input {
+                    .content .form .details .category div ::deep input {
                         cursor:pointer;
                     }
 
@@ -107,7 +115,24 @@
                     display: inline-block
                 }
 
-                .content .form .details .reward input {
+                .content .form .details .reward ::deep input {
+                    display: inline-block;
+                    background-color: rgba(255,255,255,0.5);
+                    border: solid 1px #ddd;
+                    border-radius: 15px;
+                    padding-left: 10px;
+                }
+
+            .content .form .details .endDate {
+                text-align: left;
+                padding-top: 15px;
+            }
+
+                .content .form .details .endDate p {
+                    display: inline-block
+                }
+
+                .content .form .details .endDate ::deep input {
                     display: inline-block;
                     background-color: rgba(255,255,255,0.5);
                     border: solid 1px #ddd;
@@ -119,7 +144,7 @@
                 padding-top: 15px;
             }
 
-                .content .form .details textarea {
+                .content .form .details ::deep textarea {
                     background-color: rgba(255,255,255,0.1);
                     border: solid 1px #ddd;
                     border-radius: 5px;
@@ -135,6 +160,10 @@
                 font-size: 1.3em;
             }
 
+            .content .form .details .selector label a{
+                font-size: 0.6em;
+            }
+
             .content .form .details .location {
                 padding-top: 15px;
                 text-align: left;
@@ -144,3 +173,39 @@
                 padding-top: 15px;
                 text-align: left;
             }
+
+        .content .form .buttons {
+            padding: 25px 0px;
+            text-align: center;
+        }
+
+            .content .form .buttons div {
+                display: inline-block;
+                padding: 3px 12px;
+                margin: 0px 4px;
+                border-radius: 15px;
+                color: black;
+                cursor: pointer;
+            }
+
+            .content .form .buttons .cancel {
+                background-color: #ddd;
+            }
+
+                .content .form .buttons .cancel:hover {
+                    background-color: #eee;
+                }
+
+            .content .form .buttons button {
+                display: inline-block;
+                padding: 3px 12px;
+                margin: 0px 4px;
+                border: none;
+                border-radius: 15px;
+                color: black;
+                background-color: #43cd80;
+            }
+
+                .content .form .buttons button:hover {
+                    background-color: #54ff9f;
+                }

@@ -57,7 +57,7 @@ namespace Poof.Core.Snaps.Quest
                         new JProperty("issuer",
                             new JObject(
                                 new JProperty("me", issuerId == identity.UserID()),
-                                new JProperty(id, issuerId),
+                                new JProperty("id", issuerId),
                                 new JProperty("name", new Pseudonym.Name(issuer).AsString())
                             )
                         ),
