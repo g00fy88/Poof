@@ -40,10 +40,13 @@ namespace Poof.Core.Snaps
                 new FwEntity("quest",
                     new FwCategory("configuration",
                         new FwAction("add-applicant", new AddsApplicant(mem, identity, future)),
-                        new FwAction("finish-quest", new FinishesQuest(mem, identity))
+                        new FwAction("finish-quest", new FinishesQuest(mem, identity)),
+                        new FwAction("create-quest", new CreatesQuest(mem, identity, future)),
+                        new FwAction("update-picture", new Quest.UpdatesPicture(mem, identity))
                     ),
                     new FwCategory("discovery",
-                        new FwAction("get-catalog", new Quest.GetsCatalog(mem, identity))
+                        new FwAction("get-catalog", new Quest.GetsCatalog(mem, identity)),
+                        new FwAction("get-picture", new GetsPicture(mem))
                     )
                 ),
                 new FwEntity("transaction",

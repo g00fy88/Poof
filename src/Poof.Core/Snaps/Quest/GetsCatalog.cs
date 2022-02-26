@@ -104,16 +104,15 @@ namespace Poof.Core.Snaps.Quest
                             new JObject(
                                 new JProperty("has", needsContact),
                                 new JProperty("value", 
-                                    status != "open" && needsLocation ? 
-                                    new Location.Of(quest).AsString() : 
+                                    status != "open" && needsContact ? 
+                                    new Contact.Of(quest).AsString() : 
                                     ""
                                 )
                             )
                         ),
                         new JProperty("picture",
                             new JObject(
-                                new JProperty("has", hasPicture),
-                                new JProperty("url", hasPicture ? new Picture.Url(quest).AsString() : "")
+                                new JProperty("has", hasPicture)
                             )
                         )
                     )

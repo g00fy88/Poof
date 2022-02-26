@@ -6,6 +6,7 @@
 @using Poof.WebApp.Client.Display
 @using System.Globalization
 @using System.ComponentModel.DataAnnotations
+@using Yaapii.Atoms.IO
 @using Yaapii.Atoms.Scalar
 @using Yaapii.Atoms.Text
 @using Yaapii.Atoms.Map
@@ -21,13 +22,24 @@
         </p>
     </div>
     <div class="form">
-        @if(showPreview)
+        @if (view == "confirm")
+        {
+            <div class="confirm">
+                <p>Herzlichen Glückwunsch, du hast einen Quest erstellt.</p>
+                <p>Du kannst den Status deines Quests in der Übersicht ansehen.</p>
+            </div>
+        }
+        else if(view == "preview")
         {
             <QuestDetails 
                 Details="@(new JSONOf(previewToken))"
                 Reward="@(new TextOf(questForm.Reward).AsString())"
                 Score="@(new TextOf(questForm.Reward).AsString())"
-                TimeRemaining="7 Tage"
+                TimeRemaining="@RemainingTime()"
+                AsPreview="true"
+                Server="@(new LocalApi(new JObject(new JProperty("url", questForm.PictureUrl))))"
+                Cancel="@(()=>{view = "form";})"
+                FinishView="CreateQuest"
             ></QuestDetails>
         }
         else
@@ -82,7 +94,7 @@
                 </div>
                 <div class="reward">
                     <p>Zeit für die Ausführung des Quests: </p>
-                    <InputNumber @bind-Value="@questForm.CompletionDays" style="width:60px"></InputNumber>
+                    <InputNumber @bind-Value="@questForm.CompletionDays" style="width:60px"></InputNumber> Tage
                 </div>
                 <div class="description">
                     <InputTextArea @bind-Value="@questForm.Description" placeholder="Beschreibe, worum es in dem Quest geht und was getan werden muss, um ihn abzuschließen"></InputTextArea>
@@ -113,6 +125,12 @@
                     <div class="cancel">Abbrechen</div>
                 </NavLink>
                 <button type="submit">zur Vorschau</button>
+                @if(loading)
+                {
+                    <div style="position:absolute; top:21px;">
+                        <div class="loader"></div>
+                    </div>
+                }
             </div>
         </EditForm>
         }
@@ -122,7 +140,8 @@
 @code {
     private Quest questForm = new Quest();
 
-    private bool showPreview = false;
+    private bool loading = false;
+    private string view = "form";
     private JObject previewToken = new JObject();
 
     protected override void OnInitialized()
@@ -142,10 +161,13 @@
         StateHasChanged();
     }
 
-    private void Preview()
+    private async Task Preview()
     {
+        this.loading = true;
+        await Task.Delay(1);
         this.previewToken =
             new JObject(
+                new JProperty("id", "123-id"),
                 new JProperty("scope", "public"),
                 new JProperty("status", "open"),
                 new JProperty("issuer",
@@ -190,12 +212,57 @@
                 ),
                 new JProperty("picture",
                     new JObject(
-                        new JProperty("has", questForm.Picture.Length > 0),
-                        new JProperty("url", questForm.PictureUrl)
+                        new JProperty("has", questForm.Picture.Length > 0)
                     )
                 )
             );
-        this.showPreview = true;
+        this.view = "preview";
+        this.loading = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private string RemainingTime()
+    {
+        var timeLeft = TimeSpan.FromDays(this.questForm.CompletionDays);
+        var result = "";
+        if(timeLeft.Days > 0)
+        {
+            result = $"{timeLeft.Days}T ";
+        }
+        result += $"{timeLeft.Hours.ToString("00")}:{timeLeft.Minutes.ToString("00")}:{timeLeft.Seconds.ToString("00")}";
+        return result;
+    }
+
+    private async Task CreateQuest()
+    {
+        var id =
+            new AwCreateQuest.Id(
+                await this.api.Private(
+                    new DmCreateQuest(
+                        "public",
+                        this.questForm.Category,
+                        this.questForm.Title,
+                        this.questForm.Description,
+                        this.questForm.Reward,
+                        this.questForm.EndDate,
+                        TimeSpan.FromDays(this.questForm.CompletionDays).TotalHours,
+                        this.questForm.NeedsLocation,
+                        this.questForm.Location,
+                        this.questForm.NeedsContact,
+                        this.questForm.Contact
+                    ),
+                    "json"
+                ).Content()
+            ).AsString();
+
+        if(this.questForm.Picture.Length > 0)
+        {
+            await this.api.Private(
+                new DmUpdatePicture(id, new InputOf(this.questForm.Picture)),
+                "raw"
+            ).Touch();
+        }
+        this.view = "confirm";
         StateHasChanged();
     }
 

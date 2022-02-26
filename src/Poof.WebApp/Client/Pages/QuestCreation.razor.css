@@ -1,5 +1,4 @@
 ﻿.content {
-    text-align: center;
 }
 
     .content .header {
@@ -17,6 +16,11 @@
         margin: auto;
         border-radius: 5px;
     }
+
+        .content .form .confirm {
+            text-align: center;
+            padding: 20px;
+        }
 
         .content .form .picture {
             position: relative;
@@ -177,6 +181,7 @@
         .content .form .buttons {
             padding: 25px 0px;
             text-align: center;
+            position: relative;
         }
 
             .content .form .buttons div {
@@ -209,3 +214,34 @@
                 .content .form .buttons button:hover {
                     background-color: #54ff9f;
                 }
+
+.loader {
+    border-radius: 50%;
+    border-top: 2px solid #3498db;
+    border-right: 2px solid #3498db;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

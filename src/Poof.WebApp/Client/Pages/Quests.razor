@@ -58,7 +58,6 @@
                 NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
                 NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
-                PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
                 Open=OpenQuestDialog
             ></QuestCard>
@@ -79,7 +78,6 @@
                 NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
                 NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
-                PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
                 Open=OpenQuestDialog
             ></QuestCard>
@@ -100,7 +98,6 @@
                 NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
                 NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
-                PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
                 Open=OpenQuestDialog
             ></QuestCard>
@@ -121,7 +118,6 @@
                 NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
                 NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
-                PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
                 Open=OpenQuestDialog
             ></QuestCard>
@@ -142,7 +138,6 @@
                 NeedsLocation=@(new BoolOf(quest.Value("location.has")).Value())
                 NeedsContact=@(new BoolOf(quest.Value("contact.has")).Value())
                 HasPicture=@(new BoolOf(quest.Value("picture.has")).Value())
-                PictureUrl=@quest.Value("picture.url")
                 TimeRemaining=@Counter(id)
                 Open=OpenQuestDialog
             ></QuestCard>
@@ -161,7 +156,7 @@
                 TimeRemaining=@Counter(selectedQuestId) 
                 Server=api
                 Cancel=CancelQuestDialog
-                RefreshAndClose=RefreshAndCloseQuestDialog>
+                FinishView=RefreshAndCloseQuestDialog>
             </QuestDetails>
         </Content>
     </ModalDialog>
@@ -243,7 +238,8 @@
         return
             new Filtered<IJSON>(quest =>
                 quest.Value("scope") != "private" &&
-                quest.Value("status") == "open",
+                quest.Value("status") == "open" &&
+                !new BoolOf(quest.Value("issuer.me")).Value(),
                 this.quests
             );
     }

@@ -1,5 +1,6 @@
 ﻿using Poof.Core.Deal;
 using Poof.Core.Entity.Quest;
+using Poof.Core.Entity.Transaction;
 using Poof.Core.Entity.User;
 using Poof.Core.Future;
 using Poof.Core.Model;
@@ -47,7 +48,7 @@ namespace Poof.Core.Snaps.Quest
                 )
             );
 
-            new PoofDeal(mem).Sign(
+            new PoofDeal(mem, $"Quest: {new Entity.Quest.Title.Of(quest).AsString()}").Sign(
                 new SimpleDealer("user",
                     new Issuer.Of(quest).Value(),
                     new Reward.Of(quest).Value()

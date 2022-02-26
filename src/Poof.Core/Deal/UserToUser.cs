@@ -1,4 +1,5 @@
-﻿using Poof.Core.Entity.User;
+﻿using Poof.Core.Entity.Transaction;
+using Poof.Core.Entity.User;
 using Poof.Core.Model.Data;
 using Poof.Core.Model.Deal;
 using System;

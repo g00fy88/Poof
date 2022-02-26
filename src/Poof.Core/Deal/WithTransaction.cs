@@ -24,14 +24,17 @@ namespace Poof.Core.Deal
         {
             this.origin.Sign(sender, receiver);
 
-            new TransactionOf(mem, new Transactions(mem).New()).Update(
-                new Title(this.title),
-                new Entity.Type("main"),
-                new TakeSide(sender.Type(), sender.ID()),
-                new GiveSide(receiver.Type(), receiver.ID()),
-                new Date(DateTime.Now),
-                new Amount(sender.Points())
-            );
+            if (sender.ID() != receiver.ID())
+            {
+                new TransactionOf(mem, new Transactions(mem).New()).Update(
+                    new Title(this.title),
+                    new Entity.Type("main"),
+                    new TakeSide(sender.Type(), sender.ID()),
+                    new GiveSide(receiver.Type(), receiver.ID()),
+                    new Date(DateTime.Now),
+                    new Amount(sender.Points())
+                );
+            }
         }
     }
 }

@@ -7,10 +7,10 @@
 <div class="details">
     @if(!showFinishSequence)
     {
-        @if(!showFinishDialog && new BoolOf(Details.Value("picture.has")).Value())
+        @if(!showFinishDialog && pictureUrl != "")
         {
             <div class="header">
-                <img src="@Details.Value("picture.url")" />
+                <img src="@pictureUrl" />
                 <div class="overlay"></div>
                 <div class="title">@Details.Value("title")</div>
             </div>
@@ -83,7 +83,7 @@
             @if(new BoolOf(Details.Value("contact.has")).Value())
             {
                 <div class="additional">
-                    <h3>Kontaktinfos (werden erst nach Annahme des Quests angezeigt</h3>
+                    <h3>Kontaktinfos <a style="font-size:0.6em">(werden erst nach Annahme des Quests angezeigt)</a></h3>
                     <div class="text">@Details.Value("contact.value")</div>
                 </div>
             }
@@ -112,13 +112,20 @@
             }
             <div class="buttons">
                 <div class="cancel" @onclick="Close">Abbrechen</div>
-                @if (Details.Value("status") == "open")
+                @if(AsPreview)
                 {
-                    <div class="apply" @onclick="Apply">Quest annehmen</div>
+                    <div class="apply" @onclick="Create">Quest erstellen</div>
                 }
-                else if(Details.Value("status") == "pending")
+                else if(!new BoolOf(Details.Value("issuer.me")).Value())
                 {
-                    <div class="apply" @onclick="StartFinish">Quest abschließen</div>
+                    if (Details.Value("status") == "open")
+                    {
+                        <div class="apply" @onclick="Apply">Quest annehmen</div>
+                    }
+                    else if(Details.Value("status") == "pending")
+                    {
+                        <div class="apply" @onclick="StartFinish">Quest abschließen</div>
+                    }
                 }
             </div>
         }
@@ -137,9 +144,11 @@
     [Parameter]
     public IApi Server { get; set; }
     [Parameter]
+    public bool AsPreview { get; set; } = false;
+    [Parameter]
     public EventCallback Cancel { get; set; }
     [Parameter]
-    public EventCallback RefreshAndClose { get; set; }
+    public EventCallback FinishView { get; set; }
 
     private bool confirmationNeeded = false;
     private bool showFinishDialog = false;
@@ -148,6 +157,22 @@
     private bool showActivity = false;
     private int currentLevel;
     private double currentProgress;
+    private string pictureUrl = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(new BoolOf(Details.Value("picture.has")).Value())
+        {
+            this.pictureUrl =
+                new AwGetPicture.Url(
+                    await Server.Private(
+                        new DmGetPicture(Details.Value("id")),
+                        ""
+                    ).Content()
+                ).AsString();
+        }
+        await base.OnInitializedAsync();
+    }
 
     private string Icon()
     {
@@ -171,7 +196,7 @@
                     "community", "Gemeinschaft",
                     "sustainability", "Ökologische Nachhaltigkeit"
                 ),
-                key => key
+                key => "Sonstige"
             )[Details.Value("category")];
     }
 
@@ -217,13 +242,18 @@
     private async Task ConfirmQuest()
     {
         await Server.Private(new DmAddApplicant(Details.Value("id")), "").Touch();
-        await this.RefreshAndClose.InvokeAsync();
+        await this.FinishView.InvokeAsync();
     }
 
     private void StartFinish()
     {
         this.showFinishDialog = true;
         StateHasChanged();
+    }
+
+    private async Task Create()
+    {
+        await this.FinishView.InvokeAsync();
     }
 
     private async Task Finish()
@@ -250,7 +280,10 @@
             this.currentLevel = (int)current;
             this.currentProgress = (current % 1) * 100;
             StateHasChanged();
-            await Task.Delay(40);
+            await Task.Delay(20);
         }
+
+        await Task.Delay(1000);
+        await FinishView.InvokeAsync();
     }
 }

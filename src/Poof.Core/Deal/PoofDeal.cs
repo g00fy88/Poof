@@ -11,11 +11,15 @@ namespace Poof.Core.Deal
     {
         private readonly IDictionary<string, IDeal> map;
 
-        public PoofDeal(IDataBuilding mem)
+        public PoofDeal(IDataBuilding mem, string title)
         {
             this.map =
                 new MapOf<IDeal>(
-                    new KvpOf<IDeal>("user-user", new UserToUser(mem))
+                    new KvpOf<IDeal>("user-user", 
+                        new WithTransaction(title, mem,
+                            new UserToUser(mem)
+                        )
+                    )
                 );
         }
 
