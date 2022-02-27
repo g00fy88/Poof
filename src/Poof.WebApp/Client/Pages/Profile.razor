@@ -11,7 +11,7 @@
 
 <div class="content px-4">
     <div style="height:10px"></div>
-    <ProfileView ProfilePicture="@pictureUrl" Pseudonym=@pseudonym PseudoNumber=@pseudonumber OnRefresh="@RefreshDetails"></ProfileView>
+    <ProfileView HasPicture="@hasPicture" ProfilePicture="@pictureUrl" Pseudonym=@pseudonym PseudoNumber=@pseudonumber OnRefresh="@RefreshDetails"></ProfileView>
     <div style="height: 50px"></div>
     <div class="centerparent">
         <div class="addfriend horizontalCentered" @onclick="@OpenAddFriendDialog">
@@ -40,6 +40,7 @@
 @code {
     private string pseudonym;
     private int pseudonumber;
+    private bool hasPicture;
     private string pictureUrl;
     private double takeFactor;
     private double giveFactor;
@@ -63,6 +64,7 @@
         var response = await api.Private(new DmGetDetails(), "").Content();
         this.pseudonym = new AwGetDetails.PseudoName(response).AsString();
         this.pseudonumber = new AwGetDetails.PseudoNumber(response).Value();
+        this.hasPicture = new AwGetDetails.HasPicture(response).Value();
         this.pictureUrl = new AwGetDetails.PictureUrl(response).AsString();
         this.takeFactor = new AwGetDetails.TakeFactor(response).Value();
         this.giveFactor = new AwGetDetails.GiveFactor(response).Value();

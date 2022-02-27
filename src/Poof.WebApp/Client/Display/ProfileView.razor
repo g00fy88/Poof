@@ -6,7 +6,7 @@
     <div class="horizontalCentered">
         <div class="profilePicFrame">
             <div class="profilePicBack horizontalCentered">
-            @if(ProfilePicture!="")
+            @if(HasPicture)
             {
                 <img src="@ProfilePicture">
             } else
@@ -57,6 +57,8 @@
 
 @code {
     [Parameter]
+    public bool HasPicture { get; set; }
+    [Parameter]
     public string ProfilePicture { get; set; }
     [Parameter]
     public string Pseudonym { get; set; }
@@ -89,7 +91,7 @@
             this.pictureBytes = new byte[resizedImageFile.Size];
             await resizedImageFile.OpenReadStream().ReadAsync(this.pictureBytes);
 
-            ProfilePicture = Convert.ToBase64String(this.pictureBytes);
+            ProfilePicture = $"data:image/png;base64,{Convert.ToBase64String(this.pictureBytes)}";
             this.pictureLoaded = true;
         }
         this.pictureEditMode = true;

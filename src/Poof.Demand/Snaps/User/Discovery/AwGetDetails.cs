@@ -27,10 +27,20 @@ namespace Poof.Talk.Snaps.User.Discovery
             { }
         }
 
+        public sealed class HasPicture : ScalarEnvelope<bool>
+        {
+            public HasPicture(IOutcome<IInput> outcome) : base(() =>
+                new BoolOf(
+                    new JSONOf(outcome.Result()).Value("picture.has")
+                ).Value()
+            )
+            { }
+        }
+
         public sealed class PictureUrl : TextEnvelope
         {
             public PictureUrl(IOutcome<IInput> outcome) : base(() =>
-                new JSONOf(outcome.Result()).Value("picture"),
+                new JSONOf(outcome.Result()).Value("picture.url"),
                 false
             )
             { }
