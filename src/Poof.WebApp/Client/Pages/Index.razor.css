@@ -21,6 +21,13 @@ h4 {
     margin: 30px 0px;
 }
 
+    .example img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
 ul li {
     margin-bottom: 5px;
 }
