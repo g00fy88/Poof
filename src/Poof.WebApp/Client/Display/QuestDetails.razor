@@ -116,7 +116,7 @@
                 {
                     <div class="apply" @onclick="Create">Quest erstellen</div>
                 }
-                else if(!new BoolOf(Details.Value("issuer.me")).Value())
+                else if(Details.Value("scope") == "private" || !new BoolOf(Details.Value("issuer.me")).Value())
                 {
                     if (Details.Value("status") == "open")
                     {
