@@ -6,7 +6,7 @@
     <div class="horizontalCentered">
         <div class="profilePicFrame">
             <div class="profilePicBack horizontalCentered">
-            @if(HasPicture)
+            @if(HasPicture || pictureLoaded)
             {
                 <img src="@ProfilePicture">
             } else
