@@ -8,17 +8,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Poof.Core.Model.Data;
+using Poof.Core.Model.Future;
+using Poof.Core.Snaps.Quest;
 using Poof.DB.Models;
+using Poof.Talk.Snaps.Quest;
 
 namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
     {
+        private readonly IDataBuilding mem;
+        private readonly IFuture future;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
+        public ConfirmEmailModel(IDataBuilding mem, IFuture future, UserManager<ApplicationUser> userManager)
         {
+            this.mem = mem;
+            this.future = future;
             _userManager = userManager;
         }
 
@@ -40,6 +48,10 @@ namespace Poof.WebApp.Server.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                new AddsWeeklyQuests(mem, future).Convert(new DmAddWeeklyQuests(user.Id));
+            }
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Page();
         }
