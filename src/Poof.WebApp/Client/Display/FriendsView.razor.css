@@ -121,6 +121,11 @@
     color: #999;
 }
 
+.confirm {
+    background-color: #54ff9f;
+    color: #43cd80;
+}
+
 .edit-button span {
     position:absolute;
     top:50%;

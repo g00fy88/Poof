@@ -71,6 +71,7 @@ namespace Poof.Core.Snaps
                         new FwAction("update-user", new UpdatesUserData(mem, identity)),
                         new FwAction("update-picture", new User.UpdatesPicture(mem, identity)),
                         new FwAction("add-friend", new AddsFriend(mem, identity)),
+                        new FwAction("confirm-friend", new ConfirmsFriend(mem, identity)),
                         new FwAction("remove-friend", new RemovesFriend(mem, identity))
                     ),
                     new FwCategory("discovery",

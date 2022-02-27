@@ -1,4 +1,5 @@
-﻿using Poof.Core.Entity.User;
+﻿using Poof.Core.Entity.Friendship;
+using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.DB.Test;
 using Poof.Snaps;
@@ -17,19 +18,24 @@ namespace Poof.Core.Snaps.User.Configuration.Test
         {
             var mem = new TestBuilding();
             var users = new Users(mem);
+            var fs = new Friendships(mem);
             var me = users.New();
             var friend1 = users.New();
             var friend2 = users.New();
 
             new UserOf(mem, me).Update(
-                new Pseudonym("batman", 0),
-                new Friends(friend1)
+                new Pseudonym("batman", 0)
             );
             new UserOf(mem, friend1).Update(
                 new Pseudonym("robin", 0)
             );
             new UserOf(mem, friend2).Update(
                 new Pseudonym("robin", 1)
+            );
+
+            new FriendshipOf(mem, fs.New()).Update(
+                new Requester(me),
+                new Friend(friend1)
             );
 
             new AddsFriend(
@@ -41,7 +47,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
 
             Assert.Equal(
                 2,
-                new Friends.Of(new UserOf(mem, me)).Count
+                fs.List(new Requester.Match(me)).Count
             );
         }
 
@@ -50,19 +56,24 @@ namespace Poof.Core.Snaps.User.Configuration.Test
         {
             var mem = new TestBuilding();
             var users = new Users(mem);
+            var fs = new Friendships(mem);
             var me = users.New();
             var friend1 = users.New();
             var friend2 = users.New();
 
             new UserOf(mem, me).Update(
-                new Pseudonym("batman", 0),
-                new Friends(friend1)
+                new Pseudonym("batman", 0)
             );
             new UserOf(mem, friend1).Update(
                 new Pseudonym("robin", 0)
             );
             new UserOf(mem, friend2).Update(
                 new Pseudonym("robin", 1)
+            );
+
+            new FriendshipOf(mem, fs.New()).Update(
+                new Requester(me),
+                new Friend(friend1)
             );
 
             new AddsFriend(
@@ -73,7 +84,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
             );
 
             Assert.Single(
-                new Friends.Of(new UserOf(mem, me))
+                fs.List(new Requester.Match(me))
             );
         }
 
@@ -86,8 +97,7 @@ namespace Poof.Core.Snaps.User.Configuration.Test
             var friend1 = users.New();
 
             new UserOf(mem, me).Update(
-                new Pseudonym("batman", 0),
-                new Friends(friend1)
+                new Pseudonym("batman", 0)
             );
             new UserOf(mem, friend1).Update(
                 new Pseudonym("robin", 0)

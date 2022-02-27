@@ -4,9 +4,9 @@ namespace Poof.Talk.Snaps.User.Configuration
 {
     public sealed class DmRemoveFriend : DemandEnvelope
     {
-        public DmRemoveFriend(string user) : base(()=>
+        public DmRemoveFriend(string friendship) : base(()=>
             new PoofDemand("user", "configuration", "remove-friend")
-                .Refined("friend", user)
+                .Refined("friendship", friendship)
         )
         { }
     }

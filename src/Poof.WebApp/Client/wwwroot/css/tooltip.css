@@ -3,6 +3,7 @@
 }
 
     .ttip .ttext {
+        display:none;
         visibility: visible;
         opacity: 0;
         background-color: black;
@@ -22,6 +23,7 @@
     }
 
     .ttip:hover .ttext {
+        display:inherit;
         visibility: visible;
         opacity: 1;
     }

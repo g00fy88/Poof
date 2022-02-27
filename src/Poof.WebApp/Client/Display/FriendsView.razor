@@ -34,9 +34,21 @@
                 <img src="./images/Waage_0.png" />
                 <div class="value" style="color: #67c9f0">@TakeFactorString(new DoubleOf(friend.Value("givefactor")).Value())</div>
             </div>
-            <div class="edit-button remove" @onclick="()=>RemoveFriend(friend)">
-                <span class="oi oi-trash"></span>
-            </div>
+            @if(friend.Value("kind") == "confirm" && friend.Value("status") == "requested")
+            {
+                <div class="edit-button confirm" style="top:10px" @onclick="()=>ConfirmFriend(friend)">
+                    <span class="oi oi-check"></span>
+                </div>
+                <div class="edit-button remove" style="top:53px" @onclick="()=>RemoveFriend(friend)">
+                    <span class="oi oi-trash"></span>
+                </div>
+            }
+            else
+            {
+                <div class="edit-button remove" style="" @onclick="()=>RemoveFriend(friend)">
+                    <span class="oi oi-trash"></span>
+                </div>
+            }
         </div>
     }
 </div>
@@ -44,6 +56,8 @@
 @code {
     [Parameter]
     public EventCallback<string> Remove { get; set; }
+    [Parameter]
+    public EventCallback<string> Confirm { get; set; }
     [Parameter]
     public IList<IJSON> Friends { get; set; }
     [Parameter]
@@ -72,6 +86,11 @@
     private string TakeFactorString(double giveFactor)
     {
         return (giveFactor + TakeFactor).ToString("0.00");
+    }
+
+    private Task ConfirmFriend(IJSON friend)
+    {
+        return Confirm.InvokeAsync(friend.Value("id"));
     }
 
     private Task RemoveFriend(IJSON friend)

@@ -74,6 +74,14 @@ namespace Poof.DB.Models
                         )
                     ),
                     new KvpOf<Type, IDictionary<string, Action<TValue>>>(
+                        typeof(DbFriendship),
+                        () => new MapOf<Action<TValue>>(
+                            new KvpOf<Action<TValue>>("requester", val => (entity as DbFriendship).Requester = Cast<string>(name, val)),
+                            new KvpOf<Action<TValue>>("friend", val => (entity as DbFriendship).Friend = Cast<string>(name, val)),
+                            new KvpOf<Action<TValue>>("status", val => (entity as DbFriendship).Status = Cast<string>(name, val))
+                        )
+                    ),
+                    new KvpOf<Type, IDictionary<string, Action<TValue>>>(
                         typeof(DbQuest), () =>
                         new MapOf<Action<TValue>>(
                             new KvpOf<Action<TValue>>("applicant", val => (entity as DbQuest).Applicant = Cast<string>(name, val)),

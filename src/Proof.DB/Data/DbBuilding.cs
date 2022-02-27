@@ -53,6 +53,14 @@ namespace Poof.Web.Server.Data
                         )
                     )
                 ),
+                new KvpOf<IDataBuilding>("friendship", () =>
+                    new ExclusiveBuilding<DbFriendship>(
+                        context.Friendships,
+                        new DbFriendshipBuilding(context,
+                            new DbCache<DbFriendship>(context.Friendships)
+                        )
+                    )
+                ),
                 new KvpOf<IDataBuilding>("quest", () =>
                     new ExclusiveBuilding<DbQuest>(
                         context.Quests,

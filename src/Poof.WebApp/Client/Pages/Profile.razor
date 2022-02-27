@@ -22,7 +22,7 @@
     <div style="height:80px"></div>
 </div>
 <div class="friends">
-    <FriendsView Friends=@friends TakeFactor=@takeFactor GiveFactor=@giveFactor Remove=@RemoveFriend></FriendsView>
+    <FriendsView Friends=@friends TakeFactor=@takeFactor GiveFactor=@giveFactor Confirm=@ConfirmFriend Remove=@RemoveFriend></FriendsView>
 </div>
 
 @if (addFriendDialogOpen)
@@ -92,6 +92,13 @@
         await RefreshDetails();
         StateHasChanged();
         this.addFriendDialogOpen = false;
+    }
+
+    private async Task ConfirmFriend(string id)
+    {
+        await api.Private(new DmConfirmFriend(id), "").Touch();
+        await RefreshDetails();
+        StateHasChanged();
     }
 
     private async Task RemoveFriend(string id)

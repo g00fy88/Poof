@@ -11,12 +11,12 @@ using Yaapii.Atoms.List;
 
 namespace Poof.Web.Server.Data
 {
-    public sealed class DbMembershipBuilding : IDataBuilding
+    public sealed class DbFriendshipBuilding : IDataBuilding
     { 
         private readonly ApplicationDbContext context;
-        private readonly ICache<DbMembership> cache;
+        private readonly ICache<DbFriendship> cache;
 
-        public DbMembershipBuilding(ApplicationDbContext context, ICache<DbMembership> cache)
+        public DbFriendshipBuilding(ApplicationDbContext context, ICache<DbFriendship> cache)
         {
             this.context = context;
             this.cache = cache;
@@ -24,8 +24,8 @@ namespace Poof.Web.Server.Data
 
         public void Add(string floor)
         {
-            this.context.Memberships.Add(
-                new DbMembership() { Id = floor }
+            this.context.Friendships.Add(
+                new DbFriendship() { Id = floor }
             );
             this.context.SaveChanges();
         }
@@ -33,7 +33,7 @@ namespace Poof.Web.Server.Data
         public IDataFloor Floor(string id)
         {
             return
-                new DbMembershipFloor(
+                new DbFriendshipFloor(
                     this.context,
                     this.cache,
                     id
@@ -42,13 +42,13 @@ namespace Poof.Web.Server.Data
 
         public IList<string> Floors(params IPropMatch[] matches)
         {
-            IEnumerable<DbMembership> result = this.context.Memberships;
+            IEnumerable<DbFriendship> result = this.context.Friendships;
             foreach (var match in matches)
             {
-                result = new MembershipMatches(result, match);
+                result = new FriendshipMatches(result, match);
             }
             return
-                new Mapped<DbMembership, string>(
+                new Mapped<DbFriendship, string>(
                     entity => entity.Id,
                     result.ToList()
                 );
@@ -61,8 +61,8 @@ namespace Poof.Web.Server.Data
 
         public void Remove(string floor)
         {
-            this.context.Memberships.Remove(
-                this.context.Memberships.Find(floor)
+            this.context.Friendships.Remove(
+                this.context.Friendships.Find(floor)
             );
             this.context.SaveChanges();
             this.cache.Clear();

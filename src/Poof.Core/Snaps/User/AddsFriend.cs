@@ -1,4 +1,5 @@
 ﻿using Poof.Core.Entity.User;
+using Poof.Core.Entity.Friendship;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Snaps;
@@ -15,14 +16,18 @@ namespace Poof.Core.Snaps.User
     {
         public AddsFriend(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
-            var allUsers = new Users(mem).List();
+            var friendships = new Friendships(mem);
             var userId = identity.UserID();
             var user = new UserOf(mem, userId);
             var currentFriends =
-                new List<string>(
-                    new Filtered<string>(
-                        friend => allUsers.Contains(friend),
-                        new Friends.Of(user)
+                new Joined<string>(
+                    new Mapped<string, string>(fs =>
+                        new Friend.Of(new FriendshipOf(mem, fs)).AsString(),
+                        friendships.List(new Requester.Match(userId))
+                    ),
+                    new Mapped<string, string>(fs =>
+                        new Requester.Of(new FriendshipOf(mem, fs)).AsString(),
+                        friendships.List(new Friend.Match(userId))
                     )
                 );
             var newFriend = dmd.Param("friend");
@@ -32,9 +37,13 @@ namespace Poof.Core.Snaps.User
                 throw new ArgumentException("Unable to add yourself as a friend.");
             }
 
-            if(!currentFriends.Contains(newFriend))
+            if(!new Contains<string>(currentFriends, newFriend).Value())
             {
-                user.Update(new Friends(currentFriends, newFriend));
+                new FriendshipOf(mem, friendships.New()).Update(
+                    new Requester(userId),
+                    new Friend(newFriend),
+                    new Status("requested")
+                );
             }
 
             return new EmptyOutcome<IInput>();

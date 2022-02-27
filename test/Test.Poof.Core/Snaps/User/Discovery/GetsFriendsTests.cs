@@ -1,4 +1,5 @@
-﻿using Poof.Core.Entity.User;
+﻿using Poof.Core.Entity.Friendship;
+using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.DB.Test;
 using Poof.Snaps;
@@ -21,20 +22,29 @@ namespace Poof.Core.Snaps.User.Discovery.Test
         {
             var mem = new TestBuilding();
             var users = new Users(mem);
+            var fs = new Friendships(mem);
             var me = users.New();
             var friend1 = users.New();
             var friend2 = users.New();
             var notAFriend = users.New();
 
             new UserOf(mem, me).Update(
-                new Pseudonym("batman", 0),
-                new Friends(friend1, friend2)
+                new Pseudonym("batman", 0)
             );
             new UserOf(mem, friend1).Update(
                 new Pseudonym("robin", 0)
             );
             new UserOf(mem, friend2).Update(
                 new Pseudonym("robin", 1)
+            );
+
+            new FriendshipOf(mem, fs.New()).Update(
+                new Requester(me),
+                new Friend(friend1)
+            );
+            new FriendshipOf(mem, fs.New()).Update(
+                new Requester(me),
+                new Friend(friend2)
             );
 
             Assert.Equal(

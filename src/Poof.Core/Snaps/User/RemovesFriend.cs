@@ -1,4 +1,5 @@
-﻿using Poof.Core.Entity.User;
+﻿using Poof.Core.Entity.Friendship;
+using Poof.Core.Entity.User;
 using Poof.Core.Model;
 using Poof.Core.Model.Data;
 using Poof.Snaps;
@@ -15,15 +16,13 @@ namespace Poof.Core.Snaps.User
         public RemovesFriend(IDataBuilding mem, IIdentity identity) : base(dmd =>
         {
             var userId = identity.UserID();
-            var user = new UserOf(mem, userId);
-            var currentFriends = new List<string>(new Friends.Of(user));
-            var toRemove = dmd.Param("friend");
-
-            if(currentFriends.Contains(toRemove))
+            var toRemove = dmd.Param("friendship");
+            var friendship = new FriendshipOf(mem, toRemove);
+            if(new Requester.Of(friendship).AsString() != userId && new Friend.Of(friendship).AsString() != userId)
             {
-                currentFriends.Remove(toRemove);
-                user.Update(new Friends(currentFriends));
+                throw new InvalidOperationException($"Unable to remove friendship, because the requested user is not part of it.");
             }
+            new Friendships(mem).Remove(toRemove);
 
             return new EmptyOutcome<IInput>();
         })
