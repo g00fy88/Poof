@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Eine Woche kein Auto fahren</title>
+  <category>sustainability</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/no_driving.jpg</pictureUrl>
+  <description>
+	  Das Auto gehört zu unserem Alltag, hat aber einen großen Anteil an den Treibhausgasemissionen und verschmutzt die Luft in Städten. 
+	  Dieser Quest ist abgeschlossen wenn du es schaffst dich eine Woche lang ausschließlich zu Fuß, mit Fahrrad oder öffentlichem Nahverkehr fortzubewegen.
+  </description>
+	<source>https://unsplash.com/photos/NTlFKDR-Ww8</source>
+</quest>

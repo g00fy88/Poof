@@ -1,0 +1,13 @@
+﻿<quest>
+  <title>Feierabendtreffen organisieren</title>
+  <category>community</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/afterwork.jpg</pictureUrl>
+  <description>
+	  Mit deinen Arbeitskollegen verbringst du einen Großteil deiner Lebenszeit. 
+	  Umso wichtiger ist es, dass man gut miteinander klar kommt und vielleicht sogar enge Freunde findet.
+	  Dieser Quest ist abgeschlossen sobald du eine gemeinsame Feierabend-Aktivität geplant hast.
+  </description>
+	<source>https://unsplash.com/photos/AgJdd_HgFPw</source>
+</quest>

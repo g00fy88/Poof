@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Spieleabend veranstalten</title>
+  <category>community</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/gamenight.jpg</pictureUrl>
+  <description>
+	  Ob draußen oder drinnen, Brettspiel, Videospiel oder Ballspiel-Aktivität. 
+	  Dieser Quest ist erfolgreich abgeschlossen sobald du einen Spieletag mit Freunden, Bekannten und/oder Familie veranstaltet hast.
+  </description>
+	<source>https://unsplash.com/photos/Y_bpePELbPo</source>
+</quest>

@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Müll sammeln</title>
+  <category>sustainability</category>
+  <reward>20</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/collect_trash.jpg</pictureUrl>
+  <description>
+	  Die Vermüllung der Natur ist nicht nur unästhetisch sondern auch eine Gefahr für Tier und Umwelt.
+	  Dieser Quest ist abgeschlossen nachdem du ein Stück Natur von Müll befreit und diesen korrekt entsorgt hast.
+  </description>
+	<source>https://unsplash.com/photos/4CW5w4P9SSQ</source>
+</quest>

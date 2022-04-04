@@ -5,14 +5,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="de\AfterworkMeeting.xml" />
     <None Remove="de\BloodDonation.xml" />
     <None Remove="de\DinnerInvitation.xml" />
+    <None Remove="de\FamilyUnion.xml" />
+    <None Remove="de\FoodAndClothes.xml" />
+    <None Remove="de\FriendCall.xml" />
+    <None Remove="de\GameNight.xml" />
+    <None Remove="de\HelpSomeone.xml" />
+    <None Remove="de\MeatRenounce.xml" />
+    <None Remove="de\NoDriving.xml" />
+    <None Remove="de\OrganizeParty.xml" />
     <None Remove="de\RegionalProducts.xml" />
+    <None Remove="de\TrashCollect.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="de\FoodAndClothes.xml" />
+    <EmbeddedResource Include="de\HelpSomeone.xml" />
     <EmbeddedResource Include="de\BloodDonation.xml" />
+    <EmbeddedResource Include="de\AfterworkMeeting.xml" />
+    <EmbeddedResource Include="de\TrashCollect.xml" />
+    <EmbeddedResource Include="de\NoDriving.xml" />
+    <EmbeddedResource Include="de\OrganizeParty.xml" />
+    <EmbeddedResource Include="de\FriendCall.xml" />
+    <EmbeddedResource Include="de\FamilyUnion.xml" />
+    <EmbeddedResource Include="de\GameNight.xml" />
     <EmbeddedResource Include="de\DinnerInvitation.xml" />
+    <EmbeddedResource Include="de\MeatRenounce.xml" />
     <EmbeddedResource Include="de\RegionalProducts.xml" />
   </ItemGroup>
 

@@ -1,0 +1,13 @@
+﻿<quest>
+  <title>Familientreffen organisieren</title>
+  <category>community</category>
+  <reward>5</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/family.jpg</pictureUrl>
+  <description>
+	  Familie sind die Menschen, die du schon dein ganzes Leben lang kennst. 
+	  Und allzuoft verlieren wir über die Zeit immer mehr Kontakt zu unseren Großeltern, Tanten, Neffen und Cousinen. 
+	  Dieser Quest ist abgeschlossen sobald du ein Treffen mit deiner Familie organisiert hast.
+  </description>
+	<source>https://unsplash.com/photos/BjhUu6BpUZA</source>
+</quest>

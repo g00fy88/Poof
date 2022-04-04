@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Eine Woche Fleischverzicht</title>
+  <category>sustainability</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/meat_renounce.jpg</pictureUrl>
+  <description>
+	  Unser massiver Fleischkonsum ist ein Treiber und damit mitverantwortlich für die Klimakatastrophe aufgrund von Treibhausgasemissionen.
+	  Dieser Quest ist abgeschlossen wenn du es schaffst eine Woche lang komplett auf den Konsum von Fleisch zu verzichten.
+  </description>
+	<source>https://unsplash.com/photos/0geTqSZ76Xg</source>
+</quest>

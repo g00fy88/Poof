@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Einen alten Freund anrufen</title>
+  <category>community</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/friendcall.jpg</pictureUrl>
+  <description>
+	  Hast du einen alten Freund oder Bekannten, den du schon ewig nicht mehr gesehen oder gesprochen hast, etwa weil sie/er in einer anderen Stadt oder man einfach ein bisschen aneinander vorbei lebt? 
+	  Dieser Quest ist abgeschlossen, sobald du diesen Freund angerufen hast. Vielleicht kann man sich ja mal wieder treffen.
+  </description>
+	<source>https://unsplash.com/photos/V3dHmb1MOXM</source>
+</quest>

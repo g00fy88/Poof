@@ -1,0 +1,13 @@
+﻿<quest>
+  <title>Party veranstalten</title>
+  <category>community</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/party.jpg</pictureUrl>
+  <description>
+	  Wenn man zusammen feiert, entstehen oft tolle gemeinsame Erinnerungen. 
+	  Egal ob öffentlich, Houseparty, Gartenfest oder nur ein gemütlicher Sit-In. 
+	  Dieser Quest ist abgeschlossen sobald du eine Feier veranstaltet hast.
+  </description>
+	<source>https://unsplash.com/photos/5WrxWltrCTg</source>
+</quest>

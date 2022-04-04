@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Kleidung oder Essen spenden</title>
+  <category>solidarity</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/food_and_clothes.jpg</pictureUrl>
+  <description>
+	  Menschen, die alles verloren haben, benötigen die grundlegendsten Dinge. 
+	  Dieser Quest ist abgeschlossen sobald du Kleidung oder Essen an eine Organisation für Bedürftige gespendet hast.
+  </description>
+	<sources>https://unsplash.com/photos/SkMBbB9gjQc</sources>
+</quest>

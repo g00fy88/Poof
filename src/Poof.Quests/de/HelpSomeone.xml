@@ -1,0 +1,12 @@
+﻿<quest>
+  <title>Jemandem helfen</title>
+  <category>community</category>
+  <reward>10</reward>
+  <completion-time>336</completion-time>
+  <pictureUrl>images/quests/helping.jpg</pictureUrl>
+  <description>
+	  Egal ob du einem Bedürftigen Obdach anbietest, einen Freund beim Umzug oder einem Kind bei seinen Hausaufgaben hilfst. 
+	  Dieser Quest ist abgeschlossen sobald du jemandem geholfen hast.
+  </description>
+	<source>https://unsplash.com/photos/9VpI3gQ1iUo</source>
+</quest>
